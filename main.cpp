@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:22:04 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/09 20:10:10 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/10 16:46:10 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main (int argc, char **argv)
 	(void) argc;
 	(void) argv;
 
-	Server	server;
+	Server	server(8080);
 
-	server.listen(8080);
+	server.start();
 }
