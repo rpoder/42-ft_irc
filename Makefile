@@ -6,7 +6,7 @@
 #    By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/20 21:14:29 by ronanpoder        #+#    #+#              #
-#    Updated: 2023/04/09 19:19:19 by rpoder           ###   ########.fr        #
+#    Updated: 2023/04/11 19:37:23 by rpoder           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ CXX			=	c++
 
 SRC			=	main.cpp \
 				src/Server.cpp \
-
+				src/User.cpp \
+				src/utils.cpp \
 
 OBJS_PATH	=	./obj/
 

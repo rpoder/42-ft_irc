@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/11 12:11:09 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/11 19:33:41 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,16 @@
 # include	<unistd.h>
 # include	<sys/epoll.h>
 # include	<sstream>
+# include	<map>
+# include	"User.hpp"
+# include	"utils.hpp"
 
 # define	PORT_MIN			1024
 # define	PORT_MAX			65535
 # define	CONNECTIONS_MAX		20
-# define	EPOLL_EVENTS_MAX	5
-# define	EPOLL_FD_MAX		20
+# define	EPOLL_EVENTS_MAX	1
+# define	EPOLL_FD_MAX		21
+# define	BUFFER_MAX			2024
 
 typedef addrinfo			t_addrinfo;
 typedef sockaddr			t_sockaddr;
@@ -53,10 +57,17 @@ class Server
 		Server();
 		void	initSocket();
 		void	listen();
+		void	handleNewConnection();
+		void	handleLostConnection(int fd);
+		void	handleInput(int sender_fd, char *message);
+		User	*findUser(int fd);
+
+		std::map<int, User>	_users;
 
 		int			_port;
 		t_addrinfo	*_serv_info;
 		int			_server_fd;
+		int			_epoll_fd;
 
 		class ServerInitException:
 			std::exception

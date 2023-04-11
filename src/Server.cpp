@@ -88,78 +88,128 @@ void	Server::initSocket()
 	}
 }
 
-// start listening on socket
-void	Server::listen()
+void	Server::handleNewConnection()
 {
 	t_sockaddr_storage	client_addr;
 	int					new_client_fd;
 	socklen_t			addr_size;
-	int					epoll_fd;
 	t_epoll_event		event_settings;
+
+	event_settings.data.fd = _server_fd;
+	event_settings.events = EPOLLIN; //flag d'ecoute en read
+	std::cout << "New connection on server." << std::endl;
+	addr_size = sizeof(client_addr);
+	new_client_fd = accept(_server_fd, (struct sockaddr *)&client_addr, &addr_size);
+	if (new_client_fd < 0)
+	{
+		perror("accept");
+		throw(std::exception());
+	}
+	std::cout << "New client on fd " << new_client_fd << std::endl;
+	event_settings.data.fd = new_client_fd;
+	event_settings.events = EPOLLIN | EPOLLET;
+	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, new_client_fd, &event_settings);
+
+
+	// char message[BUFFER_MAX];
+	// memset(message, 0, BUFFER_MAX);
+	// recv(new_client_fd, message, BUFFER_MAX, 0);
+	// handleInput(message);
+}
+
+void	Server::handleLostConnection(int fd)
+{
+	_users.erase(fd);
+	std::cout << "Client closed\n" << std::endl;
+	epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, NULL);
+}
+
+void	Server::handleInput(int sender_fd, char *message)
+{
+	User new_user;
+	std::string nickname;
+
+	nickname = message;
+
+	if (strncmp(message, "USER", 4) == 0)
+	{
+		new_user.setNickName(nickname.substr(5));
+		_users[sender_fd] = new_user;
+		::printContainer(_users);
+	}
+	std::cout << "New message---------------------" << std::endl;
+	std::cout << "|" << message << "|" << std::endl;
+	// send(events[i].data.fd, "coucou\n", 7, 0);
+}
+
+User	*Server::findUser(int fd)
+{
+	std::map<int,User>::iterator	it;
+
+	it = _users.find(fd);
+	if (it == _users.end())
+		return (NULL);
+	return (&(it->second));
+}
+
+// start listening on socket
+void	Server::listen()
+{
 	t_epoll_event		events[EPOLL_EVENTS_MAX];
 	int					event_count;
-	char				message[1000];
+	char				message[BUFFER_MAX];
+	t_epoll_event		event_settings;
+
+
 
 	// listen
 	if (::listen(_server_fd, CONNECTIONS_MAX) != 0)
 		throw (Server::ServerInitException());
 
-	epoll_fd = epoll_create(EPOLL_FD_MAX);
-	if (epoll_fd == -1)
+	_epoll_fd = epoll_create(EPOLL_FD_MAX);
+	if (_epoll_fd == -1)
 	{
 		perror("epoll");
 		throw (Server::ServerInitException());
 	}
+
 	event_settings.data.fd = _server_fd;
 	event_settings.events = EPOLLIN; //flag d'ecoute en read
-	epoll_ctl(epoll_fd, EPOLL_CTL_ADD, _server_fd, &event_settings);
+	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _server_fd, &event_settings);
 	std::cout << "Server started: listening on port " << _port << std::endl;
 	// accept
 
 	while (1)
 	{
-		event_count = epoll_wait(epoll_fd, events, EPOLL_EVENTS_MAX, -1);
+		std::cout << "before wait" << std::endl;
+		event_count = epoll_wait(_epoll_fd, events, EPOLL_EVENTS_MAX, -1);
 		if (event_count == -1)
 		{
 			perror("epoll_wait");
 			break ;
 		}
-		std::cout << "test" << std::endl;
+		std::cout << "after wait" << std::endl;
 		for (int i = 0; i < event_count; i++)
 		{
+			User *tmp;
+
+			tmp = findUser(events[i].data.fd);
+			if (tmp)
+				std::cout << tmp->getNickName() << std::endl;
 			if (events[i].data.fd == _server_fd)
 			{
-				std::cout << "New connection on server." << std::endl;
-				addr_size = sizeof(client_addr);
-				new_client_fd = accept(_server_fd, (struct sockaddr *)&client_addr, &addr_size);
-				if (new_client_fd < 0)
-				{
-					perror("accept");
-					break ;
-				}
-				std::cout << "New client on fd " << new_client_fd << std::endl;
-				event_settings.data.fd = new_client_fd;
-				event_settings.events = EPOLLIN | EPOLLET;
-				epoll_ctl(epoll_fd, EPOLL_CTL_ADD, new_client_fd, &event_settings);
+				handleNewConnection();
 			}
 			else if (events[i].events & EPOLLIN)
 			{
-				memset(message, 0, 1000);
-				if (recv(new_client_fd, message, 1000, 0) == 0)
-				{
-					std::cout << "Client closed\n" << std::endl;
-					epoll_ctl(epoll_fd, EPOLL_CTL_DEL, new_client_fd, &event_settings);
-				}
+				memset(message, 0, BUFFER_MAX);
+				if (recv(events[i].data.fd, message, BUFFER_MAX, 0) == 0)
+					handleLostConnection(events[i].data.fd);
 				else
-				{
-					std::cout << "IN----------------------" << std::endl;
-					std::cout << message << std::endl;
-	//				send(events[i].data.fd, "coucou\n", 7, 0);
-				}
-
+					handleInput(events[i].data.fd, message);
 			}
-
 		}
+		memset(events, 0, sizeof(events));
 	}
 }
 
