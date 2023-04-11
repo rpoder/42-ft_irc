@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/10 17:55:53 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/11 11:28:15 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include	<sys/socket.h>
 # include	<unistd.h>
 # include	<sys/epoll.h>
+# include	<sstream>
 
 # define	PORT_MIN			1024
 # define	PORT_MAX			65535
@@ -53,8 +54,9 @@ class Server
 		void	initSocket();
 		void	listen();
 
+		int			_port;
 		t_addrinfo	*_serv_info;
-		int			_socket_fd;
+		int			_server_fd;
 
 		class ServerInitException:
 			std::exception
