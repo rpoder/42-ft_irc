@@ -98,7 +98,7 @@ void	Server::listen()
 	t_epoll_event		event_settings;
 	t_epoll_event		events[EPOLL_EVENTS_MAX];
 	int					event_count;
-			char	message[23];
+	char				message[1000];
 
 	// listen
 	if (::listen(_server_fd, CONNECTIONS_MAX) != 0)
@@ -115,8 +115,6 @@ void	Server::listen()
 	epoll_ctl(epoll_fd, EPOLL_CTL_ADD, _server_fd, &event_settings);
 	std::cout << "Server started: listening on port " << _port << std::endl;
 	// accept
-
-	int j = 0;
 
 	while (1)
 	{
@@ -141,32 +139,27 @@ void	Server::listen()
 				}
 				std::cout << "New client on fd " << new_client_fd << std::endl;
 				event_settings.data.fd = new_client_fd;
-				event_settings.events = EPOLLIN; //| EPOLLET
+				event_settings.events = EPOLLIN | EPOLLET;
 				epoll_ctl(epoll_fd, EPOLL_CTL_ADD, new_client_fd, &event_settings);
 			}
 			else if (events[i].events & EPOLLIN)
 			{
-				if (recv(new_client_fd, message, 23, 0) == 0)
+				memset(message, 0, 1000);
+				if (recv(new_client_fd, message, 1000, 0) == 0)
+				{
+					std::cout << "Client closed\n" << std::endl;
 					epoll_ctl(epoll_fd, EPOLL_CTL_DEL, new_client_fd, &event_settings);
+				}
 				else
 				{
 					std::cout << "IN----------------------" << std::endl;
 					std::cout << message << std::endl;
-					send(events[i].data.fd, "coucou\n", 7, 0);
+	//				send(events[i].data.fd, "coucou\n", 7, 0);
 				}
 
 			}
-			// else if (events[i].events & EPOLLOUT)
-			// {
-			// 	send(events[i].data.fd, "coucou\n", 7, 0);
-			// 	std::cout << "toz" << std::endl;
-			// }
-		}
 
-		// events[0] = NULL;
-		// memset(events, 0, sizeof(events));
-		// std::cout << "inf";
-		j++;
+		}
 	}
 }
 
@@ -175,6 +168,7 @@ void	Server::start()
 	// TODO try and catch
 	initSocket();
 	listen();
+
 }
 
 //!-----------------------------MEMBER CLASSES----------------------------------
