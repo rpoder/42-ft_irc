@@ -98,6 +98,7 @@ void	Server::listen()
 	t_epoll_event		event_settings;
 	t_epoll_event		events[EPOLL_EVENTS_MAX];
 	int					event_count;
+			char	message[23];
 
 	// listen
 	if (::listen(_server_fd, CONNECTIONS_MAX) != 0)
@@ -114,14 +115,27 @@ void	Server::listen()
 	epoll_ctl(epoll_fd, EPOLL_CTL_ADD, _server_fd, &event_settings);
 	std::cout << "Server started: listening on port " << _port << std::endl;
 	// accept
+
+	int j = 0;
+
 	while (1)
 	{
-		event_count = epoll_wait(epoll_fd, events, EPOLL_EVENTS_MAX, -1);
+	/* 	if (j == 0)
+		{ */
+			event_count = epoll_wait(epoll_fd, events, EPOLL_EVENTS_MAX, -1);
+			if (event_count == -1)
+			{
+				perror("epoll_wait");
+				break ;
+			}
+//		}
+		std::cout << "inf" << std::endl;
+		std::cerr << event_count << std::endl;
 		for (int i = 0; i < event_count; i++)
 		{
 			if (events[i].data.fd == _server_fd)
 			{
-				std::cout << "New connection on fd: " << std::endl;
+				std::cout << "New connection on server." << std::endl;
 				addr_size = sizeof(client_addr);
 				new_client_fd = accept(_server_fd, (struct sockaddr *)&client_addr, &addr_size);
 				if (new_client_fd < 0)
@@ -129,27 +143,28 @@ void	Server::listen()
 					perror("accept");
 					break ;
 				}
-				std::cout << new_client_fd << std::endl;
+				std::cout << "New client on fd " << new_client_fd << std::endl;
 				event_settings.data.fd = new_client_fd;
-				event_settings.events = (EPOLLIN && EPOLLOUT);
+				event_settings.events = EPOLLIN | EPOLLOUT;
 				epoll_ctl(epoll_fd, EPOLL_CTL_ADD, new_client_fd, &event_settings);
-
 			}
-			// bytes_read = read(events[i].data.fd, read_buffer, READ_SIZE);
-			// printf("%zd bytes read.\n", bytes_read);
-			// read_buffer[bytes_read] = '\0';
-			// printf("Read '%s'\n", read_buffer);
-
-			// if(!strncmp(read_buffer, "stop\n", 5))
-			// running = 0;
+			else if (events[i].events & EPOLLIN)
+			{
+				std::cout << "IN----------------------" << std::endl;
+				recv(new_client_fd, message, 23, 0);
+				std::cout << message << std::endl;
+			}
+			else if (events[i].events & EPOLLOUT)
+			{
+				send(events[i].data.fd, "coucou\n", 7, 0);
+				std::cout << "toz" << std::endl;
+			}
 		}
-		if (event_count == -1)
-		{
-			perror("epoll_wait");
-			break ;
-		}
-		std::cerr << event_count << std::endl;
 
+		// events[0] = NULL;
+		// memset(events, 0, sizeof(events));
+		// std::cout << "inf";
+		j++;
 	}
 }
 

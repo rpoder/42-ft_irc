@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/11 11:28:15 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/11 12:11:09 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define	PORT_MIN			1024
 # define	PORT_MAX			65535
 # define	CONNECTIONS_MAX		20
-# define	EPOLL_EVENTS_MAX	1
+# define	EPOLL_EVENTS_MAX	5
 # define	EPOLL_FD_MAX		20
 
 typedef addrinfo			t_addrinfo;
