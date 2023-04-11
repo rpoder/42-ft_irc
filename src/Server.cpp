@@ -120,17 +120,13 @@ void	Server::listen()
 
 	while (1)
 	{
-	/* 	if (j == 0)
-		{ */
-			event_count = epoll_wait(epoll_fd, events, EPOLL_EVENTS_MAX, -1);
-			if (event_count == -1)
-			{
-				perror("epoll_wait");
-				break ;
-			}
-//		}
-		std::cout << "inf" << std::endl;
-		std::cerr << event_count << std::endl;
+		event_count = epoll_wait(epoll_fd, events, EPOLL_EVENTS_MAX, -1);
+		if (event_count == -1)
+		{
+			perror("epoll_wait");
+			break ;
+		}
+		std::cout << "test" << std::endl;
 		for (int i = 0; i < event_count; i++)
 		{
 			if (events[i].data.fd == _server_fd)
@@ -145,20 +141,26 @@ void	Server::listen()
 				}
 				std::cout << "New client on fd " << new_client_fd << std::endl;
 				event_settings.data.fd = new_client_fd;
-				event_settings.events = EPOLLIN | EPOLLOUT;
+				event_settings.events = EPOLLIN; //| EPOLLET
 				epoll_ctl(epoll_fd, EPOLL_CTL_ADD, new_client_fd, &event_settings);
 			}
 			else if (events[i].events & EPOLLIN)
 			{
-				std::cout << "IN----------------------" << std::endl;
-				recv(new_client_fd, message, 23, 0);
-				std::cout << message << std::endl;
+				if (recv(new_client_fd, message, 23, 0) == 0)
+					epoll_ctl(epoll_fd, EPOLL_CTL_DEL, new_client_fd, &event_settings);
+				else
+				{
+					std::cout << "IN----------------------" << std::endl;
+					std::cout << message << std::endl;
+					send(events[i].data.fd, "coucou\n", 7, 0);
+				}
+
 			}
-			else if (events[i].events & EPOLLOUT)
-			{
-				send(events[i].data.fd, "coucou\n", 7, 0);
-				std::cout << "toz" << std::endl;
-			}
+			// else if (events[i].events & EPOLLOUT)
+			// {
+			// 	send(events[i].data.fd, "coucou\n", 7, 0);
+			// 	std::cout << "toz" << std::endl;
+			// }
 		}
 
 		// events[0] = NULL;
