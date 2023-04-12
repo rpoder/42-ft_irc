@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/11 19:33:41 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/12 16:07:27 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,15 @@ class Server
 		void	listen();
 		void	handleNewConnection();
 		void	handleLostConnection(int fd);
-		void	handleInput(int sender_fd, char *message);
+		void	handleInput(int client_fd, char *input);
+		void	handleRegistration(int client_fd);
 		User	*findUser(int fd);
+
+		void	executeCommand(int client_fd, std::string input);
+		void	user_cmd(int client_fd, std::string args);
+		void	nick_cmd(int client_fd, std::string args);
+		void	pass_cmd(int client_fd, std::string args);
+		void	join_cmd(int client_fd, std::string args);
 
 		std::map<int, User>	_users;
 

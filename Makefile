@@ -6,7 +6,7 @@
 #    By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/20 21:14:29 by ronanpoder        #+#    #+#              #
-#    Updated: 2023/04/11 19:37:23 by rpoder           ###   ########.fr        #
+#    Updated: 2023/04/12 13:46:26 by rpoder           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,10 @@ SRC			=	main.cpp \
 				src/Server.cpp \
 				src/User.cpp \
 				src/utils.cpp \
+				src/commands/join_cmd.cpp \
+				src/commands/nick_cmd.cpp \
+				src/commands/pass_cmd.cpp \
+				src/commands/user_cmd.cpp \
 
 OBJS_PATH	=	./obj/
 

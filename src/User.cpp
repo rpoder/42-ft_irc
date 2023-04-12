@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:35:51 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/11 19:16:50 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/12 18:14:29 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 //!-------------------------------CONSTRUCTOR-----------------------------------
 
 User::User():
+	_is_registered(false),
 	_nickname(""),
 	_username("")
 {
@@ -44,17 +45,17 @@ User	&User::operator=(const User &copy)
 
 //!-------------------------------ACCESSORS-------------------------------------
 
-void	User::setNickName(std::string str)
+void	User::setNickname(std::string &str)
 {
 	_nickname = str;
 }
 
-std::string	User::getNickName() const
+std::string	User::getNickname() const
 {
 	return (_nickname);
 }
 
-void	User::setUsername(std::string str)
+void	User::setUsername(std::string &str)
 {
 	_username = str;
 }
@@ -62,6 +63,16 @@ void	User::setUsername(std::string str)
 std::string	User::getUsername() const
 {
 	return (_username);
+}
+
+bool	User::getIsRegistered() const
+{
+	return (_is_registered);
+}
+
+void	User::setIsRegistered(bool is_registered)
+{
+	_is_registered = is_registered;
 }
 
 //!-------------------------------FUNCTIONS-------------------------------------
