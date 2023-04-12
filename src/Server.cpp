@@ -63,6 +63,28 @@ Server	&Server::operator=(const Server &copy)
 
 //!-------------------------------FUNCTIONS-------------------------------------
 
+void	Server::executeCommand(int client_fd, std::string input)
+{
+	int						separator_pos;
+	std::string				line("");
+	std::stringstream		ss(input);
+	std::string				commandes[4] = {"NICK", "USER", "PASS", "JOIN"};
+	void	(Server::*ptr_f[4])(int client_fd, std::string args) = {&Server::nick_cmd, &Server::user_cmd, &Server::pass_cmd, &Server::join_cmd};
+
+	while (std::getline(ss, line))
+	{
+		separator_pos = line.find(" ");
+		for (int i = 0; i < 4; i++)
+        {
+            if (commandes[i] == line.substr(0, separator_pos)) {
+				// std::cout << "line: " << line << std::endl;
+				std::string args(line.substr(separator_pos + 1));
+                (this->*(ptr_f[i]))(client_fd, trimArgs(args));
+			}
+        }
+	}
+}
+
 // create a socket, clean the socket memory, link socket to a port
 void	Server::initSocket()
 {
@@ -94,6 +116,7 @@ void	Server::handleNewConnection()
 	int					new_client_fd;
 	socklen_t			addr_size;
 	t_epoll_event		event_settings;
+	User				new_user;
 
 	event_settings.data.fd = _server_fd;
 	event_settings.events = EPOLLIN; //flag d'ecoute en read
@@ -110,36 +133,53 @@ void	Server::handleNewConnection()
 	event_settings.events = EPOLLIN | EPOLLET;
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, new_client_fd, &event_settings);
 
-
-	// char message[BUFFER_MAX];
-	// memset(message, 0, BUFFER_MAX);
-	// recv(new_client_fd, message, BUFFER_MAX, 0);
-	// handleInput(message);
+	// create new empty user on map<fd, User>
+	_users[new_client_fd] = new_user;
 }
 
 void	Server::handleLostConnection(int fd)
 {
-	_users.erase(fd);
-	std::cout << "Client closed\n" << std::endl;
+	(void) fd;
+	// _users.erase(fd);
+	displayMessage("red", "Connection closed");
 	epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, NULL);
 }
 
-void	Server::handleInput(int sender_fd, char *message)
+void	Server::handleInput(int client_fd, char *input)
 {
-	User new_user;
-	std::string nickname;
+	char *dup;
 
-	nickname = message;
+	dup = strdup(input);
+	std::string	input_str(dup);
 
-	if (strncmp(message, "USER", 4) == 0)
+	std::cout << "input: " << input_str ;
+	executeCommand(client_fd, input_str);
+}
+
+void	Server::handleRegistration(int client_fd)
+{
+	User		*user;
+	std::string	str;
+
+	user = findUser(client_fd);
+	if (user && user->getIsRegistered() == false
+		&& user->getNickname().length() > 0
+		&& user->getUsername().length() > 0)
 	{
-		new_user.setNickName(nickname.substr(5));
-		_users[sender_fd] = new_user;
-		::printContainer(_users);
+		user->setIsRegistered(true);
+		printUser(client_fd, *user);
+		size_t	i;
+
+		i = user->getUsername().find(" ");
+		if (i != std::string::npos)
+		{
+			str = ":" + user->getNickname()
+			+ "!" + user->getUsername().substr(0, i) + "@localhost 001 " + user->getNickname()
+			+ " :Welcome to the Internet Relay Network " + user->getNickname()
+			+ "!" + user->getUsername().substr(0, i) + "@localhost\r\n";
+		}
+		send(client_fd, (char *)str.c_str(), str.length(), 0);
 	}
-	std::cout << "New message---------------------" << std::endl;
-	std::cout << "|" << message << "|" << std::endl;
-	// send(events[i].data.fd, "coucou\n", 7, 0);
 }
 
 User	*Server::findUser(int fd)
@@ -157,7 +197,7 @@ void	Server::listen()
 {
 	t_epoll_event		events[EPOLL_EVENTS_MAX];
 	int					event_count;
-	char				message[BUFFER_MAX];
+	char				input[BUFFER_MAX];
 	t_epoll_event		event_settings;
 
 
@@ -174,40 +214,33 @@ void	Server::listen()
 	}
 
 	event_settings.data.fd = _server_fd;
-	event_settings.events = EPOLLIN; //flag d'ecoute en read
+	event_settings.events = EPOLLIN;
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _server_fd, &event_settings);
 	std::cout << "Server started: listening on port " << _port << std::endl;
-	// accept
-
 	while (1)
 	{
-		std::cout << "before wait" << std::endl;
 		event_count = epoll_wait(_epoll_fd, events, EPOLL_EVENTS_MAX, -1);
 		if (event_count == -1)
 		{
 			perror("epoll_wait");
 			break ;
 		}
-		std::cout << "after wait" << std::endl;
 		for (int i = 0; i < event_count; i++)
 		{
-			User *tmp;
-
-			tmp = findUser(events[i].data.fd);
-			if (tmp)
-				std::cout << tmp->getNickName() << std::endl;
+			// std::cout << events[i].data.fd << std::endl;
 			if (events[i].data.fd == _server_fd)
 			{
 				handleNewConnection();
 			}
 			else if (events[i].events & EPOLLIN)
 			{
-				memset(message, 0, BUFFER_MAX);
-				if (recv(events[i].data.fd, message, BUFFER_MAX, 0) == 0)
+				memset(input, 0, BUFFER_MAX);
+				if (recv(events[i].data.fd, input, BUFFER_MAX, 0) == 0)
 					handleLostConnection(events[i].data.fd);
 				else
-					handleInput(events[i].data.fd, message);
+					handleInput(events[i].data.fd, input);
 			}
+			handleRegistration(events[i].data.fd);
 		}
 		memset(events, 0, sizeof(events));
 	}
