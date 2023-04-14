@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pass_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/12 18:38:49 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/14 17:55:00 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 void	Server::pass_cmd(int client_fd, std::string args)
 {
-	(void) client_fd;
-	(void) args;
-
 	displayMessage("orange", "[pass_cmd function called]");
+	
+	User	*user;
+
+	user = this->findUser(client_fd);
+	if (user)
+		user->setPassword(args);
 }

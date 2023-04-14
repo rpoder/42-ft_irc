@@ -18,15 +18,16 @@
 # include <map>
 # include <sstream>
 
-void	printContainer(std::map<int, User> container);
+void	    printContainer(std::map<int, User> container);
 
-void	executeCommand(std::string cmd, int client_fd);
+void	    executeCommand(std::string cmd, int client_fd);
 
-void	printUser(int fd, User &user);
+void	    printUser(int fd, User &user);
 
 std::string	trimArgs(std::string str);
 
-void	displayMessage(std::string color, std::string str);
+void	    displayMessage(std::string color, std::string str);
 
+int        checkPortNumber(std::string port);
 
 #endif

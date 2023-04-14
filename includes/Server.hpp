@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/12 16:07:27 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/14 17:46:13 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,20 @@ typedef epoll_event			t_epoll_event;
 class Server
 {
 	public:
-		Server(int port);
+		Server(int port, std::string password);
 		Server(const Server &copy);
 		~Server();
 
 		Server	&operator=(const Server &copy);
 		void	start();
+		std::string getPassword();
+
+		class ServerInitException:
+			public std::exception
+		{
+			public:
+			virtual const char	*what() const throw();
+		};
 
 	private:
 		Server();
@@ -75,12 +83,8 @@ class Server
 		t_addrinfo	*_serv_info;
 		int			_server_fd;
 		int			_epoll_fd;
+		std::string	_password;
 
-		class ServerInitException:
-			std::exception
-		{
-			const char	*what() const throw();
-		};
 };
 
 #endif

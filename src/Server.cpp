@@ -14,9 +14,8 @@
 
 //!-------------------------------CONSTRUCTOR-----------------------------------
 
-Server::Server(int port)
+Server::Server(int port, std::string password)
 {
-	(void)				port;
 	t_addrinfo			hints;
 	int					status;
 	std::stringstream	ss;
@@ -26,7 +25,11 @@ Server::Server(int port)
 	ss >> str;
 	_port = port;
 	_server_fd = 0;
+	_password = password;
+
 	//TODO check if port is in range (defines are in the header)
+	if (_port < PORT_MIN || _port > PORT_MAX)
+		throw (Server::ServerInitException());
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_UNSPEC; // don't care IPv4 or IPv6
 	hints.ai_socktype = SOCK_STREAM;
@@ -60,6 +63,11 @@ Server	&Server::operator=(const Server &copy)
 }
 
 //!-------------------------------ACCESSORS-------------------------------------
+
+std::string Server::getPassword()
+{
+    return _password;
+}
 
 //!-------------------------------FUNCTIONS-------------------------------------
 
@@ -139,10 +147,15 @@ void	Server::handleNewConnection()
 
 void	Server::handleLostConnection(int fd)
 {
-	(void) fd;
-	// _users.erase(fd);
+	User *user;
+
+	user = findUser(fd);
+
+	user->setIsRegistered(false);
+	_users.erase(fd);
 	displayMessage("red", "Connection closed");
 	epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, NULL);
+	close(fd);
 }
 
 void	Server::handleInput(int client_fd, char *input)
@@ -151,6 +164,7 @@ void	Server::handleInput(int client_fd, char *input)
 
 	dup = strdup(input);
 	std::string	input_str(dup);
+	std::string str;
 
 	std::cout << "input: " << input_str ;
 	executeCommand(client_fd, input_str);
@@ -166,6 +180,12 @@ void	Server::handleRegistration(int client_fd)
 		&& user->getNickname().length() > 0
 		&& user->getUsername().length() > 0)
 	{
+		if (user->getPassword() != _password)
+		{
+			displayMessage("red", "Wrong password entered");
+			handleLostConnection(client_fd);
+			return ;
+		}
 		user->setIsRegistered(true);
 		printUser(client_fd, *user);
 		size_t	i;
@@ -216,7 +236,7 @@ void	Server::listen()
 	event_settings.data.fd = _server_fd;
 	event_settings.events = EPOLLIN;
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _server_fd, &event_settings);
-	std::cout << "Server started: listening on port " << _port << std::endl;
+	std::cout << std::endl << "\033[1;37mServer started: listening on port " << _port << "\033[0m" << std::endl;
 	while (1)
 	{
 		event_count = epoll_wait(_epoll_fd, events, EPOLL_EVENTS_MAX, -1);
@@ -258,5 +278,5 @@ void	Server::start()
 
 const char	*Server::ServerInitException::what() const throw()
 {
-	return ("could't instantiate the server");
-}
+	return("Error occurred while initialiazing server.");
+};

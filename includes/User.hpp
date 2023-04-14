@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:49 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/12 16:06:21 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/14 17:52:26 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ class User
 		std::string		getNickname() const;
 		void			setUsername(std::string &str);
 		std::string		getUsername() const;
+		void			setPassword(std::string &str);
+		std::string		getPassword() const;
 		void			setIsRegistered(bool is_registered);
 		bool			getIsRegistered() const;
 
@@ -35,6 +37,7 @@ class User
 		bool		_is_registered;
 		std::string _nickname;
 		std::string _username;
+		std::string	_password;
 };
 
 #endif

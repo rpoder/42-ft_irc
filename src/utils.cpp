@@ -77,6 +77,26 @@ void	displayMessage(std::string color, std::string str)
 	}
 }
 
+int		checkPortNumber(std::string port)
+{
+	int port_number;
+	for (std::string::iterator it = port.begin(); it != port.end(); it++)
+	{
+		if (!std::isdigit(*it))
+		{
+			displayMessage("red","First arg must be a port number.");
+			throw (Server::ServerInitException());
+		}
+	}
+	
+	port_number = std::atoi(port.c_str());
+	// A voir sio on verifie le port ici ou a l'instanciation du Server
+	// if (port_number < PORT_MIN || port_number > PORT_MAX)
+	// 	throw (Server::ServerInitException());
+
+	return (port_number);
+}
+
 // CAP LS
 // PASS password
 // NICK chsimon

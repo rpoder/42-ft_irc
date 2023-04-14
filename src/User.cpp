@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:35:51 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/12 18:14:29 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/14 17:55:29 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 User::User():
 	_is_registered(false),
 	_nickname(""),
-	_username("")
+	_username(""),
+	_password("")
 {
 
 }
@@ -40,6 +41,7 @@ User	&User::operator=(const User &copy)
 {
 	_nickname = copy._nickname;
 	_username = copy._username;
+	_password = copy._password;
 	return (*this);
 }
 
@@ -63,6 +65,16 @@ void	User::setUsername(std::string &str)
 std::string	User::getUsername() const
 {
 	return (_username);
+}
+
+void	User::setPassword(std::string &str)
+{
+	_password = str;
+}
+
+std::string	User::getPassword() const
+{
+	return (_password);
 }
 
 bool	User::getIsRegistered() const
