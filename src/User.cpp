@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:35:51 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/14 17:55:29 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/15 16:46:03 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ User::User():
 	_nickname(""),
 	_username(""),
 	_password("")
-{
-
-}
+{}
 
 User::User(const User &copy)
 {
@@ -32,7 +30,7 @@ User::User(const User &copy)
 
 User::~User()
 {
-
+	memset(this, 0, sizeof(User));
 }
 
 //!-------------------------------OPERATOR--------------------------------------
@@ -65,6 +63,16 @@ void	User::setUsername(std::string &str)
 std::string	User::getUsername() const
 {
 	return (_username);
+}
+
+void	User::setRawUsername(std::string &str)
+{
+	_raw_username = str;
+}
+
+std::string	User::getRawUsername() const
+{
+	return (_raw_username);
 }
 
 void	User::setPassword(std::string &str)

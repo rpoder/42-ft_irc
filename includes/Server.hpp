@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/14 17:46:13 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/15 17:45:45 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@
 # include	<sys/types.h>
 # include	<sys/socket.h>
 # include	<unistd.h>
+# include	<cerrno>
 # include	<sys/epoll.h>
 # include	<sstream>
+# include	<cstring>
 # include	<map>
 # include	"User.hpp"
 # include	"utils.hpp"
@@ -58,7 +60,13 @@ class Server
 			public std::exception
 		{
 			public:
-			virtual const char	*what() const throw();
+				ServerInitException();
+				ServerInitException(char *message);
+				virtual const char	*what() const throw();
+				virtual				~ServerInitException() throw();
+
+			private:
+				char	*_message;
 		};
 
 	private:
@@ -70,12 +78,14 @@ class Server
 		void	handleInput(int client_fd, char *input);
 		void	handleRegistration(int client_fd);
 		User	*findUser(int fd);
+		void	handleSend(int client_fd, std::string message);
 
 		void	executeCommand(int client_fd, std::string input);
-		void	user_cmd(int client_fd, std::string args);
-		void	nick_cmd(int client_fd, std::string args);
-		void	pass_cmd(int client_fd, std::string args);
-		void	join_cmd(int client_fd, std::string args);
+		void	user_cmd(int client_fd, User *user, std::string args);
+		void	nick_cmd(int client_fd, User *user, std::string args);
+		void	pass_cmd(int client_fd, User *user, std::string args);
+		void	join_cmd(int client_fd, User *user, std::string args);
+		void	ping_cmd(int client_fd, User *user, std::string args);
 
 		std::map<int, User>	_users;
 

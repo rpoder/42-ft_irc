@@ -42,6 +42,11 @@ std::string	trimArgs(std::string str)
 
 void	displayMessage(std::string color, std::string str)
 {
+	displayMessage(color, str, true);
+}
+
+void	displayMessage(std::string color, std::string str, bool endl)
+{
 	size_t i;
 
 	i = 0;
@@ -55,31 +60,32 @@ void	displayMessage(std::string color, std::string str)
 	switch (i)
 	{
 		case 0:
-			std::cout << "\033[1;31m" << str << "\033[0m" << std::endl;
+			std::cout << "\033[1;31m" << str << "\033[0m";
 			break;
 		case 1:
-			std::cout << "\033[1;32m" << str << "\033[0m" << std::endl;
+			std::cout << "\033[1;32m" << str << "\033[0m";
 			break;
 		case 2:
-			std::cout << "\033[1;36m" << str << "\033[0m" << std::endl;
+			std::cout << "\033[1;36m" << str << "\033[0m";
 			break;
 		case 3:
-			std::cout << "\033[1;33m" << str << "\033[0m" << std::endl;
+			std::cout << "\033[1;33m" << str << "\033[0m";
 			break;
 		case 4:
-			std::cout << "\033[1;37m" << str << "\033[0m" << std::endl;
+			std::cout << "\033[1;37m" << str << "\033[0m";
 			break;
 		case 5:
-			std::cout << "\033[1;35m" << str << "\033[0m" << std::endl;
-			break;
-
+			std::cout << "\033[1;35m" << str << "\033[0m";
 			break;
 	}
+	if (endl == true)
+		std::cout << std::endl;
 }
 
 int		checkPortNumber(std::string port)
 {
-	int port_number;
+	int	port_number;
+
 	for (std::string::iterator it = port.begin(); it != port.end(); it++)
 	{
 		if (!std::isdigit(*it))
@@ -88,7 +94,7 @@ int		checkPortNumber(std::string port)
 			throw (Server::ServerInitException());
 		}
 	}
-	
+
 	port_number = std::atoi(port.c_str());
 	// A voir sio on verifie le port ici ou a l'instanciation du Server
 	// if (port_number < PORT_MIN || port_number > PORT_MAX)
@@ -97,6 +103,14 @@ int		checkPortNumber(std::string port)
 	return (port_number);
 }
 
+std::string	formatMessage(User user, std::string &message)
+{
+	std::string	str;
+
+	str = ":" + user.getNickname()
+		+ "!" + user.getUsername() + "@localhost " + message + "\r\n";
+	return (str);
+}
 // CAP LS
 // PASS password
 // NICK chsimon

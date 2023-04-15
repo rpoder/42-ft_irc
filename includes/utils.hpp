@@ -27,7 +27,10 @@ void	    printUser(int fd, User &user);
 std::string	trimArgs(std::string str);
 
 void	    displayMessage(std::string color, std::string str);
+void	    displayMessage(std::string color, std::string str, bool endl);
 
 int        checkPortNumber(std::string port);
+
+std::string	formatMessage(User user, std::string &message);
 
 #endif

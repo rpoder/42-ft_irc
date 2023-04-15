@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   Server.cpp										 :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: rpoder <rpoder@student.42.fr>			  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2023/04/09 19:11:40 by rpoder			#+#	#+#			 */
-/*   Updated: 2023/04/09 19:43:20 by rpoder		   ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Server.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
+/*   Updated: 2023/04/15 17:49:21 by rpoder           ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
@@ -19,7 +19,7 @@ Server::Server(int port, std::string password)
 	t_addrinfo			hints;
 	int					status;
 	std::stringstream	ss;
-	std::string			 str;
+	std::string			str;
 
 	ss << port;
 	ss >> str;
@@ -27,9 +27,8 @@ Server::Server(int port, std::string password)
 	_server_fd = 0;
 	_password = password;
 
-	//TODO check if port is in range (defines are in the header)
 	if (_port < PORT_MIN || _port > PORT_MAX)
-		throw (Server::ServerInitException());
+		throw (Server::ServerInitException((char *)"Port out of range"));
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_UNSPEC; // don't care IPv4 or IPv6
 	hints.ai_socktype = SOCK_STREAM;
@@ -66,30 +65,52 @@ Server	&Server::operator=(const Server &copy)
 
 std::string Server::getPassword()
 {
-    return _password;
+	return _password;
 }
 
 //!-------------------------------FUNCTIONS-------------------------------------
+
+void	Server::handleSend(int client_fd, std::string message)
+{
+	t_epoll_event	settings;
+	size_t			bytes_sent;
+
+	settings.data.fd = client_fd;
+	settings.events = EPOLLOUT;
+	bytes_sent = 0;
+	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, client_fd, &settings);
+	do
+	{
+		message = message.substr(bytes_sent, message.length());
+		bytes_sent = send(client_fd, message.c_str(), message.length(), 0);
+	} while (bytes_sent != 0);
+
+	settings.events = EPOLLIN;
+	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, client_fd, &settings);
+	//TODO gerer cas d'erreur de send
+}
 
 void	Server::executeCommand(int client_fd, std::string input)
 {
 	int						separator_pos;
 	std::string				line("");
 	std::stringstream		ss(input);
-	std::string				commandes[4] = {"NICK", "USER", "PASS", "JOIN"};
-	void	(Server::*ptr_f[4])(int client_fd, std::string args) = {&Server::nick_cmd, &Server::user_cmd, &Server::pass_cmd, &Server::join_cmd};
+	std::string				commandes[5] = {"NICK", "USER", "PASS", "JOIN", "PING"};
+	void	(Server::*ptr_f[5])(int client_fd, User *user, std::string args) = {&Server::nick_cmd, &Server::user_cmd, &Server::pass_cmd, &Server::join_cmd, &Server::ping_cmd};
+	User					*user;
 
 	while (std::getline(ss, line))
 	{
+		user = findUser(client_fd);
 		separator_pos = line.find(" ");
-		for (int i = 0; i < 4; i++)
-        {
-            if (commandes[i] == line.substr(0, separator_pos)) {
-				// std::cout << "line: " << line << std::endl;
+		for (int i = 0; i < 5; i++)
+		{
+			if (commandes[i] == line.substr(0, separator_pos) && user) {
 				std::string args(line.substr(separator_pos + 1));
-                (this->*(ptr_f[i]))(client_fd, trimArgs(args));
+				(this->*(ptr_f[i]))(client_fd, user, trimArgs(args));
+				break ;
 			}
-        }
+		}
 	}
 }
 
@@ -98,37 +119,25 @@ void	Server::initSocket()
 {
 	int	setsock_opt;
 
-	// socket
 	_server_fd = socket(_serv_info->ai_family, _serv_info->ai_socktype, _serv_info->ai_protocol);
 	if (_server_fd == -1)
 		throw (Server::ServerInitException());
-		//? ERRNO is available for this ret
-		//? maybe check return errno in a arg_exception
 	setsock_opt = 1;
 	if (setsockopt(_server_fd, SOL_SOCKET, SO_REUSEADDR, &setsock_opt, sizeof(setsock_opt)) == -1)
-	{
-		//TODO throw exception instead
-		perror("setsockopt");
-		exit(1);
-	}
-	if (bind(_server_fd, _serv_info->ai_addr, _serv_info->ai_addrlen) != 0)
-	{
-		perror("bind");
 		throw (Server::ServerInitException());
-	}
+	if (bind(_server_fd, _serv_info->ai_addr, _serv_info->ai_addrlen) != 0)
+		throw (Server::ServerInitException());
 }
 
 void	Server::handleNewConnection()
 {
+	displayMessage("orange", "[handleNewConnection called]");
 	t_sockaddr_storage	client_addr;
 	int					new_client_fd;
 	socklen_t			addr_size;
 	t_epoll_event		event_settings;
 	User				new_user;
 
-	event_settings.data.fd = _server_fd;
-	event_settings.events = EPOLLIN; //flag d'ecoute en read
-	std::cout << "New connection on server." << std::endl;
 	addr_size = sizeof(client_addr);
 	new_client_fd = accept(_server_fd, (struct sockaddr *)&client_addr, &addr_size);
 	if (new_client_fd < 0)
@@ -138,7 +147,8 @@ void	Server::handleNewConnection()
 	}
 	std::cout << "New client on fd " << new_client_fd << std::endl;
 	event_settings.data.fd = new_client_fd;
-	event_settings.events = EPOLLIN | EPOLLET;
+	// event_settings.events = EPOLLIN | EPOLLOUT;
+	event_settings.events = EPOLLIN;
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, new_client_fd, &event_settings);
 
 	// create new empty user on map<fd, User>
@@ -147,12 +157,16 @@ void	Server::handleNewConnection()
 
 void	Server::handleLostConnection(int fd)
 {
-	User *user;
+	displayMessage("orange", "[handleLostConnection called]");
 
-	user = findUser(fd);
+	// User *user;
 
-	user->setIsRegistered(false);
 	_users.erase(fd);
+	// user = findUser(fd);
+	// if (user)
+	// 	user->setIsRegistered(false);
+	// else
+	// 	std::cout << "user doesnt exist";
 	displayMessage("red", "Connection closed");
 	epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, NULL);
 	close(fd);
@@ -172,11 +186,15 @@ void	Server::handleInput(int client_fd, char *input)
 
 void	Server::handleRegistration(int client_fd)
 {
+	displayMessage("orange", "[handleRegistration called]");
 	User		*user;
 	std::string	str;
+	std::string	message;
 
 	user = findUser(client_fd);
-	if (user && user->getIsRegistered() == false
+	if (!user)
+		std::cout << "on handle registration user doesnt exist" << std::endl;
+	else if (user && user->getIsRegistered() == false
 		&& user->getNickname().length() > 0
 		&& user->getUsername().length() > 0)
 	{
@@ -188,17 +206,14 @@ void	Server::handleRegistration(int client_fd)
 		}
 		user->setIsRegistered(true);
 		printUser(client_fd, *user);
-		size_t	i;
 
-		i = user->getUsername().find(" ");
-		if (i != std::string::npos)
-		{
-			str = ":" + user->getNickname()
-			+ "!" + user->getUsername().substr(0, i) + "@localhost 001 " + user->getNickname()
-			+ " :Welcome to the Internet Relay Network " + user->getNickname()
-			+ "!" + user->getUsername().substr(0, i) + "@localhost\r\n";
-		}
-		send(client_fd, (char *)str.c_str(), str.length(), 0);
+		message = "001 " + user->getNickname()
+		+ " :Welcome to the Internet Relay Network " + user->getNickname()
+		+ "!" + user->getUsername() + "@localhost";
+		str = formatMessage(*user, message);
+
+		handleSend(client_fd, str);
+		handleSend(client_fd, "Bien joue\r\n");
 	}
 }
 
@@ -220,8 +235,6 @@ void	Server::listen()
 	char				input[BUFFER_MAX];
 	t_epoll_event		event_settings;
 
-
-
 	// listen
 	if (::listen(_server_fd, CONNECTIONS_MAX) != 0)
 		throw (Server::ServerInitException());
@@ -229,7 +242,7 @@ void	Server::listen()
 	_epoll_fd = epoll_create(EPOLL_FD_MAX);
 	if (_epoll_fd == -1)
 	{
-		perror("epoll");
+		// perror("epoll");
 		throw (Server::ServerInitException());
 	}
 
@@ -241,13 +254,10 @@ void	Server::listen()
 	{
 		event_count = epoll_wait(_epoll_fd, events, EPOLL_EVENTS_MAX, -1);
 		if (event_count == -1)
-		{
-			perror("epoll_wait");
-			break ;
-		}
+			throw (Server::ServerInitException());
 		for (int i = 0; i < event_count; i++)
 		{
-			// std::cout << events[i].data.fd << std::endl;
+			// std::cout << "fd" << events[i].data.fd << std::endl;
 			if (events[i].data.fd == _server_fd)
 			{
 				handleNewConnection();
@@ -262,6 +272,7 @@ void	Server::listen()
 			}
 			handleRegistration(events[i].data.fd);
 		}
+		// std::cout << "boucle inf" << std::endl;
 		memset(events, 0, sizeof(events));
 	}
 }
@@ -276,7 +287,18 @@ void	Server::start()
 
 //!-----------------------------MEMBER CLASSES----------------------------------
 
+Server::ServerInitException::ServerInitException():
+	_message(strerror(errno))
+{}
+
+Server::ServerInitException::ServerInitException(char *message):
+	_message(message)
+{}
+
+Server::ServerInitException::~ServerInitException() throw()
+{}
+
 const char	*Server::ServerInitException::what() const throw()
 {
-	return("Error occurred while initialiazing server.");
-};
+	return(_message);
+}

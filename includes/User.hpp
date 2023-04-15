@@ -3,17 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:49 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/14 17:52:26 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/15 16:31:21 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef USER_HPP
 # define USER_HPP
 
-# include <iostream>
+# include	<iostream>
+# include	<iostream>
+# include	<sys/types.h>
+# include	<sys/socket.h>
+# include	<netdb.h>
+# include	<arpa/inet.h>
+# include	<netinet/in.h>
+# include	<stdio.h>
+# include	<string.h>
+# include	<cstdlib>
+# include	<sys/types.h>
+# include	<sys/socket.h>
+# include	<unistd.h>
+# include	<cerrno>
+# include	<sys/epoll.h>
+# include	<sstream>
+# include	<map>
 
 class User
 {
@@ -28,6 +44,8 @@ class User
 		std::string		getNickname() const;
 		void			setUsername(std::string &str);
 		std::string		getUsername() const;
+		void			setRawUsername(std::string &str);
+		std::string		getRawUsername() const;
 		void			setPassword(std::string &str);
 		std::string		getPassword() const;
 		void			setIsRegistered(bool is_registered);
@@ -37,6 +55,7 @@ class User
 		bool		_is_registered;
 		std::string _nickname;
 		std::string _username;
+		std::string _raw_username;
 		std::string	_password;
 };
 
