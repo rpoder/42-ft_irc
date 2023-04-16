@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/15 17:49:21 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/15 18:23:15 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,14 +159,7 @@ void	Server::handleLostConnection(int fd)
 {
 	displayMessage("orange", "[handleLostConnection called]");
 
-	// User *user;
-
 	_users.erase(fd);
-	// user = findUser(fd);
-	// if (user)
-	// 	user->setIsRegistered(false);
-	// else
-	// 	std::cout << "user doesnt exist";
 	displayMessage("red", "Connection closed");
 	epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, NULL);
 	close(fd);
@@ -213,7 +206,7 @@ void	Server::handleRegistration(int client_fd)
 		str = formatMessage(*user, message);
 
 		handleSend(client_fd, str);
-		handleSend(client_fd, "Bien joue\r\n");
+		// handleSend(client_fd, "Bien joue\r\n");
 	}
 }
 

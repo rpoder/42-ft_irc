@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nick_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/15 17:42:17 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/16 11:31:25 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,29 @@ void	Server::nick_cmd(int client_fd, User *user, std::string args)
 	std::string	previous_nickName;
 	std::string	str;
 	std::string	res;
+	std::map<int, User>::iterator it;
 
-	previous_nickName = user->getNickname();
-	if (previous_nickName.length() > 0)
+	for (it = _users.begin(); it != _users.end(); it ++)
 	{
-		str =  + "NICK :" + args;
-		res = formatMessage(*user, str);
-		std::cout << res << std::endl;
-		user->setNickname(args);
-		handleSend(client_fd, res);
-		// send(client_fd, (char *)str.c_str(), str.length(), 0);
+		if (it->second.getNickname().compare(args) == 0)
+		{
+			std::cout << ERR_NICKNAMEINUSE << " : Nickname already in use" << std::endl;
+			return;
+		}
 	}
 	else
-		user->setNickname(args);
+	{
+		previous_nickName = user->getNickname();
+		if (previous_nickName.length() > 0)
+		{
+			str =  + "NICK :" + args;
+			res = formatMessage(*user, str);
+			std::cout << res << std::endl;
+			user->setNickname(args);
+			handleSend(client_fd, res);
+			// send(client_fd, (char *)str.c_str(), str.length(), 0);
+		}
+		else
+			user->setNickname(args);
+	}
 }

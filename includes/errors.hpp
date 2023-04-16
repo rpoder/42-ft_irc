@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   join_cmd.cpp                                       :+:      :+:    :+:   */
+/*   errors.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/15 18:19:52 by caubry           ###   ########.fr       */
+/*   Created: 2023/04/16 11:08:04 by caubry            #+#    #+#             */
+/*   Updated: 2023/04/16 11:08:33 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
+#ifndef ERRORS_HPP
+# define ERRORS_HPP
 
-void	Server::join_cmd(int client_fd, User *user, std::string args)
-{
-	(void) client_fd;
-	(void) args;
-	(void) user;
-	// std::string tmp;
-	// std::string res;
+# define ERR_NICKNAMEINUSE 433
 
-	displayMessage("orange", "[join_cmd function called]");
-	// tmp = " ";
-}
+#endif
