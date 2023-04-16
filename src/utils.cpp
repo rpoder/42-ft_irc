@@ -38,33 +38,11 @@ std::string	trimArgs(std::string str)
 	size_t	j;
 
 	j = 0;
-	// int k = 0;
-	// while (str[k])
-	// {
-	// 	printf("%d\n", str[k]);
-	// 	k++;
-	// }
 	while (str[j] && str[j] == ' ')
 		j++;
 	i = str.find('\r');
-	std::cout <<  j << std::endl;
-	std::cout << i << std::endl;
-	std::cout << std::string::npos << std::endl;
-	if (i != std::string::npos)
-	{
-		str = str.substr(j, i);
-	}
-	else
-	{
-		std::cout << "in" << std::endl;
-		str = str.substr(j);
-	}
-	int k = 0;
-	while (str[k])
-	{
-		printf("%d\n", str[k]);
-		k++;
-	}
+	if (str[i])
+	str = str.substr(j, i - j);
 	return (str);
 }
 

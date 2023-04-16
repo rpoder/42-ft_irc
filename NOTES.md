@@ -8,6 +8,7 @@ qui trigger le epoll_wait -->
 TODO
 cmds:
 
+Margot
 NICK
 	431 ERR_NONICKNAMEGIVEN
 		:rpoder!1@localhost 431 rpoder :No nickname given
@@ -15,6 +16,7 @@ NICK
 	ERR_NICKNAMEINUSE (433)
 		:rpoder!1@localhost 433 rpoder rpoder :Nickname is already in use
 
+Margot
 USER
 	ERR_NEEDMOREPARAMS (461)
 		:rpoder!1@localhost 461 rpoder USER :Not enough parameters

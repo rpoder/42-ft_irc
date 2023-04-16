@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/16 17:29:39 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/16 17:37:54 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	Server::handleSend(int client_fd, std::string message)
 	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, client_fd, &settings);
 	do
 	{
-		message = message.substr(bytes_sent, message.length());
+		message = message.substr(bytes_sent, message.length() - bytes_sent);
 		bytes_sent = send(client_fd, message.c_str(), message.length(), 0);
 	} while (bytes_sent != 0);
 
