@@ -103,12 +103,12 @@ int		checkPortNumber(std::string port)
 	return (port_number);
 }
 
-std::string	formatMessage(User user, std::string &message)
+std::string	prefix(User user)
 {
 	std::string	str;
 
 	str = ":" + user.getNickname()
-		+ "!" + user.getUsername() + "@localhost " + message + "\r\n";
+		+ "!" + user.getUsername() + "@localhost ";
 	return (str);
 }
 // CAP LS

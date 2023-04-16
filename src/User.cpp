@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:35:51 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/15 16:46:03 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/16 12:16:38 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ User::User(const User &copy)
 //!-------------------------------DESTRUCTOR------------------------------------
 
 User::~User()
-{
-	memset(this, 0, sizeof(User));
-}
+{}
 
 //!-------------------------------OPERATOR--------------------------------------
 
@@ -40,6 +38,7 @@ User	&User::operator=(const User &copy)
 	_nickname = copy._nickname;
 	_username = copy._username;
 	_password = copy._password;
+	_is_registered = copy._is_registered;
 	return (*this);
 }
 

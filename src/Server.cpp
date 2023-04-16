@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/15 18:23:15 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/16 12:23:59 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,12 @@ Server::~Server()
 
 Server	&Server::operator=(const Server &copy)
 {
-	//TODO complete this part
-	(void) copy;
+	_port = copy._port;
+	_serv_info = copy._serv_info;
+	_server_fd = copy._server_fd;
+	_epoll_fd = copy._epoll_fd;
+	_password = copy._password;
+	_users = copy._users;
 	return(*this);
 }
 
@@ -78,6 +82,7 @@ void	Server::handleSend(int client_fd, std::string message)
 	settings.data.fd = client_fd;
 	settings.events = EPOLLOUT;
 	bytes_sent = 0;
+	//TODO check error
 	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, client_fd, &settings);
 	do
 	{
@@ -181,7 +186,6 @@ void	Server::handleRegistration(int client_fd)
 {
 	displayMessage("orange", "[handleRegistration called]");
 	User		*user;
-	std::string	str;
 	std::string	message;
 
 	user = findUser(client_fd);
@@ -200,13 +204,10 @@ void	Server::handleRegistration(int client_fd)
 		user->setIsRegistered(true);
 		printUser(client_fd, *user);
 
-		message = "001 " + user->getNickname()
-		+ " :Welcome to the Internet Relay Network " + user->getNickname()
-		+ "!" + user->getUsername() + "@localhost";
-		str = formatMessage(*user, message);
-
-		handleSend(client_fd, str);
-		// handleSend(client_fd, "Bien joue\r\n");
+		message = prefix(*user) + "001 " + user->getNickname()
+		+ " :Welcome chez les petits poux " + user->getNickname()
+		+ "!" + user->getUsername() + "@localhost" + SUFFIX;
+		handleSend(client_fd, message);
 	}
 }
 
@@ -261,7 +262,17 @@ void	Server::listen()
 				if (recv(events[i].data.fd, input, BUFFER_MAX, 0) == 0)
 					handleLostConnection(events[i].data.fd);
 				else
-					handleInput(events[i].data.fd, input);
+				{
+					// try
+					// {
+						handleInput(events[i].data.fd, input);
+					// }
+					// catch (std::exception &err)
+					// {
+					// 	// break ;
+					// }
+
+				}
 			}
 			handleRegistration(events[i].data.fd);
 		}

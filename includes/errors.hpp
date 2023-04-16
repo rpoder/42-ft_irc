@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   errors.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 11:08:04 by caubry            #+#    #+#             */
-/*   Updated: 2023/04/16 11:08:33 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/16 11:47:12 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERRORS_HPP
 # define ERRORS_HPP
 
-# define ERR_NICKNAMEINUSE 433
+# define ERR_NICKNAMEINUSE "433"
 
 #endif
