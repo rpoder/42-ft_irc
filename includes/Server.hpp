@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/16 11:38:37 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/16 14:42:18 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ class Server
 		void	handleSend(int client_fd, std::string message);
 
 		void	executeCommand(int client_fd, std::string input);
-		void	user_cmd(int client_fd, User *user, std::string args);
-		void	nick_cmd(int client_fd, User *user, std::string args);
-		void	pass_cmd(int client_fd, User *user, std::string args);
-		void	join_cmd(int client_fd, User *user, std::string args);
-		void	ping_cmd(int client_fd, User *user, std::string args);
+		void	USER_cmd(int client_fd, User *user, std::string args);
+		void	NICK_cmd(int client_fd, User *user, std::string args);
+		void	PASS_cmd(int client_fd, User *user, std::string args);
+		void	JOIN_cmd(int client_fd, User *user, std::string args);
+		void	PING_cmd(int client_fd, User *user, std::string args);
 
 		std::map<int, User>	_users;
 

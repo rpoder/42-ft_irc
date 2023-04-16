@@ -35,9 +35,37 @@ void	printUser(int fd, User &user)
 std::string	trimArgs(std::string str)
 {
 	size_t	i;
+	size_t	j;
 
-	i = str.find("\r");
-	return (str.substr(0, i));
+	j = 0;
+	// int k = 0;
+	// while (str[k])
+	// {
+	// 	printf("%d\n", str[k]);
+	// 	k++;
+	// }
+	while (str[j] && str[j] == ' ')
+		j++;
+	i = str.find('\r');
+	std::cout <<  j << std::endl;
+	std::cout << i << std::endl;
+	std::cout << std::string::npos << std::endl;
+	if (i != std::string::npos)
+	{
+		str = str.substr(j, i);
+	}
+	else
+	{
+		std::cout << "in" << std::endl;
+		str = str.substr(j);
+	}
+	int k = 0;
+	while (str[k])
+	{
+		printf("%d\n", str[k]);
+		k++;
+	}
+	return (str);
 }
 
 void	displayMessage(std::string color, std::string str)
@@ -111,11 +139,59 @@ std::string	prefix(User user)
 		+ "!" + user.getUsername() + "@localhost ";
 	return (str);
 }
-// CAP LS
-// PASS password
-// NICK chsimon
-// USER 1 2 3 :4
 
+std::string buildErrorMessage(int code, User *user, std::string cmd, std::string args)
+{
+	std::string			message;
+	std::string			code_str;
+	std::stringstream	ss;
 
-// JOIN #ok
+	ss << code;
+	ss >> code_str;
+
+	std::cout << "IN" << std::endl;
+	message = prefix(*user) + " " + code_str + " " + user->getNickname();
+	if (code == ERR_NEEDMOREPARAMS)
+		message += " " + cmd;
+	else if (args.length() != 0)
+		message += " " + args;
+	message += " :";
+	switch (code)
+	{
+		case ERR_NEEDMOREPARAMS:
+			message += "Not enough parameters";
+			break;
+
+		case ERR_NONICKNAMEGIVEN:
+			message += "No nickname given";
+			break;
+
+		default:
+			break;
+	}
+	std::cout << message << std::endl;
+	return (message);
+}
+
+size_t	countArgs(std::string args)
+{
+	size_t	count;
+	size_t	i;
+
+	i = 0;
+	if (args.length() == 0)
+		return (0);
+	count = 1;
+	while (args[i])
+	{
+		if (args[i] == ' ')
+		{
+			count++;
+			while (args[i] && args[i] == ' ')
+				i++;
+		}
+		i++;
+	}
+	return (count);
+}
 

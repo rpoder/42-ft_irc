@@ -6,7 +6,7 @@
 #    By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/20 21:14:29 by ronanpoder        #+#    #+#              #
-#    Updated: 2023/04/15 17:45:33 by rpoder           ###   ########.fr        #
+#    Updated: 2023/04/16 14:41:04 by rpoder           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,18 +18,17 @@ SRC			=	main.cpp \
 				src/Server.cpp \
 				src/User.cpp \
 				src/utils.cpp \
-				src/commands/join_cmd.cpp \
-				src/commands/nick_cmd.cpp \
-				src/commands/pass_cmd.cpp \
-				src/commands/user_cmd.cpp \
-				src/commands/ping_cmd.cpp \
+				src/commands/JOIN_cmd.cpp \
+				src/commands/NICK_cmd.cpp \
+				src/commands/PASS_cmd.cpp \
+				src/commands/USER_cmd.cpp \
+				src/commands/PING_cmd.cpp \
 
 OBJS_PATH	=	./obj/
 
 OBJS		=	$(addprefix $(OBJS_PATH), $(SRC:.cpp=.o))
 
 DEPS		=	$(OBJS:.o=.d)
-
 
 CXXFLAGS	=	-MMD -Wall -Wextra -Werror -std=c++98 -I ./includes
 

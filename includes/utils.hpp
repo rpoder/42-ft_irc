@@ -31,6 +31,10 @@ void		displayMessage(std::string color, std::string str, bool endl);
 
 int			checkPortNumber(std::string port);
 
+std::string		buildErrorMessage(int code, User *user, std::string cmd, std::string args);
+
 std::string	prefix(User user);
+
+size_t	countArgs(std::string args);
 
 #endif

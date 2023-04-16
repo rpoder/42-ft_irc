@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/16 12:23:59 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/16 17:29:39 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,11 @@ void	Server::handleSend(int client_fd, std::string message)
 
 void	Server::executeCommand(int client_fd, std::string input)
 {
-	int						separator_pos;
+	size_t						separator_pos;
 	std::string				line("");
 	std::stringstream		ss(input);
 	std::string				commandes[5] = {"NICK", "USER", "PASS", "JOIN", "PING"};
-	void	(Server::*ptr_f[5])(int client_fd, User *user, std::string args) = {&Server::nick_cmd, &Server::user_cmd, &Server::pass_cmd, &Server::join_cmd, &Server::ping_cmd};
+	void	(Server::*ptr_f[5])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd};
 	User					*user;
 
 	while (std::getline(ss, line))
@@ -111,7 +111,11 @@ void	Server::executeCommand(int client_fd, std::string input)
 		for (int i = 0; i < 5; i++)
 		{
 			if (commandes[i] == line.substr(0, separator_pos) && user) {
-				std::string args(line.substr(separator_pos + 1));
+				std::string args;
+				if (separator_pos == std::string::npos)
+					args = "";
+				else
+					args = line.substr(separator_pos);
 				(this->*(ptr_f[i]))(client_fd, user, trimArgs(args));
 				break ;
 			}
