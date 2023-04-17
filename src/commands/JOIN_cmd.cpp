@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 15:10:21 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/17 18:09:11 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,24 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 		it = _channels.find(args);
 		if (it == _channels.end())
 		{
-			newChannel.addOperator(user);
-			newChannel.addMember(user);
-			std::cout << "Membres new channel " << newChannel.listMembers() << std::endl;
+			// newChannel.addOperator(user);
+			// newChannel.addMember(user);
+			// std::cout << "Membres new channel " << newChannel.listMembers() << std::endl;
 			_channels[args] = newChannel;
 		}
-		else
-			it->second.addMember(user);
+		// else
+			// it->second.addMember(user);
 		it = _channels.find(args);
-		str = prefix(*user) + "353 " + user->getNickname() + " = " + args + " :@" + it->second.listMembers() + SUFFIX;
-		handleSend(client_fd, str);
-		str = prefix(*user) + "366 " + user->getNickname() + " " + args + " :End of /NAMES list" + SUFFIX;
-		handleSend(client_fd, str);
-		str = prefix(*user) + "JOIN :" + args + SUFFIX;
-		handleSend(client_fd, str);
-		str = prefix(*user) + "JOIN :" + args + SUFFIX;
-		for (std::vector<User*>::iterator ite = it->second._members.begin(); ite != it->second._members.end(); ite++)
-			handleSend((*ite)->getFd(), str);
+
+		// str = prefix(user) + "353 " + user->getNickname() + " = " + args + " :@" + it->second.listMembers() + SUFFIX;
+		// handleSend(client_fd, str);
+		// str = prefix(user) + "366 " + user->getNickname() + " " + args + " :End of /NAMES list" + SUFFIX;
+		// handleSend(client_fd, str);
+		// str = prefix(user) + "JOIN :" + args + SUFFIX;
+		// handleSend(client_fd, str);
+		// str = prefix(user) + "JOIN :" + args + SUFFIX;
+		// for (std::vector<User*>::iterator ite = it->second._members.begin(); ite != it->second._members.end(); ite++)
+		// 	handleSend((*ite)->getFd(), str);
 
 	}
 }

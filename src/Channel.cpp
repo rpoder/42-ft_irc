@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 15:09:20 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/17 17:05:24 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ Channel::Channel(std::string name):
 	_mode_k(false),
 	_mode_b(false),
 	_mode_o(false)
-{
-}
+{}
 
 Channel::Channel(const Channel &copy)
 {
@@ -31,9 +30,7 @@ Channel::Channel(const Channel &copy)
 //!-------------------------------DESTRUCTOR------------------------------------
 
 Channel::~Channel()
-{
-
-}
+{}
 
 //!-------------------------------OPERATOR--------------------------------------
 
@@ -45,26 +42,29 @@ Channel	&Channel::operator=(const Channel &copy)
 	_mode_b = copy._mode_b;
 	_mode_o = copy._mode_o;
 	_members = copy._members;
-	_operators = copy._operators;
+	// _operators = copy._operators;
 	return(*this);
 }
 
 //!-------------------------------ACCESSORS-------------------------------------
 
-
+std::string	Channel::getName() const
+{
+	return (_name);
+}
 
 //!-------------------------------FUNCTIONS-------------------------------------
 
-void	Channel::addMember(User *user)
+void	Channel::addMember(ChannelMember member)
 {
-	_members.push_back(user);
+	_members.push_back(member);
 }
 
-void	Channel::deleteMember(User *user)
+void	Channel::deleteMember(ChannelMember member)
 {
-	for (std::vector<User*>::iterator it = _members.begin(); it != _members.end(); it++)
+	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
     {
-        if (*it == user)
+        if (*it == member)
 		{
             it = _members.erase(it);
 			break ;
@@ -72,35 +72,18 @@ void	Channel::deleteMember(User *user)
     }
 }
 
-void	Channel::addOperator(User *user)
-{
-	_operators.push_back(user);
-}
+// std::string Channel::listMembers()
+// {
+// 	std::string list;
 
-void	Channel::deleteOperator(User *user)
-{
-	for (std::vector<User*>::iterator it = _operators.begin(); it != _operators.end(); it++)
-    {
-        if (*it == user)
-		{
-            it = _operators.erase(it);
-			break ;
-		}
-    }
-}
-
-std::string Channel::listMembers()
-{
-	std::string list;
-
-	for (std::vector<User*>::iterator it = _members.begin(); it != _members.end(); it++)
-	{
-		std::cout << "|" << (*it)->getNickname() << "|" << std::endl;
-		list += (*it)->getNickname() + " ";
-	}
-	std::cout << "list = |" << list << "|" << std::endl;
-	return (list);
-}
+// 	for (std::vector<User*>::iterator it = _members.begin(); it != _members.end(); it++)
+// 	{
+// 		std::cout << "|" << (*it)->getNickname() << "|" << std::endl;
+// 		list += (*it)->getNickname() + " ";
+// 	}
+// 	std::cout << "list = |" << list << "|" << std::endl;
+// 	return (list);
+// }
 
 // void	Channel::sendToAll(std::string message)
 // {

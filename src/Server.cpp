@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 15:41:33 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/17 17:20:04 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,6 @@ void	Server::handleNewConnection()
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, new_client_fd, &event_settings);
 
 	// create new empty user on map<fd, User>
-	new_user.setFd(new_client_fd);
 	_users[new_client_fd] = new_user;
 }
 
@@ -211,7 +210,7 @@ void	Server::handleRegistration(int client_fd)
 		user->setIsRegistered(true);
 		printUser(client_fd, *user);
 
-		message = prefix(*user) + "001 " + user->getNickname()
+		message = prefix(user) + "001 " + user->getNickname()
 		+ " :Welcome chez les petits poux " + user->getNickname()
 		+ "!" + user->getUsername() + "@localhost" + SUFFIX;
 		handleSend(client_fd, message);

@@ -6,7 +6,7 @@
 #    By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/20 21:14:29 by ronanpoder        #+#    #+#              #
-#    Updated: 2023/04/17 12:07:00 by rpoder           ###   ########.fr        #
+#    Updated: 2023/04/17 17:03:21 by rpoder           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ SRC			=	main.cpp \
 				src/Server.cpp \
 				src/User.cpp \
 				src/Channel.cpp \
+				src/ChannelMember.cpp \
 				src/utils.cpp \
+				src/replies.cpp \
 				src/commands/JOIN_cmd.cpp \
 				src/commands/NICK_cmd.cpp \
 				src/commands/PASS_cmd.cpp \

@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:49 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 12:12:15 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/17 17:13:25 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@
 # include	<sstream>
 # include	<map>
 
-# define FD_UNDEFINED -2
-
 class User
 {
 	public:
@@ -54,8 +52,6 @@ class User
 		std::string		getPassword() const;
 		void			setIsRegistered(bool is_registered);
 		bool			getIsRegistered() const;
-		void			setFd(int &fd);
-		int				getFd() const;
 
 	private:
 		bool		_is_registered;
@@ -63,7 +59,6 @@ class User
 		std::string _username;
 		std::string _raw_username;
 		std::string	_password;
-		int			_fd;
 };
 
 #endif

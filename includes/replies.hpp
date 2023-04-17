@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PING_cmd.cpp                                       :+:      :+:    :+:   */
+/*   replies.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 17:20:04 by rpoder           ###   ########.fr       */
+/*   Created: 2023/04/17 15:56:25 by rpoder            #+#    #+#             */
+/*   Updated: 2023/04/17 16:20:42 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
 
-void	Server::PING_cmd(int client_fd, User *user, std::string args)
-{
-	std::string message;
+#ifndef REPLIES_HPP
+# define REPLIES_HPP
 
-	displayMessage("orange", "[PING_cmd function called]");
-	message = prefix(user) + "PONG :" + args + SUFFIX;
-	handleSend(client_fd, message);
+# include <iostream>
+# include "User.hpp"
+# include "utils.hpp"
+# include "Server.hpp"
 
-}
+std::string	RPL_NAMREPLY(User user, char *topic);
+
+
+#endif

@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:35:51 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 12:14:25 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/17 17:15:17 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ User::User():
 	_is_registered(false),
 	_nickname(""),
 	_username(""),
-	_password(""),
-	_fd(FD_UNDEFINED)
+	_password("")
 {}
 
 User::User(const User &copy)
@@ -40,7 +39,6 @@ User	&User::operator=(const User &copy)
 	_username = copy._username;
 	_password = copy._password;
 	_is_registered = copy._is_registered;
-	_fd = copy._fd;
 	return (*this);
 }
 
@@ -101,16 +99,6 @@ bool	User::getIsRegistered() const
 void	User::setIsRegistered(bool is_registered)
 {
 	_is_registered = is_registered;
-}
-
-void	User::setFd(int &fd)
-{
-	_fd = fd;
-}
-
-int		User::getFd() const
-{
-	return (_fd);
 }
 
 //!-------------------------------FUNCTIONS-------------------------------------

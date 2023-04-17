@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 15:41:24 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/17 17:20:04 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 	}
 	if (previous_nickName.length() > 0)
 	{
-		message = prefix(*user) + "NICK :" + args + SUFFIX;
+		message = prefix(user) + "NICK :" + args + SUFFIX;
 		user->setNickname(args);
 		handleSend(client_fd, message);
 	}

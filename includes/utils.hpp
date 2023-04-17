@@ -24,17 +24,17 @@ void	    executeCommand(std::string cmd, int client_fd);
 
 void	    printUser(int fd, User &user);
 
-std::string	trimArgs(std::string str);
+std::string		trimArgs(std::string str);
 
-void		displayMessage(std::string color, std::string str);
-void		displayMessage(std::string color, std::string str, bool endl);
+void			displayMessage(std::string color, std::string str);
+void			displayMessage(std::string color, std::string str, bool endl);
 
-int			checkPortNumber(std::string port);
+int				checkPortNumber(std::string port);
 
 std::string		buildErrorMessage(int code, User *user, std::string cmd, std::string args);
 
-std::string	prefix(User user);
+std::string		prefix(User *user);
 
-size_t	countArgs(std::string args);
+size_t			countArgs(std::string args);
 
 #endif
