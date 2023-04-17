@@ -91,6 +91,10 @@ KICK
 		:rpoder!1@localhost 482 rpoder #coucou :You're not channel operator
 
 PART - Ronan
+	PART
+	PART #hey
+	PART #hey,coucou
+
 	(JOIN #test) -- > message normal quand aucune erreur
 		:caubry!1@localhost PART #test
 
@@ -155,7 +159,7 @@ NOTICE
 
 
 MARGOT
-NICK : 
+NICK :
 - si deux mots ? (Shibrc pas d'erreur et ne retient que le premier)
 
 

@@ -6,7 +6,7 @@
 #    By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/20 21:14:29 by ronanpoder        #+#    #+#              #
-#    Updated: 2023/04/17 17:03:21 by rpoder           ###   ########.fr        #
+#    Updated: 2023/04/17 19:48:08 by rpoder           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC			=	main.cpp \
 				src/commands/PASS_cmd.cpp \
 				src/commands/USER_cmd.cpp \
 				src/commands/PING_cmd.cpp \
+				src/commands/PART_cmd.cpp \
 
 OBJS_PATH	=	./obj/
 
