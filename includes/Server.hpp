@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/16 14:42:18 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/17 13:10:51 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include	"User.hpp"
 # include	"utils.hpp"
 # include	"errors.hpp"
+# include	"Channel.hpp"
 
 # define	PORT_MIN			1024
 # define	PORT_MAX			65535
@@ -91,11 +92,12 @@ class Server
 
 		std::map<int, User>	_users;
 
-		int			_port;
-		t_addrinfo	*_serv_info;
-		int			_server_fd;
-		int			_epoll_fd;
-		std::string	_password;
+		int								_port;
+		t_addrinfo						*_serv_info;
+		int								_server_fd;
+		int								_epoll_fd;
+		std::string						_password;
+		std::map<std::string, Channel> 	_channels;
 
 };
 

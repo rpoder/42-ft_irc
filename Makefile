@@ -6,7 +6,7 @@
 #    By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/20 21:14:29 by ronanpoder        #+#    #+#              #
-#    Updated: 2023/04/16 14:41:04 by rpoder           ###   ########.fr        #
+#    Updated: 2023/04/17 12:07:00 by rpoder           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CXX			=	c++
 SRC			=	main.cpp \
 				src/Server.cpp \
 				src/User.cpp \
+				src/Channel.cpp \
 				src/utils.cpp \
 				src/commands/JOIN_cmd.cpp \
 				src/commands/NICK_cmd.cpp \

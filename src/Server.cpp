@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/16 17:37:54 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/17 12:13:28 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ void	Server::handleNewConnection()
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, new_client_fd, &event_settings);
 
 	// create new empty user on map<fd, User>
+	new_user.setFd(new_client_fd);
 	_users[new_client_fd] = new_user;
 }
 
