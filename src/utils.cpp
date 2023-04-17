@@ -129,7 +129,7 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 	ss >> code_str;
 
 	std::cout << "IN" << std::endl;
-	message = prefix(*user) + " " + code_str + " " + user->getNickname();
+	message = prefix(*user) + code_str + " " + user->getNickname();
 	if (code == ERR_NEEDMOREPARAMS)
 		message += " " + cmd;
 	else if (args.length() != 0)
@@ -139,10 +139,17 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 	{
 		case ERR_NEEDMOREPARAMS:
 			message += "Not enough parameters";
+			message += SUFFIX;
 			break;
 
 		case ERR_NONICKNAMEGIVEN:
-			message += "No nickname given";
+			message += "No nickname given"; 
+			message += SUFFIX;
+			break;
+		
+		case ERR_NICKNAMEINUSE:
+			message += "Nickname is already in use"; 
+			message += SUFFIX;
 			break;
 
 		default:

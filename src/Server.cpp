@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 14:06:41 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/17 15:41:33 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,13 @@ void	Server::handleSend(int client_fd, std::string message)
 
 void	Server::executeCommand(int client_fd, std::string input)
 {
-	size_t						separator_pos;
+	size_t					separator_pos;
 	std::string				line("");
 	std::stringstream		ss(input);
 	std::string				commandes[5] = {"NICK", "USER", "PASS", "JOIN", "PING"};
 	void	(Server::*ptr_f[5])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd};
 	User					*user;
+	std::string 			args;
 
 	while (std::getline(ss, line))
 	{
@@ -110,13 +111,15 @@ void	Server::executeCommand(int client_fd, std::string input)
 		separator_pos = line.find(" ");
 		for (int i = 0; i < 5; i++)
 		{
-			if (commandes[i] == line.substr(0, separator_pos) && user) {
-				std::string args;
+			if (commandes[i] == line.substr(0, separator_pos) && user)
+			{
+				while (line[separator_pos] && line[separator_pos] == ' ')
+					separator_pos++;
 				if (separator_pos == std::string::npos)
 					args = "";
 				else
-					args = line.substr(separator_pos);
-				(this->*(ptr_f[i]))(client_fd, user, trimArgs(args));
+					args = trimArgs(line.substr(separator_pos));
+				(this->*(ptr_f[i]))(client_fd, user, args);
 				break ;
 			}
 		}
@@ -181,7 +184,6 @@ void	Server::handleInput(int client_fd, char *input)
 
 	dup = strdup(input);
 	std::string	input_str(dup);
-	std::string str;
 
 	std::cout << "input: " << input_str ;
 	executeCommand(client_fd, input_str);
