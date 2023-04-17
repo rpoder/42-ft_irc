@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 11:39:30 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/17 15:41:33 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ void	Server::executeCommand(int client_fd, std::string input)
 		separator_pos = line.find(" ");
 		for (int i = 0; i < 5; i++)
 		{
-			if (commandes[i] == line.substr(0, separator_pos) && user) 
-			{	
+			if (commandes[i] == line.substr(0, separator_pos) && user)
+			{
 				while (line[separator_pos] && line[separator_pos] == ' ')
 					separator_pos++;
 				if (separator_pos == std::string::npos)
@@ -164,6 +164,7 @@ void	Server::handleNewConnection()
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, new_client_fd, &event_settings);
 
 	// create new empty user on map<fd, User>
+	new_user.setFd(new_client_fd);
 	_users[new_client_fd] = new_user;
 }
 

@@ -40,9 +40,10 @@ std::string	trimArgs(std::string str)
 	j = 0;
 	while (str[j] && str[j] == ' ')
 		j++;
+	str = str.substr(j);
 	i = str.find('\r');
 	if (str[i])
-	str = str.substr(j, i - j);
+		str = str.substr(0, i);
 	return (str);
 }
 

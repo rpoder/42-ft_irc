@@ -45,7 +45,7 @@ JOIN
 		:caubry!1@localhost 475 caubry #test :Cannot join channel (+k)
 
 
-MODE w/ options
+MODE w/ options ( +b, +k, +o )
 
 	ERR_NEEDMOREPARAMS (461)
 		:caubry!1@localhost 461 caubry MODE :Not enough parameters
