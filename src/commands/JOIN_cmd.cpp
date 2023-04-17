@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 18:09:11 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/17 18:46:20 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,56 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 	(void) client_fd;
 	std::string str;
 	std::map<std::string, Channel>::iterator it;
-	Channel newChannel(args);
+	std::string name(args);
 
 	displayMessage("orange", "[JOIN_cmd function called]");
 
-	if (args[0] != '#')
+	if (name[0] != '#')
 		handleSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "JOIN", ""));
 	else
 	{
-		it = _channels.find(args);
+		it = _channels.find(name);
+		// Si le channel n'existe pas, le channel doit etre cree, le membre doit etre cree
 		if (it == _channels.end())
 		{
-			// newChannel.addOperator(user);
-			// newChannel.addMember(user);
+			Channel 		newChannel(name);
+			ChannelMember	newChannelMember(user, true, client_fd);
+			
+			newChannel.addMember(newChannelMember);
+			_channels[name] = newChannel;
+			handleSend(client_fd, RPL_NAMREPLY(newChannelMember, newChannel));
 			// std::cout << "Membres new channel " << newChannel.listMembers() << std::endl;
-			_channels[args] = newChannel;
 		}
-		// else
-			// it->second.addMember(user);
-		it = _channels.find(args);
+		else if (it != _channels.end() && it->second.findMember(*user) == NULL) // Si le channel existe mais aque le user n'a jamais join le channel
+		{
+			ChannelMember	newChannelMember(user, false, client_fd);
+			
+			it->second.addMember(newChannelMember);
+		}
+		else // le channel existe, mais le user est deja membre
+		{
+			ChannelMember	*member;
 
-		// str = prefix(user) + "353 " + user->getNickname() + " = " + args + " :@" + it->second.listMembers() + SUFFIX;
-		// handleSend(client_fd, str);
+			member = it->second.findMember(*user);
+
+			member->setIsOnline(true);
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+			// it->second.addMember(user);
+
 		// str = prefix(user) + "366 " + user->getNickname() + " " + args + " :End of /NAMES list" + SUFFIX;
 		// handleSend(client_fd, str);
 		// str = prefix(user) + "JOIN :" + args + SUFFIX;

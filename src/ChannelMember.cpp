@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelMember.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:41:58 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 17:30:38 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/17 18:40:21 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 ChannelMember::ChannelMember(User *user, bool is_op, int fd):
 	_fd(fd),
-	_online(true),
+	_is_online(true),
 	_is_operator(is_op),
 	_is_banned(false),
 	_user(user)
@@ -36,7 +36,7 @@ ChannelMember::~ChannelMember()
 
 ChannelMember	&ChannelMember::operator=(const ChannelMember &copy)
 {
-	_online = copy._online;
+	_is_online = copy._is_online;
 	_is_operator = copy._is_operator;
 	_is_banned = copy._is_banned;
 	_user = copy._user;
@@ -62,5 +62,9 @@ bool	ChannelMember::isOperator() const
 	return (_is_operator);
 }
 
+void	ChannelMember::setIsOnline(bool is_online)
+{
+	_is_online = is_online;
+}
 
 //!-------------------------------FUNCTIONS-------------------------------------

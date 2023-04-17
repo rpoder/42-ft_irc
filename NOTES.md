@@ -9,8 +9,8 @@ TODO
 cmds:
 
 
-Margot
-NICK
+
+NICK - Margot
 <!-- ok -->
 	431 ERR_NONICKNAMEGIVEN
 		:rpoder!1@localhost 431 rpoder :No nickname given
@@ -18,19 +18,19 @@ NICK
 	ERR_NICKNAMEINUSE (433)
 		:rpoder!1@localhost 433 rpoder rpoder :Nickname is already in use
 
-Margot
-USER
+
+USER - Margot
 	ERR_NEEDMOREPARAMS (461)
 		:rpoder!1@localhost 461 rpoder USER :Not enough parameters
 
 	ERR_ALREADYREGISTRED (462)
 		:rpoder!1@localhost 462 rpoder :You may not reregister
 
-PASS
+PASS - Margot
 	ERR_NEEDMOREPARAMS (461)
 		: 461 *  :Not enough parameters
 
-JOIN
+JOIN - Chloé
 	(JOIN #test) -- > message normal quand aucune erreur
 		:caubry!1@localhost 353 caubry = #test :@caubry
 		:caubry!1@localhost 366 caubry #test :End of /NAMES list
@@ -90,7 +90,7 @@ KICK
 	ERR_CHANOPRIVSNEEDED (482)
 		:rpoder!1@localhost 482 rpoder #coucou :You're not channel operator
 
-PART
+PART - Ronan
 	(JOIN #test) -- > message normal quand aucune erreur
 		:caubry!1@localhost PART #test
 

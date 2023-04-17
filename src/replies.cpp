@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:07:01 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 18:06:23 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/17 18:50:14 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ std::string	RPL_NAMREPLY(ChannelMember &member, Channel &channel)
 	User		*user;
 
 	user = member.getUser();
-	message = prefix(user) + " 353 " + user->getNickname() + " = " + channel.getName() + " ";
+	message = prefix(user) + "353 " + user->getNickname() + " = " + channel.getName() + " :";
 	for (std::vector<ChannelMember>::iterator it = channel._members.begin(); it != channel._members.end(); it++)
 	{
 		if (it->isOperator() == true)
@@ -29,5 +29,6 @@ std::string	RPL_NAMREPLY(ChannelMember &member, Channel &channel)
 		if (it->isOperator() == false)
 			message +=  it->getUser()->getNickname() + " ";
 	}
+	message += SUFFIX;
 	return (message);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 17:05:24 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/17 18:41:17 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,16 @@ void	Channel::deleteMember(ChannelMember member)
 			break ;
 		}
     }
+}
+
+ChannelMember	*Channel::findMember(User &user)
+{
+	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
+	{
+		if (*(it->getUser()) == user)
+			return (&(*it));
+	}
+	return (NULL);
 }
 
 // std::string Channel::listMembers()
