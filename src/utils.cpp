@@ -37,7 +37,6 @@ std::string	trimArgs(std::string str)
 	size_t	i;
 	size_t	j;
 
-	std::cout << "In trim args" << std::endl;
 	j = 0;
 	while (str[j] && str[j] == ' ')
 		j++;

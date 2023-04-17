@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 13:10:51 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/17 13:47:19 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,14 @@ class Server
 		void	JOIN_cmd(int client_fd, User *user, std::string args);
 		void	PING_cmd(int client_fd, User *user, std::string args);
 
-		std::map<int, User>	_users;
+		std::map<int, User>				_users;
+		std::map<std::string, Channel> 	_channels;
 
 		int								_port;
 		t_addrinfo						*_serv_info;
 		int								_server_fd;
 		int								_epoll_fd;
 		std::string						_password;
-		std::map<std::string, Channel> 	_channels;
 
 };
 
