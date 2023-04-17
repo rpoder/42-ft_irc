@@ -8,11 +8,13 @@ qui trigger le epoll_wait -->
 TODO
 cmds:
 
+
 Margot
 NICK
+<!-- ok -->
 	431 ERR_NONICKNAMEGIVEN
 		:rpoder!1@localhost 431 rpoder :No nickname given
-
+<!-- ok -->
 	ERR_NICKNAMEINUSE (433)
 		:rpoder!1@localhost 433 rpoder rpoder :Nickname is already in use
 
@@ -152,7 +154,9 @@ NOTICE
 
 
 
-
+MARGOT
+NICK : 
+- si deux mots ? (Shibrc pas d'erreur et ne retient que le premier)
 
 
 
