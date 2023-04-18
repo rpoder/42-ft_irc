@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 18:41:17 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/18 12:25:04 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,6 @@ ChannelMember	*Channel::findMember(User &user)
 
 // void	Channel::sendToAll(std::string message)
 // {
-// 	for (std::vector<User*>::iterator it = _members.begin(); it != _members.end(); it++)
-// 		handleSend((*it)->getFd(), message);
+// 	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
+// 			handleSend((*it).getFd(), message);
 // }
