@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: parallels <parallels@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:22:04 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 20:11:06 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/19 13:45:24 by parallels        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ int main (int argc, char **argv)
 	(void) argc;
 	(void) argv;
 
-	PART_cmd(0, NULL, "#hey,coucou,toz");
+	PART_cmd(0, NULL, "#hello,coucou,toz,hey");
 	return (0);
 }

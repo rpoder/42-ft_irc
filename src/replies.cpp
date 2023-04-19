@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: parallels <parallels@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:07:01 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 18:50:14 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/19 14:44:28 by parallels        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,9 @@ std::string	RPL_NAMREPLY(ChannelMember &member, Channel &channel)
 	}
 	message += SUFFIX;
 	return (message);
+}
+
+std::string RPL_JOIN(ChannelMember &member, Channel &channel)
+{
+	return (prefix(user = member.getUser() <>?>+{-_});
 }
