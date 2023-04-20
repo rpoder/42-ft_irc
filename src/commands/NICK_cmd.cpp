@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NICK_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 17:20:04 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/19 16:08:21 by margot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,30 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 {
 	displayMessage("orange", "[NICK_cmd function called]");
 
-	std::string	previous_nickName;
-	std::string	message;
-	std::map<int, User>::iterator it;
+	std::string						previous_nickName;
+	std::string						message;
+	int								nb_args;
+	std::map<int, User>::iterator	it;
 
-	if (countArgs(args) < 1)
+	nb_args = countArgs(args);
+	if (nb_args != 1)
 	{
-		handleSend(client_fd, buildErrorMessage(ERR_NONICKNAMEGIVEN, user, "NICK", ""));
-		return ;
+		if (nb_args < 1)
+		{
+			handleSend(client_fd, buildErrorMessage(ERR_NONICKNAMEGIVEN, user, "NICK", ""));
+			return ;
+		}
+		else
+			args = args.substr(0, args.find(" "));
 	}
 	previous_nickName = user->getNickname();
-	for (it = _users.begin(); it != _users.end(); it ++)
+	if (previous_nickName.length() == 0)
+				previous_nickName = '*';
+	for (it = _users.begin(); it != _users.end(); it++)
 	{
 		if (it->second.getNickname().compare(args) == 0)
 		{
-			if (previous_nickName.length() == 0)
-				previous_nickName = '*';
 			handleSend(client_fd, buildErrorMessage(ERR_NICKNAMEINUSE, user, "NICK", ""));
-			// throw (std::exception());
 			return ;
 		}
 	}
@@ -46,5 +52,6 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 	else
 	{
 		user->setNickname(args);
+		//std::cout << "nicknqme set to " << user->getNickname() << std::endl;
 	}
 }

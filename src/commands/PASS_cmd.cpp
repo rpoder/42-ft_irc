@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PASS_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/16 14:42:08 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/19 16:17:53 by margot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,15 @@
 
 void	Server::PASS_cmd(int client_fd, User *user, std::string args)
 {
-	(void) client_fd;
 	displayMessage("orange", "[PASS_cmd function called]");
 
+	int	nb_args;
+
+	nb_args = countArgs(args);
+	if (nb_args < 1)
+	{
+		handleSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "PASS", ""));
+			return ;
+	}
 	user->setPassword(args);
 }

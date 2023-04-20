@@ -8,8 +8,6 @@ qui trigger le epoll_wait -->
 TODO
 cmds:
 
-
-
 NICK - Margot
 <!-- ok -->
 	431 ERR_NONICKNAMEGIVEN
@@ -20,13 +18,15 @@ NICK - Margot
 
 
 USER - Margot
+<!-- ok -->
 	ERR_NEEDMOREPARAMS (461)
 		:rpoder!1@localhost 461 rpoder USER :Not enough parameters
-
+<!-- ok -->
 	ERR_ALREADYREGISTRED (462)
 		:rpoder!1@localhost 462 rpoder :You may not reregister
 
 PASS - Margot
+<!-- ok -->
 	ERR_NEEDMOREPARAMS (461)
 		: 461 *  :Not enough parameters
 
@@ -96,6 +96,7 @@ PART - Ronan
 	PART #hey,coucou
 
 	(JOIN #test) -- > message normal quand aucune erreur
+	(PART #test) -- > message normal quand aucune erreur
 		:caubry!1@localhost PART #test
 
 	ERR_NEEDMOREPARAMS (461)
@@ -136,6 +137,10 @@ INVITE
 <!-- NAMES
 	RPL_NAMREPLY (353), RPL_ENDOFNAMES (366) -->
 PRIVMSG
+
+	QUand aucune erreur a envoyer a tous les fd membres sauf celui actuel :
+		:mpou!1@localhost PRIVMSG #chan :test
+
 	ERR_NEEDMOREPARAMS (461)
 		:mpourrey!1@localhost 411 mpourrey :No recipient given ()
 		:mpourrey!1@localhost 412 mpourrey :No text to send

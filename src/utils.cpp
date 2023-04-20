@@ -32,7 +32,7 @@ void	printUser(int fd, User &user)
 
 }
 
-std::string	trimArgs(std::string str)
+std::string	trimInput(std::string str)
 {
 	size_t	i;
 	size_t	j;
@@ -152,6 +152,11 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 			message += SUFFIX;
 			break;
 
+		case ERR_ALREADYREGISTRED:
+			message += "You may not reregister";
+			message += SUFFIX;
+			break;
+
 		default:
 			break;
 	}
@@ -159,8 +164,8 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 	return (message);
 }
 
-size_t	countArgs(std::string args)
-{
+size_t	countArgs(std::string args) // use st::count (return un std::string::difference_type)
+{	
 	size_t	count;
 	size_t	i;
 
@@ -181,3 +186,24 @@ size_t	countArgs(std::string args)
 	return (count);
 }
 
+std::string	trimArgsNb(std::string args, int nb)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 1;
+	while(count <= nb)
+	{
+		if (args[i] == ' ')
+		{
+			count++;
+			if (count == nb)
+				break;
+			while (args[i] && args[i] == ' ')
+				i++;
+		}
+		i++;
+	}
+	return (args.substr(0, i));
+}

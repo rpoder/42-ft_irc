@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ronanpoder <ronanpoder@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 19:47:05 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/20 13:24:22 by ronanpoder       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@
 # include	<sstream>
 # include	<cstring>
 # include	<map>
+# include	<algorithm>
 # include	"User.hpp"
 # include	"utils.hpp"
 # include	"errors.hpp"
 # include	"Channel.hpp"
 # include	"replies.hpp"
+
 
 # define	PORT_MIN			1024
 # define	PORT_MAX			65535
@@ -93,6 +95,9 @@ class Server
 		void	PASS_cmd(int client_fd, User *user, std::string args);
 		void	JOIN_cmd(int client_fd, User *user, std::string args);
 		void	PING_cmd(int client_fd, User *user, std::string args);
+		void	PART_cmd(int client_fd, User *user, std::string args);
+
+		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
 
 		std::map<int, User>				_users;
 		std::map<std::string, Channel>	_channels;

@@ -24,7 +24,7 @@ void	    executeCommand(std::string cmd, int client_fd);
 
 void	    printUser(int fd, User &user);
 
-std::string		trimArgs(std::string str);
+std::string		trimInput(std::string str);
 
 void			displayMessage(std::string color, std::string str);
 void			displayMessage(std::string color, std::string str, bool endl);
@@ -36,5 +36,7 @@ std::string		buildErrorMessage(int code, User *user, std::string cmd, std::strin
 std::string		prefix(User *user);
 
 size_t			countArgs(std::string args);
+std::string		trimArgsNb(std::string args, int nb);
+
 
 #endif
