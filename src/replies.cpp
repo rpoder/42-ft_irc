@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:07:01 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 18:50:14 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/18 11:47:49 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,25 @@ std::string	RPL_NAMREPLY(ChannelMember &member, Channel &channel)
 			message +=  it->getUser()->getNickname() + " ";
 	}
 	message += SUFFIX;
+	return (message);
+}
+
+std::string RPL_ENDOFNAMES(ChannelMember &member, Channel &channel)
+{
+	std::string message;
+	User		*user;
+
+	user = member.getUser();
+	message = prefix(user) + "366 " + user->getNickname() + " " + channel.getName() + " :End of /NAMES list" + SUFFIX;
+	return (message);
+}
+
+std::string RPL_JOIN(ChannelMember &member, Channel &channel)
+{
+	std::string message;
+	User		*user;
+
+	user = member.getUser();
+	message = prefix(user) + "JOIN :" + channel.getName() + SUFFIX;
 	return (message);
 }

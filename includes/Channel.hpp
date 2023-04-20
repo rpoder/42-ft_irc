@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 18:41:29 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/18 12:25:10 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class Channel
 		void				addMember(ChannelMember member);
 		void				deleteMember(ChannelMember member);
 		// std::string			listMembers();
-		void				sendToAll(std::string message);
+		// void				sendToAll(std::string message);
 		ChannelMember		*findMember(User &user);
 
 		std::string			getName() const;

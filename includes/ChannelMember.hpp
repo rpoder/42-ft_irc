@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelMember.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:41:33 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 18:40:09 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/18 12:21:25 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class ChannelMember
 		User			*getUser() const;
 		bool			isOperator() const;
 		void			setIsOnline(bool is_online);
+		int				getFd();
 
 
 	private:

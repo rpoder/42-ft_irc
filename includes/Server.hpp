@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ronanpoder <ronanpoder@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/19 15:02:18 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/20 13:21:52 by ronanpoder       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,9 @@ class Server
 		void	PASS_cmd(int client_fd, User *user, std::string args);
 		void	JOIN_cmd(int client_fd, User *user, std::string args);
 		void	PING_cmd(int client_fd, User *user, std::string args);
+		void	PART_cmd(int client_fd, User *user, std::string args);
+
+		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
 
 		std::map<int, User>				_users;
 		std::map<std::string, Channel> 	_channels;
