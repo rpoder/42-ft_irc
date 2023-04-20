@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 18:44:39 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/18 13:00:45 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,11 @@ void	Server::handleSend(int client_fd, std::string message)
 	{
 		message = message.substr(bytes_sent, message.length() - bytes_sent);
 		bytes_sent = send(client_fd, message.c_str(), message.length(), 0);
+		if (bytes_sent == static_cast<size_t>(-1))
+		{
+			perror("erreur send :");
+			break;
+		}
 	} while (bytes_sent != 0);
 
 	settings.events = EPOLLIN;
@@ -100,8 +105,8 @@ void	Server::executeCommand(int client_fd, std::string input)
 	size_t					separator_pos;
 	std::string				line("");
 	std::stringstream		ss(input);
-	std::string				commandes[5] = {"NICK", "USER", "PASS", "JOIN", "PING"};
-	void	(Server::*ptr_f[5])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd};
+	std::string				commandes[6] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART"};
+	void	(Server::*ptr_f[6])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd};
 	User					*user;
 	std::string 			args;
 
@@ -109,7 +114,7 @@ void	Server::executeCommand(int client_fd, std::string input)
 	{
 		user = findUser(client_fd);
 		separator_pos = line.find(" ");
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			if (commandes[i] == line.substr(0, separator_pos) && user)
 			{
