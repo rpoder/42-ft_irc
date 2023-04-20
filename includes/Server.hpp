@@ -6,7 +6,7 @@
 /*   By: ronanpoder <ronanpoder@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 13:21:52 by ronanpoder       ###   ########.fr       */
+/*   Updated: 2023/04/20 13:24:22 by ronanpoder       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ class Server
 			private:
 				char	*_message;
 		};
+		void	PART_cmd(int client_fd, User *user, std::string args);
+
 
 	private:
 		Server();
@@ -85,6 +87,7 @@ class Server
 		void	handleRegistration(int client_fd);
 		User	*findUser(int fd);
 		void	handleSend(int client_fd, std::string message);
+		Channel	*findChannel(std::string &name);
 
 		void	executeCommand(int client_fd, std::string input);
 		void	USER_cmd(int client_fd, User *user, std::string args);
@@ -97,7 +100,7 @@ class Server
 		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
 
 		std::map<int, User>				_users;
-		std::map<std::string, Channel> 	_channels;
+		std::map<std::string, Channel>	_channels;
 
 		int								_port;
 		t_addrinfo						*_serv_info;

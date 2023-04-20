@@ -6,7 +6,7 @@
 /*   By: ronanpoder <ronanpoder@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 13:21:35 by ronanpoder       ###   ########.fr       */
+/*   Updated: 2023/04/20 13:25:18 by ronanpoder       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,16 @@ User	*Server::findUser(int fd)
 
 	it = _users.find(fd);
 	if (it == _users.end())
+		return (NULL);
+	return (&(it->second));
+}
+
+Channel	*Server::findChannel(std::string &name)
+{
+	std::map<std::string, Channel>::iterator	it;
+
+	it = _channels.find(name);
+	if (it == _channels.end())
 		return (NULL);
 	return (&(it->second));
 }

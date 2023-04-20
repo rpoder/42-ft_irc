@@ -28,6 +28,7 @@ class Channel
 		~Channel();
 
 		Channel	&operator=(const Channel &copy);
+		bool	operator==(const Channel &rhs);
 
 		void				addMember(ChannelMember member);
 		void				deleteMember(ChannelMember member);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ronanpoder <ronanpoder@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:07:01 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/18 11:47:49 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/20 13:24:42 by ronanpoder       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ std::string	RPL_NAMREPLY(ChannelMember &member, Channel &channel)
 	}
 	message += SUFFIX;
 	return (message);
+}
+
+std::string RPL_PART(User *user, Channel *channel)
+{
+	return (prefix(user) + " PART " + channel->getName());
 }
 
 std::string RPL_ENDOFNAMES(ChannelMember &member, Channel &channel)

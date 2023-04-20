@@ -91,6 +91,11 @@ KICK
 		:rpoder!1@localhost 482 rpoder #coucou :You're not channel operator
 
 PART - Ronan
+	PART
+	PART #hey
+	PART #hey,coucou
+
+	(JOIN #test) -- > message normal quand aucune erreur
 	(PART #test) -- > message normal quand aucune erreur
 		:caubry!1@localhost PART #test
 
@@ -135,7 +140,7 @@ PRIVMSG
 
 	QUand aucune erreur a envoyer a tous les fd membres sauf celui actuel :
 		:mpou!1@localhost PRIVMSG #chan :test
-	
+
 	ERR_NEEDMOREPARAMS (461)
 		:mpourrey!1@localhost 411 mpourrey :No recipient given ()
 		:mpourrey!1@localhost 412 mpourrey :No text to send
@@ -159,7 +164,7 @@ NOTICE
 
 
 MARGOT
-NICK : 
+NICK :
 - si deux mots ? (Shibrc pas d'erreur et ne retient que le premier)
 
 
