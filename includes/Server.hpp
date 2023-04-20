@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ronanpoder <ronanpoder@student.42.fr>      +#+  +:+       +#+        */
+/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 13:24:22 by ronanpoder       ###   ########.fr       */
+/*   Updated: 2023/04/20 15:22:22 by margot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ class Server
 			private:
 				char	*_message;
 		};
-		void	PART_cmd(int client_fd, User *user, std::string args);
 
+		void	handleSend(int client_fd, std::string message);
 
 	private:
 		Server();
@@ -86,7 +86,6 @@ class Server
 		void	handleInput(int client_fd, char *input);
 		void	handleRegistration(int client_fd);
 		User	*findUser(int fd);
-		void	handleSend(int client_fd, std::string message);
 		Channel	*findChannel(std::string &name);
 
 		void	executeCommand(int client_fd, std::string input);

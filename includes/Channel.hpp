@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/18 12:25:10 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/20 17:56:04 by margot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@
 # include <vector>
 # include "User.hpp"
 # include "ChannelMember.hpp"
+# include "Server.hpp"
 
 class Server;
 
 class Channel
 {
 	public:
-		// Channel();
-		Channel(std::string name = "");
+		Channel();
+		Channel(Server *server_instance, std::string name);
 		Channel(const Channel &copy);
 		~Channel();
 
@@ -33,7 +34,8 @@ class Channel
 		void				addMember(ChannelMember member);
 		void				deleteMember(ChannelMember member);
 		// std::string			listMembers();
-		// void				sendToAll(std::string message);
+		void				sendToAll(std::string message, void (Server::*sendMethod)(int, std::string));
+		void				sendToAll(std::string message);
 		ChannelMember		*findMember(User &user);
 
 		std::string			getName() const;
@@ -48,6 +50,7 @@ class Channel
 		bool		_mode_k;
 		bool		_mode_b;
 		bool		_mode_o;
+		Server		*_server_instance;
 		// std::vector<User*>	_operators;
 };
 

@@ -6,7 +6,7 @@
 /*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/19 16:07:14 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/20 15:46:17 by margot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ void	Server::USER_cmd(int client_fd, User *user, std::string args)
 	}
 	space_pos = args.find(" ");
 	user_name = args.substr(0, space_pos);
-	for (it = _users.begin(); it != _users.end(); it++)
+/* 	for (it = _users.begin(); it != _users.end(); it++)
 	{
 		if (it->second.getUsername().compare(user_name) == 0)
 		{
 			handleSend(client_fd, buildErrorMessage(ERR_ALREADYREGISTRED, user, "USER", ""));
 			return ;
 		}
-	}
+	} */
 	user->setRawUsername(args);
 	user->setUsername(user_name);	
 	

@@ -99,10 +99,10 @@ PART - Ronan
 	(PART #test) -- > message normal quand aucune erreur
 		:caubry!1@localhost PART #test
 
-	ERR_NEEDMOREPARAMS (461)
+	ERR_NEEDMOREPARAMS (461) ok
 		:caubry!1@localhost 461 caubry PART :Not enough parameters
 
-	ERR_NOSUCHCHANNEL (403)
+	ERR_NOSUCHCHANNEL (403) ok
 		:caubry!1@localhost 403 caubry #ok :No such channel
 
 	ERR_NOTONCHANNEL (442)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/18 14:08:40 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/20 15:26:52 by margot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 			// Si le channel n'existe pas, le channel doit etre cree, le membre doit etre cree
 			if (it == _channels.end())
 			{
-				Channel 		newChannel(name);
+				Channel 		newChannel(this, name);
 				ChannelMember	newChannelMember(user, true, client_fd);
 				
 				newChannel.addMember(newChannelMember);

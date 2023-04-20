@@ -139,27 +139,31 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 	{
 		case ERR_NEEDMOREPARAMS:
 			message += "Not enough parameters";
-			message += SUFFIX;
-			break;
+			break ;
 
 		case ERR_NONICKNAMEGIVEN:
 			message += "No nickname given";
-			message += SUFFIX;
-			break;
+			break ;
 
 		case ERR_NICKNAMEINUSE:
 			message += "Nickname is already in use";
-			message += SUFFIX;
-			break;
+			break ;
 
 		case ERR_ALREADYREGISTRED:
 			message += "You may not reregister";
-			message += SUFFIX;
-			break;
+			break ;
+
+		case ERR_NOSUCHCHANNEL:
+			message += "No such channel";
+			break ;
+
+		case ERR_NOTONCHANNEL:
+			message += "Not on channel";
 
 		default:
-			break;
+			break ;
 	}
+	message += SUFFIX;
 	std::cout << message << std::endl;
 	return (message);
 }
@@ -206,4 +210,18 @@ std::string	trimArgsNb(std::string args, int nb)
 		i++;
 	}
 	return (args.substr(0, i));
+}
+
+std::string ft_trim(std::string str, char c)
+{
+	size_t	start;
+	int		stop;
+
+	start = 0;
+	while (str[start] && str[start] == c)
+		start++;
+	stop = str.length() - 1;
+	while (stop >= 0 && str[stop] == c)
+		stop--;
+	return (str.substr(start, stop - start + 1));
 }

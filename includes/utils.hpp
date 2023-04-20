@@ -38,5 +38,6 @@ std::string		prefix(User *user);
 size_t			countArgs(std::string args);
 std::string		trimArgsNb(std::string args, int nb);
 
+std::string		ft_trim(std::string str, char c);
 
 #endif
