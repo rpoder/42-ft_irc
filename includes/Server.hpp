@@ -72,6 +72,8 @@ class Server
 			private:
 				char	*_message;
 		};
+		void	PART_cmd(int client_fd, User *user, std::string args);
+
 
 	private:
 		Server();
@@ -83,6 +85,7 @@ class Server
 		void	handleRegistration(int client_fd);
 		User	*findUser(int fd);
 		void	handleSend(int client_fd, std::string message);
+		Channel	*findChannel(std::string &name);
 
 		void	executeCommand(int client_fd, std::string input);
 		void	USER_cmd(int client_fd, User *user, std::string args);
@@ -90,10 +93,9 @@ class Server
 		void	PASS_cmd(int client_fd, User *user, std::string args);
 		void	JOIN_cmd(int client_fd, User *user, std::string args);
 		void	PING_cmd(int client_fd, User *user, std::string args);
-		// void	PART_cmd(int client_fd, User *user, std::string args);
 
 		std::map<int, User>				_users;
-		std::map<std::string, Channel> 	_channels;
+		std::map<std::string, Channel>	_channels;
 
 		int								_port;
 		t_addrinfo						*_serv_info;

@@ -33,7 +33,7 @@ std::string	RPL_NAMREPLY(ChannelMember &member, Channel &channel)
 	return (message);
 }
 
-std::string RPL_JOIN(ChannelMember &member, Channel &channel)
+std::string RPL_PART(User *user, Channel *channel)
 {
-	return (prefix(user = member.getUser() <>?>+{-_});
+	return (prefix(user) + " PART " + channel->getName());
 }

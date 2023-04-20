@@ -20,6 +20,6 @@
 # include "Server.hpp"
 
 std::string	RPL_NAMREPLY(ChannelMember &member, Channel &channel);
-
+std::string	RPL_PART(User *user, Channel *channel);
 
 #endif

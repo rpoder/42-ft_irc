@@ -14,20 +14,17 @@
 
 std::vector<std::string>	extractChannels(std::string args)
 {
-	size_t						i;
 	size_t						stop;
 	std::vector<std::string>	to_quit;
 
-	i = 0;
 	while (args.length() != 0)
 	{
 		stop = args.find(',');
 		if (stop != std::string::npos)
 		{
-			to_quit.push_back(args.substr(i, stop));
+			to_quit.push_back(args.substr(0, stop));
 			stop++;
 			args = args.substr(stop);
-			i = stop;
 		}
 		else
 		{
@@ -38,10 +35,11 @@ std::vector<std::string>	extractChannels(std::string args)
 	return (to_quit);
 }
 
-void	PART_cmd(int client_fd, User *user, std::string args)
+void	Server::PART_cmd(int client_fd, User *user, std::string args)
 {
 	(void) client_fd;
 	(void) user;
+	Channel	*channel;
 	displayMessage("orange", "[PART_cmd function called]");
 
 	size_t	i;
@@ -49,9 +47,17 @@ void	PART_cmd(int client_fd, User *user, std::string args)
 
 	i = args.find(' ');
 	if (args[0] != '#' || i != std::string::npos)
-		std::cout << "error" << std::endl;
+		std::cout << ":caubry!1@localhost 461 caubry PART :Not enough parameters" << std::endl;
 
 	to_quit = extractChannels(args);
+	for (std::vector<std::string>::iterator it = to_quit.begin(); it != to_quit.end(); it++)
+	{
+		channel = findChannel(*it);
+		if (channel == NULL)
+			std::cout << ":caubry!1@localhost 403 caubry #ok :No such channel" << std::endl;
+		else
+			std::cout << RPL_PART(user, channel) << std::endl;
+	}
 	// std::cout << "print tab" << std::endl;
 	// for (std::vector<std::string>::iterator it = to_quit.begin(); it != to_quit.end(); it++)
 	// 	std::cout << "j" << *it << std::endl;

@@ -46,6 +46,13 @@ Channel	&Channel::operator=(const Channel &copy)
 	return(*this);
 }
 
+bool	Channel::operator==(const Channel &rhs)
+{
+	if (_name == rhs._name)
+		return (true);
+	return (false);
+}
+
 //!-------------------------------ACCESSORS-------------------------------------
 
 std::string	Channel::getName() const

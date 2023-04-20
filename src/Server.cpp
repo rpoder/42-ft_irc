@@ -227,6 +227,16 @@ User	*Server::findUser(int fd)
 	return (&(it->second));
 }
 
+Channel	*Server::findChannel(std::string &name)
+{
+	std::map<std::string, Channel>::iterator	it;
+
+	it = _channels.find(name);
+	if (it == _channels.end())
+		return (NULL);
+	return (&(it->second));
+}
+
 // start listening on socket
 void	Server::listen()
 {
