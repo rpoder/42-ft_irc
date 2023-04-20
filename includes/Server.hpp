@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ronanpoder <ronanpoder@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/18 12:29:58 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/20 13:21:52 by ronanpoder       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@
 # include	<sstream>
 # include	<cstring>
 # include	<map>
+# include	<algorithm>
 # include	"User.hpp"
 # include	"utils.hpp"
 # include	"errors.hpp"
 # include	"Channel.hpp"
 # include	"replies.hpp"
+
 
 # define	PORT_MIN			1024
 # define	PORT_MAX			65535

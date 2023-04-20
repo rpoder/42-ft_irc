@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ronanpoder <ronanpoder@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/18 13:00:45 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/20 13:21:35 by ronanpoder       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,28 +102,38 @@ void	Server::handleSend(int client_fd, std::string message)
 
 void	Server::executeCommand(int client_fd, std::string input)
 {
-	size_t					separator_pos;
+	size_t					space_pos;
 	std::string				line("");
 	std::stringstream		ss(input);
 	std::string				commandes[6] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART"};
 	void	(Server::*ptr_f[6])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd};
 	User					*user;
+	std::string				cmd;
 	std::string 			args;
 
 	while (std::getline(ss, line))
 	{
 		user = findUser(client_fd);
-		separator_pos = line.find(" ");
-		for (int i = 0; i < 6; i++)
+		space_pos = line.find(" ");
+		if (space_pos == std::string::npos)
 		{
-			if (commandes[i] == line.substr(0, separator_pos) && user)
+			cmd = trimInput(line);
+			args = "";
+		}
+		else
+		{
+			cmd = line.substr(0, space_pos);
+			while (line[space_pos] && line[space_pos] == ' ')
+				space_pos++;
+			if (space_pos == std::string::npos)
+				args = "";
+			else
+				args = trimInput(line.substr(space_pos));
+		}
+		for (int i = 0; i < 5; i++)
+		{
+			if (commandes[i] == cmd && user)
 			{
-				while (line[separator_pos] && line[separator_pos] == ' ')
-					separator_pos++;
-				if (separator_pos == std::string::npos)
-					args = "";
-				else
-					args = trimArgs(line.substr(separator_pos));
 				(this->*(ptr_f[i]))(client_fd, user, args);
 				break ;
 			}

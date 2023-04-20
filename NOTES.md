@@ -8,8 +8,6 @@ qui trigger le epoll_wait -->
 TODO
 cmds:
 
-
-
 NICK - Margot
 <!-- ok -->
 	431 ERR_NONICKNAMEGIVEN
@@ -20,13 +18,15 @@ NICK - Margot
 
 
 USER - Margot
+<!-- ok -->
 	ERR_NEEDMOREPARAMS (461)
 		:rpoder!1@localhost 461 rpoder USER :Not enough parameters
-
+<!-- ok -->
 	ERR_ALREADYREGISTRED (462)
 		:rpoder!1@localhost 462 rpoder :You may not reregister
 
 PASS - Margot
+<!-- ok -->
 	ERR_NEEDMOREPARAMS (461)
 		: 461 *  :Not enough parameters
 
