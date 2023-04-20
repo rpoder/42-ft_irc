@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "utils.hpp"
-#include "Server.hpp"
 
 void	printContainer(std::map<int, User> container)
 {
@@ -29,7 +28,20 @@ void	printUser(int fd, User &user)
 	std::cout << "Nickname: " << user.getNickname() << std::endl;
 	std::cout << "Username: " << user.getUsername() << std::endl;
 	std::cout << "---------------------------------------\033[0m\n";
+}
 
+void	printMember(ChannelMember member)
+{
+	User	user;
+
+	user = *(member.getUser());
+	std::cout << "\033[1;36m----- ChannelMember" << " -----" << std::endl;
+	std::cout << "fd" << member.getFd() << std::endl;
+	std::cout << "Is_online: " << (member.isOnline() == true ? "true" : "false") << std::endl;
+	std::cout << "Is_registered: " << (user.getIsRegistered() == true ? "true" : "false") << std::endl;
+	std::cout << "Nickname: " << user.getNickname() << std::endl;
+	std::cout << "Username: " << user.getUsername() << std::endl;
+	std::cout << "---------------------------\033[0m\n";
 }
 
 std::string	trimInput(std::string str)

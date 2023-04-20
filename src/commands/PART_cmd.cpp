@@ -6,7 +6,7 @@
 /*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 18:03:40 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/20 18:43:04 by margot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ std::vector<std::string>	splitChannels(std::string args)
 	size_t						stop;
 	std::vector<std::string>	to_quit;
 
-	std::cout << args << std::endl;
 	while (args.length() != 0)
 	{
 		stop = args.find(',');
@@ -72,8 +71,6 @@ void	Server::PART_cmd(int client_fd, User *user, std::string args)
 
 	to_quit = splitChannels(trimChannels(args));
 	reason = trimReason(args);
-	for (std::vector<std::string>::iterator it = to_quit.begin(); it != to_quit.end(); it++)
-		std::cout << *it << std::endl;
 	if (to_quit.size() == 0)
 			handleSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "PART", ""));	
 	for (std::vector<std::string>::iterator it = to_quit.begin(); it != to_quit.end(); it++)
@@ -84,12 +81,13 @@ void	Server::PART_cmd(int client_fd, User *user, std::string args)
 		else
 		{
 			member = channel->findMember(*user);
+			if (member)
+				printMember(*member);
 			if (member == NULL)
 			{
-				std::cout << "not on channel" <<std::endl;	
 				handleSend(client_fd, buildErrorMessage(ERR_NOTONCHANNEL, user, "PART", *it));
 			}
-			else
+			else if (member->isOnline() == true)
 			{
 				member->setIsOnline(false);
 				channel->sendToAll(RPL_PART(user, channel), &Server::handleSend);	

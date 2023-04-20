@@ -6,7 +6,7 @@
 /*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:41:33 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 17:29:10 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/20 18:27:07 by margot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ class ChannelMember
 
 		User			*getUser() const;
 		bool			isOperator() const;
+		bool			isOnline() const;
 		void			setIsOnline(bool is_online);
 		int				getFd();
 

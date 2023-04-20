@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelMember.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:41:58 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/18 13:04:22 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/20 18:26:51 by margot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ bool	ChannelMember::isOperator() const
 void	ChannelMember::setIsOnline(bool is_online)
 {
 	_is_online = is_online;
+}
+
+bool	ChannelMember::isOnline() const
+{
+	return (_is_online);
 }
 
 int		ChannelMember::getFd()

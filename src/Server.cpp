@@ -6,7 +6,7 @@
 /*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 13:35:11 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/20 18:26:26 by margot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,17 @@ void	Server::handleLostConnection(int fd)
 
 void	Server::handleInput(int client_fd, char *input)
 {
-	char *dup;
+	char			*dup;
+	User			*user;
+	ChannelMember	*member;
 
+	user = findUser(client_fd);
+	for (std::map<std::string, Channel>::iterator it = _channels.begin(); it != _channels.end(); it++)
+	{
+		member = it->second.findMember(*user);
+		if (member)
+			member->setIsOnline(false);
+	}
 	dup = strdup(input);
 	std::string	input_str(dup);
 

@@ -15,10 +15,14 @@
 
 # include <iostream>
 # include "User.hpp"
+# include "Server.hpp"
+# include "ChannelMember.hpp"
 # include <map>
 # include <sstream>
 
 void	    printContainer(std::map<int, User> container);
+void	printMember(ChannelMember member);
+
 
 void	    executeCommand(std::string cmd, int client_fd);
 
