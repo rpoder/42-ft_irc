@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NICK_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/19 16:08:21 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/21 11:02:35 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 	{
 		if (nb_args < 1)
 		{
-			handleSend(client_fd, buildErrorMessage(ERR_NONICKNAMEGIVEN, user, "NICK", ""));
+			sendMessage(client_fd, buildErrorMessage(ERR_NONICKNAMEGIVEN, user, "NICK", ""));
 			return ;
 		}
 		else
@@ -39,7 +39,7 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 	{
 		if (it->second.getNickname().compare(args) == 0)
 		{
-			handleSend(client_fd, buildErrorMessage(ERR_NICKNAMEINUSE, user, "NICK", ""));
+			sendMessage(client_fd, buildErrorMessage(ERR_NICKNAMEINUSE, user, "NICK", ""));
 			return ;
 		}
 	}
@@ -47,7 +47,7 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 	{
 		message = prefix(user) + "NICK :" + args + SUFFIX;
 		user->setNickname(args);
-		handleSend(client_fd, message);
+		sendMessage(client_fd, message);
 	}
 	else
 	{

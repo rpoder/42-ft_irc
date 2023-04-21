@@ -45,7 +45,10 @@ JOIN - Chloé
 		:caubry!1@localhost 475 caubry #test :Cannot join channel (+k)
 
 
-MODE w/ options ( +b, +k, +o )
+MODE w/ options
+	+b
+	+k
+	+o become channel operator
 
 	ERR_NEEDMOREPARAMS (461)
 		:caubry!1@localhost 461 caubry MODE :Not enough parameters

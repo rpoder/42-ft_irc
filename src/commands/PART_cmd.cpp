@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PART_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 18:43:04 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/21 11:02:35 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ void	Server::PART_cmd(int client_fd, User *user, std::string args)
 	to_quit = splitChannels(trimChannels(args));
 	reason = trimReason(args);
 	if (to_quit.size() == 0)
-			handleSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "PART", ""));	
+			sendMessage(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "PART", ""));
 	for (std::vector<std::string>::iterator it = to_quit.begin(); it != to_quit.end(); it++)
 	{
 		channel = findChannel(*it);
 		if (channel == NULL)
-			handleSend(client_fd, buildErrorMessage(ERR_NOSUCHCHANNEL, user, "PART", *it));
+			sendMessage(client_fd, buildErrorMessage(ERR_NOSUCHCHANNEL, user, "PART", *it));
 		else
 		{
 			member = channel->findMember(*user);
@@ -85,12 +85,12 @@ void	Server::PART_cmd(int client_fd, User *user, std::string args)
 				printMember(*member);
 			if (member == NULL)
 			{
-				handleSend(client_fd, buildErrorMessage(ERR_NOTONCHANNEL, user, "PART", *it));
+				sendMessage(client_fd, buildErrorMessage(ERR_NOTONCHANNEL, user, "PART", *it));
 			}
 			else if (member->isOnline() == true)
 			{
 				member->setIsOnline(false);
-				channel->sendToAll(RPL_PART(user, channel), &Server::handleSend);	
+				channel->sendToAll(RPL_PART(user, channel), &Server::sendMessage);
 			}
 		}
 	}

@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 15:26:52 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/21 11:12:41 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-void            fillVectorsJoin(std::string s, std::vector<std::string> &v)
+void	fillVectorsJoin(std::string s, std::vector<std::string> &v)
 {
 	size_t comma;
 
-	std::cout << "string = " << s << std::endl; 
+	std::cout << "string = " << s << std::endl;
 	for (size_t i = 0; i != s.npos; i++)
 	{
 		std::cout << i << " " << s[i] << std::endl;
@@ -70,7 +70,7 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 	{
 		std::string name(*ite);
 		if (name[0] != '#')
-			handleSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "JOIN", ""));
+			sendMessage(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "JOIN", ""));
 		else
 		{
 			it = _channels.find(name);
@@ -79,7 +79,7 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 			{
 				Channel 		newChannel(this, name);
 				ChannelMember	newChannelMember(user, true, client_fd);
-				
+
 				newChannel.addMember(newChannelMember);
 				_channels[name] = newChannel;
 				std::cout << "Nom du channel crée : " << name << std::endl;
@@ -92,7 +92,7 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 
 				it->second.addMember(newChannelMember);
 				sendJoinRPL(client_fd, newChannelMember, it->second);
-				
+
 			}
 			else // le channel existe, mais le user est deja membre
 			{
@@ -108,10 +108,10 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 
 void	Server::sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel)
 {
-	
-	handleSend(client_fd, RPL_NAMREPLY(member, channel));
-	handleSend(client_fd, RPL_ENDOFNAMES(member, channel));
+
+	sendMessage(client_fd, RPL_NAMREPLY(member, channel));
+	sendMessage(client_fd, RPL_ENDOFNAMES(member, channel));
 	//SEND TO ALL
 	for (std::vector<ChannelMember>::iterator it = channel._members.begin(); it != channel._members.end(); it++)
-		handleSend((*it).getFd(), RPL_JOIN(member, channel));
+		sendMessage((*it).getFd(), RPL_JOIN(member, channel));
 }
