@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 18:39:39 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:03:30 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ Channel	&Channel::operator=(const Channel &copy)
 	_mode_o = copy._mode_o;
 	_members = copy._members;
 	_server_instance = copy._server_instance;
-	// _operators = copy._operators;
 	return(*this);
 }
 
@@ -116,5 +115,5 @@ void	Channel::sendToAll(std::string message, void (Server::*sendMethod)(int, std
 // void	Channel::sendToAll(std::string message)
 // {
 // 	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
-// 		_server_instance->handleSend((*it).getFd(), message);
+// 		_server_instance->sendMessage((*it).getFd(), message);
 // }

@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 17:20:04 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/21 11:02:35 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ void	Server::PING_cmd(int client_fd, User *user, std::string args)
 
 	displayMessage("orange", "[PING_cmd function called]");
 	message = prefix(user) + "PONG :" + args + SUFFIX;
-	handleSend(client_fd, message);
+	sendMessage(client_fd, message);
 
 }

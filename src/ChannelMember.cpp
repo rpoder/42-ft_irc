@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelMember.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:41:58 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 18:26:51 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/24 12:56:34 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ ChannelMember::~ChannelMember()
 
 ChannelMember	&ChannelMember::operator=(const ChannelMember &copy)
 {
+	_fd = copy._fd;
 	_is_online = copy._is_online;
 	_is_operator = copy._is_operator;
 	_is_banned = copy._is_banned;
 	_user = copy._user;
-	_fd = copy._fd;
 	return(*this);
 }
 

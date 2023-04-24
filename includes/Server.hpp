@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 15:22:22 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/21 11:05:56 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ class Server
 				char	*_message;
 		};
 
-		void	handleSend(int client_fd, std::string message);
+		void	sendMessage(int client_fd, std::string message);
 
 	private:
 		Server();
@@ -85,6 +85,8 @@ class Server
 		void	handleLostConnection(int fd);
 		void	handleInput(int client_fd, char *input);
 		void	handleRegistration(int client_fd);
+		void	handleSend(int client_fd);
+
 		User	*findUser(int fd);
 		Channel	*findChannel(std::string &name);
 
@@ -107,6 +109,8 @@ class Server
 		int								_epoll_fd;
 		std::string						_password;
 
+		int								_receiver_fd;
+		std::string						_message_to_send;
 };
 
 #endif
