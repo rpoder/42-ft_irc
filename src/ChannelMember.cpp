@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:41:58 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 12:56:34 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 18:03:20 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ User	*ChannelMember::getUser() const
 bool	ChannelMember::isOperator() const
 {
 	return (_is_operator);
+}
+
+void	ChannelMember::setIsOperator(bool is_operator)
+{
+	_is_operator = is_operator;
 }
 
 void	ChannelMember::setIsOnline(bool is_online)

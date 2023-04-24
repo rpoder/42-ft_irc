@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 15:47:07 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 17:46:25 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ class Server
 				char	*_message;
 		};
 
+		void	MODE_cmd(int client_fd, User *user, std::string args);
 
 	private:
 		Server();
@@ -88,6 +89,7 @@ class Server
 		void	prepSend(int fd, std::string message);
 
 		User	*findUser(int fd);
+		User	*findUser(std::string nickname);
 		Channel	*findChannel(std::string &name);
 
 		void	executeCommand(int client_fd, std::string input);
@@ -97,7 +99,6 @@ class Server
 		void	JOIN_cmd(int client_fd, User *user, std::string args);
 		void	PING_cmd(int client_fd, User *user, std::string args);
 		void	PART_cmd(int client_fd, User *user, std::string args);
-		void	MODE_cmd(int client_fd, User *user, std::string args);
 
 		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
 

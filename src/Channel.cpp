@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 15:53:41 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 18:16:56 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,16 @@ ChannelMember	*Channel::findMember(User &user)
 	return (NULL);
 }
 
+ChannelMember	*Channel::findMember(std::string nickname)
+{
+	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
+	{
+		if (it->getUser()->getNickname() == nickname)
+			return (&(*it));
+	}
+	return (NULL);
+}
+
 // std::string Channel::listMembers()
 // {
 // 	std::string list;
@@ -122,3 +132,40 @@ void	Channel::prepSendToAll(std::string message, void (Server::*prepSendMethod)(
 // 	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
 // 		_server_instance->prepSend((*it).getFd(), message);
 // }
+
+
+void	Channel::defineOperator(User *user, std::string nickname_to_add)
+{
+	ChannelMember	*member;
+	std::string		err;
+
+	member = findMember(nickname_to_add);
+	if (!member)
+	{
+		err = buildErrorMessage(401, user, "MODE", nickname_to_add);
+		throw(Channel::ChannelException((char *)err.c_str()));
+	}
+	else
+	{
+		member->setIsOperator(true);
+	}
+}
+
+//!-------------------------------EXCEPTIONS------------------------------------
+
+
+Channel::ChannelException::ChannelException():
+	_message()
+{}
+
+Channel::ChannelException::ChannelException(char *message):
+	_message(message)
+{}
+
+Channel::ChannelException::~ChannelException() throw()
+{}
+
+const char	*Channel::ChannelException::what() const throw()
+{
+	return(_message);
+}

@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 15:46:23 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 18:20:59 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	Server::executeCommand(int client_fd, std::string input)
 	size_t					space_pos;
 	std::string				line("");
 	std::stringstream		ss(input);
-	std::string				commandes[6] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART"};
-	void	(Server::*ptr_f[6])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd};
+	std::string				commandes[7] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART", "MODE"};
+	void	(Server::*ptr_f[7])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd, &Server::MODE_cmd};
 	User					*user;
 	std::string				cmd;
 	std::string 			args;
@@ -121,7 +121,7 @@ void	Server::executeCommand(int client_fd, std::string input)
 			else
 				args = trimInput(line.substr(space_pos));
 		}
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < 7; i++)
 		{
 			if (commandes[i] == cmd && user)
 			{
@@ -263,6 +263,16 @@ User	*Server::findUser(int fd)
 	if (it == _users.end())
 		return (NULL);
 	return (&(it->second));
+}
+
+User	*Server::findUser(std::string nickname)
+{
+	for (std::map<int,User>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		if (it->second.getNickname() == nickname)
+			return (&(it->second));
+	}
+	return (NULL);
 }
 
 Channel	*Server::findChannel(std::string &name)

@@ -1,4 +1,4 @@
-<!-- EPOLL_CTL -->
+@<!-- EPOLL_CTL -->
 <!-- masques events : le descipteur associe est disponible pour un appel de read (EPOLLIN) ou write (EPOLLOUT).
 Si le fd est initialise comme dispo pour un write
 le client ecoute en continu,
@@ -46,22 +46,22 @@ JOIN - Chloé
 
 
 MODE w/ options
-	+b
-	+k
+	+b ban
+	+k set a key to a channel
 	+o become channel operator
 
-	ERR_NEEDMOREPARAMS (461)
+	ERR_NEEDMOREPARAMS (461) ok
 		:caubry!1@localhost 461 caubry MODE :Not enough parameters
 
-	ERR_NOSUCHCHANNEL (403)
+	ERR_NOSUCHCHANNEL (403) ok
 		:caubry!1@localhost 403 caubry #key :No such channel
 
-	ERR_NOTONCHANNEL (442)
+	ERR_NOTONCHANNEL (442) ok
 		:caubry!1@localhost 442 caubry #test :You're not on that channel
 
-	ERR_NOSUCHNICK (401)
+	ERR_NOSUCHNICK (401) ok
 
-	ERR_CHANOPRIVSNEEDED (482)
+	ERR_CHANOPRIVSNEEDED (482) ok
 		:caubry!1@localhost 482 caubry #test :You're not channel operator
 
 	RPL_CHANNELMODEIS (324)
@@ -74,7 +74,7 @@ MODE w/ options
 
 	RPL_ENDOFBANLIST (368)
 
-	ERR_UNKNOWNMODE (472)
+	ERR_UNKNOWNMODE (472) ok
 		:caubry!1@localhost 472 caubry z :is unknown mode char to me
 
 KICK

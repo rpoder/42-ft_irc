@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 15:53:40 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 18:12:35 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,15 @@ class Channel
 		bool	operator==(const Channel &rhs);
 
 		void				addMember(ChannelMember member);
+		void				defineOperator(User *user, std::string nickname_to_add);
+
 		void				deleteMember(ChannelMember member);
 		// std::string			listMembers();
 		void				prepSendToAll(std::string message, void (Server::*sendMethod)(int, std::string));
 		ChannelMember		*findMember(User &user);
+		ChannelMember		*findMember(std::string nickname);
 
-		std::string							getName() const;
+		std::string					getName() const;
 		std::vector<ChannelMember>	getMembers() const;
 
 
@@ -51,6 +54,19 @@ class Channel
 		bool		_mode_b;
 		bool		_mode_o;
 		Server		*_server_instance;
+
+		class ChannelException:
+			public std::exception
+		{
+			public:
+				ChannelException();
+				ChannelException(char *message);
+				virtual const char	*what() const throw();
+				virtual				~ChannelException() throw();
+
+			private:
+				char	*_message;
+		};
 		// std::vector<User*>	_operators;
 };
 
