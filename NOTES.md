@@ -113,7 +113,7 @@ PART - Ronan
 
 QUIT
 	none
-PING
+PING ok
 	none
 INVITE
 
