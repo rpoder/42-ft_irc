@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 13:03:30 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:43:33 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ bool	Channel::operator==(const Channel &rhs)
 std::string	Channel::getName() const
 {
 	return (_name);
+}
+
+std::vector<ChannelMember> Channel::getMembers() const
+{
+	return (_members);
 }
 
 //!-------------------------------FUNCTIONS-------------------------------------

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 17:56:04 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:46:56 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,17 @@ class Channel
 		void				deleteMember(ChannelMember member);
 		// std::string			listMembers();
 		void				sendToAll(std::string message, void (Server::*sendMethod)(int, std::string));
-		void				sendToAll(std::string message);
+		// void				sendToAll(std::string message);
 		ChannelMember		*findMember(User &user);
 
-		std::string			getName() const;
+		std::string							getName() const;
+		std::vector<ChannelMember>	getMembers() const;
 
 
-		std::vector<ChannelMember>	_members;
 		// std::vector<User*>	_members;
 
 	private:
+		std::vector<ChannelMember>	_members;
 		std::string	_name;
 		std::string	_key;
 		bool		_mode_k;

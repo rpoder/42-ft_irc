@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: margot <margot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:07:01 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/20 16:28:14 by margot           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:46:14 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,18 @@
 std::string	RPL_NAMREPLY(ChannelMember &member, Channel &channel)
 {
 	std::string	message;
+	std::vector<ChannelMember> members;
 	User		*user;
 
+	members = channel.getMembers();
 	user = member.getUser();
 	message = prefix(user) + "353 " + user->getNickname() + " = " + channel.getName() + " :";
-	for (std::vector<ChannelMember>::iterator it = channel._members.begin(); it != channel._members.end(); it++)
+	for (std::vector<ChannelMember>::iterator it = members.begin(); it != members.end(); it++)
 	{
 		if (it->isOperator() == true)
 			message += "@" + it->getUser()->getNickname() + " ";
 	}
-	for (std::vector<ChannelMember>::iterator it = channel._members.begin(); it != channel._members.end(); it++)
+	for (std::vector<ChannelMember>::iterator it = members.begin(); it != members.end(); it++)
 	{
 		if (it->isOperator() == false)
 			message +=  it->getUser()->getNickname() + " ";

@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 13:14:19 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:47:36 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ void	Server::sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel)
 
 	sendMessage(client_fd, RPL_NAMREPLY(member, channel));
 	sendMessage(client_fd, RPL_ENDOFNAMES(member, channel));
+	channel.sendToAll(RPL_JOIN(member, channel), &Server::sendMessage);
 	//SEND TO ALL
-	for (std::vector<ChannelMember>::iterator it = channel._members.begin(); it != channel._members.end(); it++)
-		sendMessage((*it).getFd(), RPL_JOIN(member, channel));
+	// for (std::vector<ChannelMember>::iterator it = channel._members.begin(); it != channel._members.end(); it++)
+	// 	sendMessage((*it).getFd(), RPL_JOIN(member, channel));
 }

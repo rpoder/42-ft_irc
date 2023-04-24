@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 13:11:06 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:57:22 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	Server::PART_cmd(int client_fd, User *user, std::string args)
 	ChannelMember				*member;
 	std::vector<std::string>	to_quit;
 	std::string					reason;
+	std::vector<ChannelMember>	members;
 
 
 	to_quit = splitChannels(trimChannels(args));
@@ -81,10 +82,7 @@ void	Server::PART_cmd(int client_fd, User *user, std::string args)
 			sendMessage(client_fd, buildErrorMessage(ERR_NOSUCHCHANNEL, user, "PART", *it));
 		else
 		{
-			for (std::vector<ChannelMember>::iterator it = channel->_members.begin(); it != channel->_members.end(); it++)
-			{
-				printMember(*it);
-			}
+			members = channel->getMembers();
 			member = channel->findMember(*user);
 			if (member != NULL && member->isOnline() == true)
 			{
