@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/21 11:12:41 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:14:19 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	fillVectorsJoin(std::string s, std::vector<std::string> &v)
 	}
 }
 
-void            splitArgsJoin(std::string args, std::vector<std::string> &channels, std::vector<std::string> &keys)
+void	splitArgsJoin(std::string args, std::vector<std::string> &channels, std::vector<std::string> &keys)
 {
 	size_t i;
 	size_t j;
@@ -80,6 +80,7 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 				Channel 		newChannel(this, name);
 				ChannelMember	newChannelMember(user, true, client_fd);
 
+				printMember(newChannelMember);
 				newChannel.addMember(newChannelMember);
 				_channels[name] = newChannel;
 				std::cout << "Nom du channel crée : " << name << std::endl;

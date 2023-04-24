@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/21 11:02:35 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:03:30 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ Channel	&Channel::operator=(const Channel &copy)
 	_mode_o = copy._mode_o;
 	_members = copy._members;
 	_server_instance = copy._server_instance;
-	// _operators = copy._operators;
 	return(*this);
 }
 

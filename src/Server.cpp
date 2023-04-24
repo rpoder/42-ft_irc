@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/21 11:07:51 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:09:39 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,19 +88,6 @@ void	Server::sendMessage(int client_fd, std::string message)
 	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, client_fd, &settings);
 	_message_to_send = message;
 	_receiver_fd = client_fd;
-	// do
-	// {
-	// 	message = message.substr(bytes_sent, message.length() - bytes_sent);
-	// 	bytes_sent = send(client_fd, message.c_str(), message.length(), 0);
-	// 	if (bytes_sent == static_cast<size_t>(-1))
-	// 	{
-	// 		perror("erreur send :");
-	// 		break;
-	// 	}
-	// } while (bytes_sent != 0);
-
-	// settings.events = EPOLLIN;
-	// epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, client_fd, &settings);
 }
 
 void	Server::executeCommand(int client_fd, std::string input)
@@ -188,7 +175,16 @@ void	Server::handleNewConnection()
 void	Server::handleLostConnection(int fd)
 {
 	displayMessage("orange", "[handleLostConnection called]");
+	User			*user;
+	ChannelMember	*member;
 
+	user = findUser(fd);
+	for (std::map<std::string, Channel>::iterator it = _channels.begin(); it != _channels.end(); it++)
+	{
+		member = it->second.findMember(*user);
+		if (member)
+			member->setIsOnline(false);
+	}
 	_users.erase(fd);
 	displayMessage("red", "Connection closed");
 	epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, NULL);
@@ -198,16 +194,8 @@ void	Server::handleLostConnection(int fd)
 void	Server::handleInput(int client_fd, char *input)
 {
 	char			*dup;
-	User			*user;
-	ChannelMember	*member;
 
-	user = findUser(client_fd);
-	for (std::map<std::string, Channel>::iterator it = _channels.begin(); it != _channels.end(); it++)
-	{
-		member = it->second.findMember(*user);
-		if (member)
-			member->setIsOnline(false);
-	}
+
 	dup = strdup(input);
 	std::string	input_str(dup);
 
@@ -252,8 +240,6 @@ void	Server::handleSend(int client_fd)
 	if (client_fd != _receiver_fd)
 		return ;
 	bytes_sent = 0;
-	settings.data.fd = client_fd;
-	settings.events = EPOLLOUT;
 	do
 	{
 		_message_to_send = _message_to_send.substr(bytes_sent, _message_to_send.length() - bytes_sent);
@@ -265,6 +251,7 @@ void	Server::handleSend(int client_fd)
 		}
 	} while (bytes_sent != 0);
 	//TODO gerer cas d'erreur de send
+	settings.data.fd = client_fd;
 	settings.events = EPOLLIN;
 	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, client_fd, &settings);
 }
