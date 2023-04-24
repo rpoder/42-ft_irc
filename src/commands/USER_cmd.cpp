@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/21 11:02:35 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:46:02 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	Server::USER_cmd(int client_fd, User *user, std::string args)
 	{
 		if (nb_args < 4)
 		{
-			sendMessage(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "USER", ""));
+			prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "USER", ""));
 			return ;
 		}
 		else
@@ -39,7 +39,7 @@ void	Server::USER_cmd(int client_fd, User *user, std::string args)
 	{
 		if (it->second.getUsername().compare(user_name) == 0)
 		{
-			sendMessage(client_fd, buildErrorMessage(ERR_ALREADYREGISTRED, user, "USER", ""));
+			prepSend(client_fd, buildErrorMessage(ERR_ALREADYREGISTRED, user, "USER", ""));
 			return ;
 		}
 	} */

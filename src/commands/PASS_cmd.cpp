@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/21 11:02:35 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:46:02 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	Server::PASS_cmd(int client_fd, User *user, std::string args)
 	nb_args = countArgs(args);
 	if (nb_args < 1)
 	{
-		sendMessage(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "PASS", ""));
+		prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "PASS", ""));
 			return ;
 	}
 	user->setPassword(args);

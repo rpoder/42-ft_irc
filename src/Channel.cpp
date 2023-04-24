@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 13:43:33 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:53:41 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,14 @@ ChannelMember	*Channel::findMember(User &user)
 // 	return (list);
 // }
 
-void	Channel::sendToAll(std::string message, void (Server::*sendMethod)(int, std::string))
+void	Channel::prepSendToAll(std::string message, void (Server::*prepSendMethod)(int, std::string))
 {
 	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
-		(_server_instance->*sendMethod)((*it).getFd(), message);
+		(_server_instance->*prepSendMethod)((*it).getFd(), message);
 }
 
-// void	Channel::sendToAll(std::string message)
+// void	Channel::prepSendToAll(std::string message)
 // {
 // 	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
-// 		_server_instance->sendMessage((*it).getFd(), message);
+// 		_server_instance->prepSend((*it).getFd(), message);
 // }

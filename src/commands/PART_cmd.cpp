@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 13:57:22 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:53:40 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ void	Server::PART_cmd(int client_fd, User *user, std::string args)
 	to_quit = splitChannels(trimChannels(args));
 	reason = trimReason(args);
 	if (to_quit.size() == 0)
-			sendMessage(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "PART", ""));
+			prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "PART", ""));
 	for (std::vector<std::string>::iterator it = to_quit.begin(); it != to_quit.end(); it++)
 	{
 		channel = findChannel(*it);
 		if (channel == NULL)
-			sendMessage(client_fd, buildErrorMessage(ERR_NOSUCHCHANNEL, user, "PART", *it));
+			prepSend(client_fd, buildErrorMessage(ERR_NOSUCHCHANNEL, user, "PART", *it));
 		else
 		{
 			members = channel->getMembers();
@@ -87,10 +87,10 @@ void	Server::PART_cmd(int client_fd, User *user, std::string args)
 			if (member != NULL && member->isOnline() == true)
 			{
 				member->setIsOnline(false);
-				channel->sendToAll(RPL_PART(user, channel), &Server::sendMessage);
+				channel->prepSendToAll(RPL_PART(user, channel), &Server::prepSend);
 			}
 			else
-				sendMessage(client_fd, buildErrorMessage(ERR_NOTONCHANNEL, user, "PART", *it));
+				prepSend(client_fd, buildErrorMessage(ERR_NOTONCHANNEL, user, "PART", *it));
 		}
 	}
 }

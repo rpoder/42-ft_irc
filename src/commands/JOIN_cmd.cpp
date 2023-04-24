@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 13:47:36 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:53:40 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 	{
 		std::string name(*ite);
 		if (name[0] != '#')
-			sendMessage(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "JOIN", ""));
+			prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "JOIN", ""));
 		else
 		{
 			it = _channels.find(name);
@@ -110,10 +110,10 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 void	Server::sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel)
 {
 
-	sendMessage(client_fd, RPL_NAMREPLY(member, channel));
-	sendMessage(client_fd, RPL_ENDOFNAMES(member, channel));
-	channel.sendToAll(RPL_JOIN(member, channel), &Server::sendMessage);
-	//SEND TO ALL
+	prepSend(client_fd, RPL_NAMREPLY(member, channel));
+	prepSend(client_fd, RPL_ENDOFNAMES(member, channel));
+	channel.prepSendToAll(RPL_JOIN(member, channel), &Server::prepSend);
+	// SEND TO ALL
 	// for (std::vector<ChannelMember>::iterator it = channel._members.begin(); it != channel._members.end(); it++)
-	// 	sendMessage((*it).getFd(), RPL_JOIN(member, channel));
+	// 	prepSend((*it).getFd(), RPL_JOIN(member, channel));
 }

@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 13:09:39 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:46:23 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 //!-------------------------------CONSTRUCTOR-----------------------------------
 
-Server::Server(int port, std::string password)
+Server::Server(int port, std::string password) :
+	_message_buffer(this)
 {
 	t_addrinfo			hints;
 	int					status;
@@ -38,7 +39,8 @@ Server::Server(int port, std::string password)
 		throw (Server::ServerInitException());
 }
 
-Server::Server(const Server &copy)
+Server::Server(const Server &copy) :
+	_message_buffer(this)
 {
 	*this = copy;
 }
@@ -77,17 +79,16 @@ std::string Server::getPassword()
 
 //!-------------------------------FUNCTIONS-------------------------------------
 
-void	Server::sendMessage(int client_fd, std::string message)
+void	Server::prepSend(int fd, std::string message)
 {
 	t_epoll_event	settings;
 	size_t			bytes_sent;
 
-	settings.data.fd = client_fd;
+	settings.data.fd = fd;
 	settings.events = EPOLLOUT;
 	bytes_sent = 0;
-	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, client_fd, &settings);
-	_message_to_send = message;
-	_receiver_fd = client_fd;
+	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, fd, &settings);
+	_message_buffer.addMessage(fd, message);
 }
 
 void	Server::executeCommand(int client_fd, std::string input)
@@ -228,22 +229,20 @@ void	Server::handleRegistration(int client_fd)
 		message = prefix(user) + "001 " + user->getNickname()
 		+ " :Welcome chez les petits poux " + user->getNickname()
 		+ "!" + user->getUsername() + "@localhost" + SUFFIX;
-		sendMessage(client_fd, message);
+		prepSend(client_fd, message);
 	}
 }
 
-void	Server::handleSend(int client_fd)
+void	Server::handleSend(int fd, std::string message)
 {
 	t_epoll_event	settings;
 	size_t			bytes_sent;
 
-	if (client_fd != _receiver_fd)
-		return ;
 	bytes_sent = 0;
 	do
 	{
-		_message_to_send = _message_to_send.substr(bytes_sent, _message_to_send.length() - bytes_sent);
-		bytes_sent = send(client_fd, _message_to_send.c_str(), _message_to_send.length(), 0);
+		message = message.substr(bytes_sent, message.length() - bytes_sent);
+		bytes_sent = send(fd, message.c_str(), message.length(), 0);
 		if (bytes_sent == static_cast<size_t>(-1))
 		{
 			perror("erreur send :");
@@ -251,9 +250,9 @@ void	Server::handleSend(int client_fd)
 		}
 	} while (bytes_sent != 0);
 	//TODO gerer cas d'erreur de send
-	settings.data.fd = client_fd;
+	settings.data.fd = fd;
 	settings.events = EPOLLIN;
-	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, client_fd, &settings);
+	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, fd, &settings);
 }
 
 User	*Server::findUser(int fd)
@@ -310,10 +309,10 @@ void	Server::listen()
 				if (recv(events[i].data.fd, input, BUFFER_MAX, 0) == 0)
 					handleLostConnection(events[i].data.fd);
 				else
-						handleInput(events[i].data.fd, input);
+					handleInput(events[i].data.fd, input);
 			}
 			else if (events[i].events & EPOLLOUT)
-				handleSend(events[i].data.fd);
+				_message_buffer.sendTo(events[i].data.fd, &Server::handleSend);
 			handleRegistration(events[i].data.fd);
 		}
 		// std::cout << "boucle inf" << std::endl;
