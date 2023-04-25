@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:07:01 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 13:46:14 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 18:21:51 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,19 @@ std::string RPL_JOIN(ChannelMember &member, Channel &channel)
 	user = member.getUser();
 	message = prefix(user) + "JOIN :" + channel.getName() + SUFFIX;
 	return (message);
+}
+
+std::string	RPL_CHANNELMODEIS(ChannelMember &member, Channel &channel, std::string reply_details)
+{
+	std::string message;
+	User		*user;
+
+	user = member.getUser();
+	message = prefix(user) + "324 " + user->getNickname() + " " + channel.getName() + " " +
+		reply_details + SUFFIX;
+	return (message);
+/* 
+			:caubry!1@localhost 324 caubry #test +np
+		:rpoder!1@localhost 324 rpoder #coucou +o rpoder
+		:rpoder!1@localhost 324 rpoder #coucou +n */
 }

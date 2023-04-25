@@ -61,22 +61,18 @@ MODE w/ options
 
 	ERR_NOSUCHNICK (401) ok
 
+	ERR_BANNEDFROMCHAN (474)
+
 	ERR_CHANOPRIVSNEEDED (482) ok
 		:caubry!1@localhost 482 caubry #test :You're not channel operator
 
 	RPL_CHANNELMODEIS (324)
 		:caubry!1@localhost 324 caubry #test +np
-
-	ERR_KEYSET (467)
-		:caubry!1@localhost 467 caubry #test :Channel key already set
-
-	RPL_??? (324)
 		:rpoder!1@localhost 324 rpoder #coucou +o rpoder
 		:rpoder!1@localhost 324 rpoder #coucou +n
 
-	RPL_BANLIST (367)
-
-	RPL_ENDOFBANLIST (368)
+	ERR_KEYSET (467)
+		:caubry!1@localhost 467 caubry #test :Channel key already set
 
 	ERR_UNKNOWNMODE (472) ok
 		:caubry!1@localhost 472 caubry z :is unknown mode char to me
@@ -171,8 +167,7 @@ NOTICE
 
 
 MARGOT
-NICK :
-- si deux mots ? (Shibrc pas d'erreur et ne retient que le premier)
+USER already registered doesn't work
 
 
 

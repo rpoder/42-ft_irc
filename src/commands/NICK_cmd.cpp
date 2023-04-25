@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NICK_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 15:46:02 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 20:42:30 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,17 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 	{
 		if (nb_args < 1)
 		{
+			std::string	nick = "*"; //ou overload setNickname(char *)
+			
+			user->setNickname(nick);
 			prepSend(client_fd, buildErrorMessage(ERR_NONICKNAMEGIVEN, user, "NICK", ""));
+			nick = "";
+			user->setNickname(nick);
 			return ;
 		}
 		else
 			args = args.substr(0, args.find(" "));
 	}
-	previous_nickName = user->getNickname();
-	if (previous_nickName.length() == 0)
-				previous_nickName = '*';
 	for (it = _users.begin(); it != _users.end(); it++)
 	{
 		if (it->second.getNickname().compare(args) == 0)
@@ -52,6 +54,5 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 	else
 	{
 		user->setNickname(args);
-		//std::cout << "nicknqme set to " << user->getNickname() << std::endl;
 	}
 }

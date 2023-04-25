@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:49 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 17:13:25 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 14:44:26 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,16 @@ class User
 		std::string		getPassword() const;
 		void			setIsRegistered(bool is_registered);
 		bool			getIsRegistered() const;
+		void			setIpAddress(std::string &str);
+		std::string		getIpAddress() const;
+
 
 	private:
 		bool		_is_registered;
 		std::string _nickname;
 		std::string _username;
 		std::string _raw_username;
+		std::string	_ip_address;
 		std::string	_password;
 };
 

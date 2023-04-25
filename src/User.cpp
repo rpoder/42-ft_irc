@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:35:51 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/17 17:15:17 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 19:35:19 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,16 @@ bool	User::getIsRegistered() const
 void	User::setIsRegistered(bool is_registered)
 {
 	_is_registered = is_registered;
+}
+
+void	User::setIpAddress(std::string &str)
+{
+	_ip_address = str;
+}
+
+std::string	User::getIpAddress() const
+{
+	return (_ip_address);
 }
 
 //!-------------------------------FUNCTIONS-------------------------------------
