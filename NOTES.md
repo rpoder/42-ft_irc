@@ -155,7 +155,7 @@ PRIVMSG
 	ERR_NOSUCHNICK (401)
 
 	ERR_CANNOTSENDTOCHAN (404)
-
+		:caubry!1@localhost 404 caubry #chan :Cannot send to channel
 	ERR_TOOMANYTARGETS (407)
 
 

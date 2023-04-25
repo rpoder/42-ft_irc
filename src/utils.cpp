@@ -184,6 +184,9 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 			message += "No such nickname";
 			break ;
 
+		case ERR_CANNOTSENDTOCHAN:
+			message += "Cannot send to channel";
+
 		case ERR_KEYSET:
 			message += "Key is already set";
 			break ;

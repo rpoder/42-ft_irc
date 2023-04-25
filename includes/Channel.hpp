@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 16:55:35 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 17:18:09 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ class Channel
 
 		void				deleteMember(ChannelMember member);
 		void				prepSendToAll(std::string message, void (Server::*sendMethod)(int, std::string));
+		void				prepSendToAll(std::string message, void (Server::*prepSendMethod)(int, std::string), ChannelMember *sender);
 		ChannelMember		*findMember(User &user);
 		ChannelMember		*findMember(std::string nickname);
 
