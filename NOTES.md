@@ -105,7 +105,7 @@ PART - Ronan ok
 	ERR_NOTONCHANNEL (442)
 		:mpou!1@localhost 442 mpou #test :You're not on that channel
 
-QUIT
+QUIT - Ronan
 	none
 
 PING ok
@@ -134,5 +134,5 @@ PRIVMSG - Chloe
 		:mpourrey!1@localhost PRIVMSG rpoder : coucou toi
 		(sur lui meme et le concerne)
 
-NOTICE
+NOTICE  - Chloe
 	none
