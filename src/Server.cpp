@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 13:11:49 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 13:53:05 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ Server::Server(int port, std::string password) :
 	hints.ai_family = AF_UNSPEC; // don't care IPv4 or IPv6
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
-	status = getaddrinfo("localhost", str.c_str(), &hints, &_serv_info);
+	status = getaddrinfo(NULL, str.c_str(), &hints, &_serv_info);
 	if (status != 0)
 		throw (Server::ServerInitException());
 }
@@ -130,21 +130,6 @@ void	Server::executeCommand(int client_fd, std::string input)
 			}
 		}
 	}
-}
-
-// create a socket, clean the socket memory, link socket to a port
-void	Server::initSocket()
-{
-	int	setsock_opt;
-
-	_server_fd = socket(_serv_info->ai_family, _serv_info->ai_socktype, _serv_info->ai_protocol);
-	if (_server_fd == -1)
-		throw (Server::ServerInitException());
-	setsock_opt = 1;
-	if (setsockopt(_server_fd, SOL_SOCKET, SO_REUSEADDR, &setsock_opt, sizeof(setsock_opt)) == -1)
-		throw (Server::ServerInitException());
-	if (bind(_server_fd, _serv_info->ai_addr, _serv_info->ai_addrlen) != 0)
-		throw (Server::ServerInitException());
 }
 
 void	Server::handleNewConnection()
@@ -328,6 +313,21 @@ void	Server::listen()
 		// std::cout << "boucle inf" << std::endl;
 		memset(events, 0, sizeof(events));
 	}
+}
+
+// create a socket, clean the socket memory, link(bind) socket to a port
+void	Server::initSocket()
+{
+	int	setsock_opt;
+
+	_server_fd = socket(_serv_info->ai_family, _serv_info->ai_socktype, _serv_info->ai_protocol);
+	if (_server_fd == -1)
+		throw (Server::ServerInitException());
+	setsock_opt = 1;
+	if (setsockopt(_server_fd, SOL_SOCKET, SO_REUSEADDR, &setsock_opt, sizeof(setsock_opt)) == -1)
+		throw (Server::ServerInitException());
+	if (bind(_server_fd, _serv_info->ai_addr, _serv_info->ai_addrlen) != 0)
+		throw (Server::ServerInitException());
 }
 
 void	Server::start()
