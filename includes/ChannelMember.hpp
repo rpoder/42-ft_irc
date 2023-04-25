@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelMember.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:41:33 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 18:03:45 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 14:24:12 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ class ChannelMember
 
 		ChannelMember	&operator=(const ChannelMember &copy);
 		bool			operator==(const ChannelMember &rhs);
+		bool			operator!=(const ChannelMember &rhs);
 
 		User			*getUser() const;
 		bool			isOperator() const;
