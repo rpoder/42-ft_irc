@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 13:03:15 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/25 13:50:39 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,9 +133,7 @@ void	Channel::defineOperator(User *user, std::string nickname_to_add)
 	ChannelMember	*member;
 	std::string		err;
 
-	std::cout << nickname_to_add << std::endl;
 	member = findMember(nickname_to_add);
-	std::cout << nickname_to_add << std::endl;
 	if (!member)
 	{
 		err = buildErrorMessage(ERR_NOSUCHNICK, user, "MODE", nickname_to_add);
@@ -147,10 +145,34 @@ void	Channel::defineOperator(User *user, std::string nickname_to_add)
 	}
 }
 
+void	Channel::deleteOperator(User *user, std::string nickname_to_delete)
+{
+	ChannelMember	*member;
+	std::string		err;
+
+	member = findMember(nickname_to_delete);
+	if (!member)
+	{
+		err = buildErrorMessage(ERR_NOSUCHNICK, user, "MODE", nickname_to_delete);
+		throw(Channel::ChannelException(err));
+	}
+	else
+	{
+		member->setIsOperator(false);
+	}
+}
+
 void	Channel::defineKey(User *user, std::string &key)
 {
-	(void) user;
-	_key = key;
+	std::string	err;
+
+	if (_key.length() == 0)
+		_key = key;
+	else
+	{
+		err = buildErrorMessage(ERR_KEYSET, user, "MODE", _name);
+		throw(Channel::ChannelException(err));
+	}
 }
 
 //!-------------------------------EXCEPTIONS------------------------------------

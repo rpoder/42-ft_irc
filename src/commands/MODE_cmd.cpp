@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 13:13:03 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 13:57:52 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ bool	isMode(char c)
 	return (false);
 }
 
+bool	isModeSign(char c)
+{
+	if (c == '+' || c == '-')
+		return (true);
+	return (false);
+}
+
 void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 {
 	displayMessage("orange", "[MODE_cmd function called]");
@@ -61,17 +68,19 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 	arguments = splitArgs(args);
 	for (std::vector<std::string>::iterator it = arguments.begin(); it != arguments.end(); it++)
 		std::cout << *it << std::endl;
-	if (arguments.size() != 3 || arguments[0][0] != '#' || arguments[1][0] != '+' || arguments[1].size() != 2)
+	if (arguments.size() != 3 || arguments[0][0] != '#' || isModeSign(arguments[1][0]) == false || arguments[1].size() != 2)
 	{
 		prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "MODE", ""));
 		return ;
 	}
 	channel_name = arguments[0];
+	mode_sign = arguments[1][0];
 	mode = arguments[1][1];
 	option = arguments[2];
 	channel = findChannel(channel_name);
 	std::cout << "channel_name = "<< channel_name << std::endl;
-	std::cout << "mode = "<<mode << std::endl;
+	std::cout << "mode_sign = " << mode_sign << std::endl;
+	std::cout << "mode = "<< mode << std::endl;
 	std::cout << "option = " << option << std::endl;
 	if (!channel)
 	{
@@ -91,31 +100,48 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 			if (member->isOperator() == false)
 			{
 				prepSend(client_fd, buildErrorMessage(ERR_CHANOPRIVSNEEDED, user, "MODE", user->getNickname()));
-				std::cout << "your not channel op 482" << std::endl;
 				return ;
 			}
 			else
 			{
 				try
 				{
-					switch (mode)
+					if (mode_sign == '+')
 					{
-						case 'o':
-							channel->defineOperator(user, option);
-							break;
-
-						case 'k':
-							channel->defineKey(user, option);
-							break;
-
-						case 'b':
-							/* code */
-							break;
-
-						default:
+						switch (mode)
 						{
-							prepSend(client_fd, buildErrorMessage(ERR_UNKNOWNMODE, user, "MODE", user->getNickname()));
-							return ;
+							case 'o':
+								channel->defineOperator(user, option);
+								break;
+
+							case 'k':
+								channel->defineKey(user, option);
+								break;
+
+							case 'b':
+								/* code */
+								break;
+
+							default:
+							{
+								prepSend(client_fd, buildErrorMessage(ERR_UNKNOWNMODE, user, "MODE", user->getNickname()));
+								return ;
+							}
+						}
+					}
+					else if (mode_sign == '-')
+					{
+						switch (mode)
+						{
+							case 'o':
+								channel->deleteOperator(user, option);
+								break;
+
+							default:
+							{
+								prepSend(client_fd, buildErrorMessage(ERR_UNKNOWNMODE, user, "MODE", user->getNickname()));
+								return ;
+							}
 						}
 					}
 				}
@@ -123,7 +149,6 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 				{
 					prepSend(client_fd, e.what());
 				}
-
 			}
 		}
 	}
