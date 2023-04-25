@@ -27,9 +27,11 @@ bool    Server::splitArgsPRIVMSG(std::string args, Channel **channel, User **rec
         *receveur = findUser(destinataire);
     if (args[i] == ' ')
         i++;
+    std::cout << "splitArgs1" << std::endl;
     if (i == args.length() || (args[i] && args[i] != ':'))
         return false;
     message = args.substr(i);
+    std::cout << "splitArgs2" << std::endl;
     return true;
 }
 
@@ -56,9 +58,9 @@ void    Server::PRIVMSG_cmd(int client_fd, User *user, std::string args)
     (void) args;
 
     std::string message;
-    Channel *chan;
+    Channel *chan = NULL;
     ChannelMember *sender;
-    User *receveur;
+    User *receveur = NULL;
     int receveur_fd;
 
     displayMessage("orange", "[PRIVMSG_cmd function called]");

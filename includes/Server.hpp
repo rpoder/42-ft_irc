@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 17:18:17 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 19:46:44 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ class Server
 		void	PRIVMSG_cmd(int client_fd, User *user, std::string args);
 		void	MODE_cmd(int client_fd, User *user, std::string args);
 		void	KICK_cmd(int client_fd, User *user, std::string args);
+		void   	NOTICE_cmd(int client_fd, User *user, std::string args);
+		void   	LIST_cmd(int client_fd, User *user, std::string args);
 
 		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
 		bool    splitArgsPRIVMSG(std::string args, Channel **channel, User **receveur, std::string &message);

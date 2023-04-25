@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+         #
+#    By: caubry <caubry@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/20 21:14:29 by ronanpoder        #+#    #+#              #
-#    Updated: 2023/04/25 15:23:30 by rpoder           ###   ########.fr        #
+#    Updated: 2023/04/25 19:45:09 by caubry           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ SRC			=	main.cpp \
 				src/commands/MODE_cmd.cpp \
 				src/commands/PRIVMSG_cmd.cpp \
 				src/commands/KICK_cmd.cpp \
+				src/commands/NOTICE_cmd.cpp \
+				src/commands/LIST_cmd.cpp \
 
 OBJS_PATH	=	./obj/
 

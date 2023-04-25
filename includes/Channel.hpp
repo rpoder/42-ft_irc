@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 17:18:09 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 21:07:28 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ class Channel
 		std::vector<ChannelMember>	getMembers() const;
 		std::string					getKey() const;
 		void						setKey(std::string key);
+		std::string					getOnlineMembers();
 
 		std::vector<ChannelMember>	_members;
 

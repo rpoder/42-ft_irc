@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 17:18:27 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 21:08:09 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,22 @@ void	Channel::setKey(std::string key)
 	_key = key;
 }
 
+std::string	Channel::getOnlineMembers()
+{
+	int i;
+	std::string s;
+	std::stringstream out;
+
+	i = 0;
+	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
+	{
+		if ((*it).isOnline() == true)
+			i++;
+	}
+	out << i;
+	s = out.str();
+	return (s);
+}
 
 //!-------------------------------FUNCTIONS-------------------------------------
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 17:18:31 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 19:06:35 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	Server::executeCommand(int client_fd, std::string input)
 	size_t					space_pos;
 	std::string				line("");
 	std::stringstream		ss(input);
-	std::string				commandes[9] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART", "PRIVMSG", "MODE", "KICK"};
-	void	(Server::*ptr_f[9])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd, &Server::PRIVMSG_cmd, &Server::MODE_cmd, &Server::KICK_cmd};
+	std::string				commandes[11] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART", "PRIVMSG", "MODE", "KICK", "NOTICE", "LIST"};
+	void	(Server::*ptr_f[11])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd, &Server::PRIVMSG_cmd, &Server::MODE_cmd, &Server::KICK_cmd, &Server::NOTICE_cmd, &Server::LIST_cmd};
 	User					*user;
 	std::string				cmd;
 	std::string 			args;
@@ -121,7 +121,7 @@ void	Server::executeCommand(int client_fd, std::string input)
 			else
 				args = trimInput(line.substr(space_pos));
 		}
-		for (int i = 0; i < 9; i++)
+		for (int i = 0; i < 11; i++)
 		{
 			if (commandes[i] == cmd && user)
 			{

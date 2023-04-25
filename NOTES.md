@@ -136,3 +136,6 @@ PRIVMSG - Chloe
 
 NOTICE
 	none
+
+	:mpou!1@localhost NOTICE caubry :coucou
+	:mpou!1@localhost NOTICE #chan :test
