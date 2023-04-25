@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 12:42:37 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 13:13:03 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,18 @@ bool	isMode(char c)
 
 void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 {
+	displayMessage("orange", "[MODE_cmd function called]");
 	(void)		user;
 	(void)		client_fd;
 	std::vector<std::string>	arguments;
 	std::string					channel_name;
+	char						mode_sign;
 	char						mode;
 	std::string					option;
 	Channel						*channel;
 	ChannelMember				*member;
 
-
+	(void) mode_sign;
 	arguments = splitArgs(args);
 	for (std::vector<std::string>::iterator it = arguments.begin(); it != arguments.end(); it++)
 		std::cout << *it << std::endl;

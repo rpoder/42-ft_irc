@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 13:05:38 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/25 13:11:49 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	Server::executeCommand(int client_fd, std::string input)
 	size_t					space_pos;
 	std::string				line("");
 	std::stringstream		ss(input);
-	std::string				commandes[7] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART", "PRIVMSG"};
-	void	(Server::*ptr_f[7])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd, &Server::PRIVMSG_cmd};
+	std::string				commandes[8] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART", "PRIVMSG", "MODE"};
+	void	(Server::*ptr_f[8])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd, &Server::PRIVMSG_cmd, &Server::MODE_cmd};
 	User					*user;
 	std::string				cmd;
 	std::string 			args;
@@ -121,7 +121,7 @@ void	Server::executeCommand(int client_fd, std::string input)
 			else
 				args = trimInput(line.substr(space_pos));
 		}
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < 8; i++)
 		{
 			if (commandes[i] == cmd && user)
 			{
