@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 12:57:47 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 13:03:15 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,16 @@ std::string	Channel::getName() const
 std::vector<ChannelMember> Channel::getMembers() const
 {
 	return (_members);
+}
+
+std::string	Channel::getKey() const
+{
+	return (_key);
+}
+
+void	Channel::setKey(std::string key)
+{
+	_key = key;
 }
 
 
