@@ -6,14 +6,13 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:59:53 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 15:21:19 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 16:46:52 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MESSAGE_HPP
 # define MESSAGE_HPP
 
-// # include "Server.hpp"
 # include "User.hpp"
 # include <utility>
 # include	<iostream>

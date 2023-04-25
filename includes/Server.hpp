@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 13:04:49 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/25 16:45:48 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ class Server
 				char	*_message;
 		};
 
-		void	MODE_cmd(int client_fd, User *user, std::string args);
 
 	private:
 		Server();
@@ -99,7 +98,9 @@ class Server
 		void	JOIN_cmd(int client_fd, User *user, std::string args);
 		void	PING_cmd(int client_fd, User *user, std::string args);
 		void	PART_cmd(int client_fd, User *user, std::string args);
-		void    PRIVMSG_cmd(int client_fd, User *user, std::string args);
+		void	PRIVMSG_cmd(int client_fd, User *user, std::string args);
+		void	MODE_cmd(int client_fd, User *user, std::string args);
+		void	KICK_cmd(int client_fd, User *user, std::string args);
 
 		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
 

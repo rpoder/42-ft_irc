@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 13:50:32 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 16:55:35 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ class Channel
 		void				defineOperator(User *user, std::string nickname_to_add);
 		void				deleteOperator(User *user, std::string nickname_to_delete);
 		void				defineKey(User *user, std::string &key);
+		ChannelMember		*kickMember(User *user, std::string nickname);
 
 		void				deleteMember(ChannelMember member);
-		// std::string			listMembers();
 		void				prepSendToAll(std::string message, void (Server::*sendMethod)(int, std::string));
 		ChannelMember		*findMember(User &user);
 		ChannelMember		*findMember(std::string nickname);
@@ -47,10 +47,8 @@ class Channel
 		std::string					getKey() const;
 		void						setKey(std::string key);
 
-
-
-		// std::vector<User*>	_members;
 		std::vector<ChannelMember>	_members;
+
 		class ChannelException:
 			public std::exception
 		{
@@ -71,8 +69,6 @@ class Channel
 		bool		_mode_b;
 		bool		_mode_o;
 		Server		*_server_instance;
-
-		// std::vector<User*>	_operators;
 };
 
 #include "Server.hpp"

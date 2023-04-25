@@ -169,7 +169,7 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 			break ;
 
 		case ERR_NOTONCHANNEL:
-			message += "Not on channel";
+			message += "You are not on that channel";
 			break ;
 
 		case ERR_UNKNOWNMODE:
@@ -252,4 +252,30 @@ std::string ft_trim(std::string str, char c)
 	while (stop >= 0 && str[stop] == c)
 		stop--;
 	return (str.substr(start, stop - start + 1));
+}
+
+
+std::vector<std::string>	splitArgs(std::string args)
+{
+	std::vector<std::string>	ret;
+	size_t						pos;
+
+	pos = 0;
+	while (args[pos] && args[pos] == ' ')
+		pos++;
+	while (pos != std::string::npos)
+	{
+		pos = args.find(' ', pos);
+		if (pos == std::string::npos)
+		{
+			ret.push_back(ft_trim(args, ' '));
+			break;
+		}
+		ret.push_back(ft_trim(args.substr(0, pos), ' '));
+		while (args[pos] && args[pos] == ' ')
+			pos++;
+		args = args.substr(pos);
+		pos = 0;
+	}
+	return (ret);
 }
