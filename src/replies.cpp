@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:07:01 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 13:46:14 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 15:22:55 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ std::string RPL_PART(User *user, Channel *channel)
 	return (prefix(user) + "PART :" + channel->getName() + SUFFIX);
 }
 
+std::string RPL_KICK(User *user, Channel *channel, User *user_to_kick)
+{
+	return (prefix(user) + "KICK " + channel->getName() + " " + user_to_kick->getNickname() + SUFFIX);
+}
+
+
 std::string RPL_ENDOFNAMES(ChannelMember &member, Channel &channel)
 {
 	std::string message;
@@ -57,5 +63,13 @@ std::string RPL_JOIN(ChannelMember &member, Channel &channel)
 
 	user = member.getUser();
 	message = prefix(user) + "JOIN :" + channel.getName() + SUFFIX;
+	return (message);
+}
+
+std::string RPL_KICK(User *user, Channel *channel, std::string nickname_kicked_out)
+{
+	std::string message;
+
+	message = prefix(user) + "KICK " + channel->getName() + " " + nickname_kicked_out + SUFFIX;
 	return (message);
 }

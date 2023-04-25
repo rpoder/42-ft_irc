@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 14:25:14 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/25 17:18:09 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ class Channel
 
 		void				addMember(ChannelMember member);
 		void				defineOperator(User *user, std::string nickname_to_add);
+		void				deleteOperator(User *user, std::string nickname_to_delete);
 		void				defineKey(User *user, std::string &key);
+		ChannelMember		*kickMember(User *user, std::string nickname);
 
 		void				deleteMember(ChannelMember member);
-		// std::string			listMembers();
 		void				prepSendToAll(std::string message, void (Server::*sendMethod)(int, std::string));
 		void				prepSendToAll(std::string message, void (Server::*prepSendMethod)(int, std::string), ChannelMember *sender);
 		ChannelMember		*findMember(User &user);
@@ -47,10 +48,8 @@ class Channel
 		std::string					getKey() const;
 		void						setKey(std::string key);
 
-
-
-		// std::vector<User*>	_members;
 		std::vector<ChannelMember>	_members;
+
 		class ChannelException:
 			public std::exception
 		{
@@ -71,8 +70,6 @@ class Channel
 		bool		_mode_b;
 		bool		_mode_o;
 		Server		*_server_instance;
-
-		// std::vector<User*>	_operators;
 };
 
 #include "Server.hpp"
