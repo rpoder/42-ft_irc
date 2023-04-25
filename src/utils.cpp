@@ -170,15 +170,23 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 
 		case ERR_NOTONCHANNEL:
 			message += "Not on channel";
+			break ;
 
 		case ERR_UNKNOWNMODE:
 			message += "No such mode";
+			break ;
 
 		case ERR_CHANOPRIVSNEEDED:
 			message += "You must be operator";
+			break ;
 
 		case ERR_NOSUCHNICK:
 			message += "No such nickname";
+			break ;
+
+		case ERR_KEYSET:
+			message += "Key is already set";
+			break ;
 
 		default:
 			break ;

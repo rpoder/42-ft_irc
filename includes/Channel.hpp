@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 13:03:34 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/25 13:50:32 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ class Channel
 
 		void				addMember(ChannelMember member);
 		void				defineOperator(User *user, std::string nickname_to_add);
+		void				deleteOperator(User *user, std::string nickname_to_delete);
 		void				defineKey(User *user, std::string &key);
 
 		void				deleteMember(ChannelMember member);
