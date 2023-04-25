@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 13:50:39 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 16:56:04 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,32 @@ void	Channel::defineKey(User *user, std::string &key)
 		err = buildErrorMessage(ERR_KEYSET, user, "MODE", _name);
 		throw(Channel::ChannelException(err));
 	}
+}
+
+ChannelMember	*Channel::kickMember(User *user, std::string nickname)
+{
+	ChannelMember	*member;
+	std::string		err;
+
+	member = findMember(nickname);
+	if (member && *(member->getUser()) == *user)
+	{
+		err = buildErrorMessage(ERR_NOSUCHNICK, user, "KICK", member->getUser()->getNickname());
+		throw(Channel::ChannelException(err));
+	}
+	if (!member || member->isOnline() == false)
+	{
+		err = buildErrorMessage(ERR_NOSUCHNICK, user, "KICK", nickname);
+		throw(Channel::ChannelException(err));
+	}
+	else
+	{
+		member->setIsOnline(false);
+		if (member->isOperator() == true)
+			member->setIsOperator(false);
+		return (member);
+	}
+	return (NULL);
 }
 
 //!-------------------------------EXCEPTIONS------------------------------------

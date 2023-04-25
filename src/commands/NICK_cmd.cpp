@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 15:46:02 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 16:44:01 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,5 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 		prepSend(client_fd, message);
 	}
 	else
-	{
 		user->setNickname(args);
-		//std::cout << "nicknqme set to " << user->getNickname() << std::endl;
-	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 13:53:05 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:19:55 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	Server::executeCommand(int client_fd, std::string input)
 	size_t					space_pos;
 	std::string				line("");
 	std::stringstream		ss(input);
-	std::string				commandes[8] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART", "PRIVMSG", "MODE"};
-	void	(Server::*ptr_f[8])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd, &Server::PRIVMSG_cmd, &Server::MODE_cmd};
+	std::string				commandes[9] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART", "PRIVMSG", "MODE", "KICK"};
+	void	(Server::*ptr_f[9])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd, &Server::PRIVMSG_cmd, &Server::MODE_cmd, &Server::KICK_cmd};
 	User					*user;
 	std::string				cmd;
 	std::string 			args;
@@ -121,7 +121,7 @@ void	Server::executeCommand(int client_fd, std::string input)
 			else
 				args = trimInput(line.substr(space_pos));
 		}
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 9; i++)
 		{
 			if (commandes[i] == cmd && user)
 			{
@@ -196,9 +196,7 @@ void	Server::handleRegistration(int client_fd)
 	std::string	message;
 
 	user = findUser(client_fd);
-	if (!user)
-		std::cout << "on handle registration user doesnt exist" << std::endl;
-	else if (user && user->getIsRegistered() == false
+	if (user && user->getIsRegistered() == false
 		&& user->getNickname().length() > 0
 		&& user->getUsername().length() > 0)
 	{

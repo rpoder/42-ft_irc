@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   utils.hpp										  :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: rpoder <rpoder@student.42.fr>			  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2023/04/11 19:37:31 by rpoder			#+#	#+#			 */
-/*   Updated: 2023/04/12 12:39:53 by rpoder		   ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/25 16:47:32 by rpoder            #+#    #+#             */
+/*   Updated: 2023/04/25 16:48:29 by rpoder           ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_TPP
@@ -19,29 +19,32 @@
 # include "ChannelMember.hpp"
 # include <map>
 # include <sstream>
+# include <vector>
 
-void	    printContainer(std::map<int, User> container);
-void	printMember(ChannelMember member);
+void						printContainer(std::map<int, User> container);
+void						printUser(int fd, User &user);
+void						printMember(ChannelMember member);
 
 
-void	    executeCommand(std::string cmd, int client_fd);
+// void						executeCommand(std::string cmd, int client_fd);
 
-void	    printUser(int fd, User &user);
 
-std::string		trimInput(std::string str);
+std::string					trimInput(std::string str);
 
-void			displayMessage(std::string color, std::string str);
-void			displayMessage(std::string color, std::string str, bool endl);
+void						displayMessage(std::string color, std::string str);
+void						displayMessage(std::string color, std::string str, bool endl);
 
-int				checkPortNumber(std::string port);
+int							checkPortNumber(std::string port);
 
-std::string		buildErrorMessage(int code, User *user, std::string cmd, std::string args);
+std::string					buildErrorMessage(int code, User *user, std::string cmd, std::string args);
 
-std::string		prefix(User *user);
+std::string					prefix(User *user);
 
-size_t			countArgs(std::string args);
-std::string		trimArgsNb(std::string args, int nb);
+size_t						countArgs(std::string args);
+std::string					trimArgsNb(std::string args, int nb);
 
-std::string		ft_trim(std::string str, char c);
+std::string					ft_trim(std::string str, char c);
+
+std::vector<std::string>	splitArgs(std::string args);
 
 #endif
