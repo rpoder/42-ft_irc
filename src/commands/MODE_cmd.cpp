@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 18:33:29 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 12:42:37 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 		std::cout << *it << std::endl;
 	if (arguments.size() != 3 || arguments[0][0] != '#' || arguments[1][0] != '+' || arguments[1].size() != 2)
 	{
-		std::cout << "need more params 461" << std::endl;
+		prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "MODE", ""));
 		return ;
 	}
 	channel_name = arguments[0];
@@ -73,7 +73,7 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 	std::cout << "option = " << option << std::endl;
 	if (!channel)
 	{
-		std::cout << "no such channel 403" << std::endl;
+		prepSend(client_fd, buildErrorMessage(ERR_NOSUCHCHANNEL, user, "MODE", channel_name));
 		return ;
 	}
 	else
@@ -81,13 +81,14 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 		member = channel->findMember(*user);
 		if (!member)
 		{
-			std::cout << "not on channel 442" << std::endl;
+			prepSend(client_fd, buildErrorMessage(ERR_NOTONCHANNEL, user, "MODE", option));
 			return ;
 		}
 		else
 		{
 			if (member->isOperator() == false)
 			{
+				prepSend(client_fd, buildErrorMessage(ERR_CHANOPRIVSNEEDED, user, "MODE", user->getNickname()));
 				std::cout << "your not channel op 482" << std::endl;
 				return ;
 			}
@@ -102,7 +103,7 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 							break;
 
 						case 'k':
-							/* code */
+							channel->defineKey(user, option);
 							break;
 
 						case 'b':
@@ -111,14 +112,14 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 
 						default:
 						{
-							std::cout << "no such mode 472" << std::endl;
+							prepSend(client_fd, buildErrorMessage(ERR_UNKNOWNMODE, user, "MODE", user->getNickname()));
 							return ;
 						}
 					}
 				}
-				catch(const std::exception &e)
+				catch(Channel::ChannelException &e)
 				{
-					std::cout << e.what() << std::endl;
+					prepSend(client_fd, e.what());
 				}
 
 			}

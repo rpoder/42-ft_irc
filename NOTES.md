@@ -70,6 +70,10 @@ MODE w/ options
 	ERR_KEYSET (467)
 		:caubry!1@localhost 467 caubry #test :Channel key already set
 
+	RPL_??? (324)
+		:rpoder!1@localhost 324 rpoder #coucou +o rpoder
+		:rpoder!1@localhost 324 rpoder #coucou +n
+
 	RPL_BANLIST (367)
 
 	RPL_ENDOFBANLIST (368)

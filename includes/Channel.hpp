@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 18:12:35 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 12:42:29 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ class Channel
 
 		void				addMember(ChannelMember member);
 		void				defineOperator(User *user, std::string nickname_to_add);
+		void				defineKey(User *user, std::string &key);
 
 		void				deleteMember(ChannelMember member);
 		// std::string			listMembers();
@@ -44,8 +45,21 @@ class Channel
 		std::vector<ChannelMember>	getMembers() const;
 
 
+
 		// std::vector<User*>	_members;
 		std::vector<ChannelMember>	_members;
+		class ChannelException:
+			public std::exception
+		{
+			public:
+				ChannelException();
+				ChannelException(std::string message);
+				virtual const char	*what() const throw();
+				virtual				~ChannelException() throw();
+
+			private:
+				std::string	_message;
+		};
 
 	private:
 		std::string	_name;
@@ -55,18 +69,6 @@ class Channel
 		bool		_mode_o;
 		Server		*_server_instance;
 
-		class ChannelException:
-			public std::exception
-		{
-			public:
-				ChannelException();
-				ChannelException(char *message);
-				virtual const char	*what() const throw();
-				virtual				~ChannelException() throw();
-
-			private:
-				char	*_message;
-		};
 		// std::vector<User*>	_operators;
 };
 
