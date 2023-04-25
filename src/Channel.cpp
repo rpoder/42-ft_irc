@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 15:53:41 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 12:55:33 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ std::vector<ChannelMember> Channel::getMembers() const
 	return (_members);
 }
 
+
 //!-------------------------------FUNCTIONS-------------------------------------
 
 void	Channel::addMember(ChannelMember member)
@@ -98,27 +99,63 @@ ChannelMember	*Channel::findMember(User &user)
 	return (NULL);
 }
 
-// std::string Channel::listMembers()
-// {
-// 	std::string list;
-
-// 	for (std::vector<User*>::iterator it = _members.begin(); it != _members.end(); it++)
-// 	{
-// 		std::cout << "|" << (*it)->getNickname() << "|" << std::endl;
-// 		list += (*it)->getNickname() + " ";
-// 	}
-// 	std::cout << "list = |" << list << "|" << std::endl;
-// 	return (list);
-// }
+ChannelMember	*Channel::findMember(std::string nickname)
+{
+	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
+	{
+		if (it->getUser()->getNickname() == nickname)
+			return (&(*it));
+	}
+	return (NULL);
+}
 
 void	Channel::prepSendToAll(std::string message, void (Server::*prepSendMethod)(int, std::string))
 {
+	(void) prepSendMethod;
+
 	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
 		(_server_instance->*prepSendMethod)((*it).getFd(), message);
 }
 
-// void	Channel::prepSendToAll(std::string message)
-// {
-// 	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
-// 		_server_instance->prepSend((*it).getFd(), message);
-// }
+
+void	Channel::defineOperator(User *user, std::string nickname_to_add)
+{
+	ChannelMember	*member;
+	std::string		err;
+
+	std::cout << nickname_to_add << std::endl;
+	member = findMember(nickname_to_add);
+	std::cout << nickname_to_add << std::endl;
+	if (!member)
+	{
+		err = buildErrorMessage(ERR_NOSUCHNICK, user, "MODE", nickname_to_add);
+		throw(Channel::ChannelException(err));
+	}
+	else
+	{
+		member->setIsOperator(true);
+	}
+}
+
+void	Channel::defineKey(User *user, std::string &key)
+{
+	_key = key;
+}
+
+//!-------------------------------EXCEPTIONS------------------------------------
+
+Channel::ChannelException::ChannelException():
+	_message()
+{}
+
+Channel::ChannelException::ChannelException(std::string message):
+	_message(message)
+{}
+
+Channel::ChannelException::~ChannelException() throw()
+{}
+
+const char	*Channel::ChannelException::what() const throw()
+{
+	return(_message.c_str());
+}

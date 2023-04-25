@@ -140,7 +140,6 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 	ss << code;
 	ss >> code_str;
 
-	std::cout << "IN" << std::endl;
 	message = prefix(user) + code_str + " " + user->getNickname();
 	if (code == ERR_NEEDMOREPARAMS)
 		message += " " + cmd;
@@ -172,6 +171,15 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 		case ERR_NOTONCHANNEL:
 			message += "Not on channel";
 
+		case ERR_UNKNOWNMODE:
+			message += "No such mode";
+
+		case ERR_CHANOPRIVSNEEDED:
+			message += "You must be operator";
+
+		case ERR_NOSUCHNICK:
+			message += "No such nickname";
+
 		default:
 			break ;
 	}
@@ -181,7 +189,7 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 }
 
 size_t	countArgs(std::string args) // use st::count (return un std::string::difference_type)
-{	
+{
 	size_t	count;
 	size_t	i;
 
