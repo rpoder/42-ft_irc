@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 12:55:33 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 12:57:47 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void	Channel::defineOperator(User *user, std::string nickname_to_add)
 
 void	Channel::defineKey(User *user, std::string &key)
 {
+	(void) user;
 	_key = key;
 }
 
