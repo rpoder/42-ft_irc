@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:39:49 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 11:43:06 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,22 @@ void	Channel::setKey(std::string key)
 	_key = key;
 }
 
+std::string	Channel::getOnlineMembers()
+{
+	int i;
+	std::string s;
+	std::stringstream out;
+
+	i = 0;
+	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
+	{
+		if ((*it).isOnline() == true)
+			i++;
+	}
+	out << i;
+	s = out.str();
+	return (s);
+}
 std::vector<std::string>	Channel::getBannedMembers() const
 {
 	return (_bannedMembers);

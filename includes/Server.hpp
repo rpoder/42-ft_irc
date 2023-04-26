@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 17:53:10 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 11:42:44 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ class Server
 		void	PRIVMSG_cmd(int client_fd, User *user, std::string args);
 		void	MODE_cmd(int client_fd, User *user, std::string args);
 		void	KICK_cmd(int client_fd, User *user, std::string args);
+		void   	NOTICE_cmd(int client_fd, User *user, std::string args);
+		void   	LIST_cmd(int client_fd, User *user, std::string args);
 		void	QUIT_cmd(int client_fd, User *user, std::string args);
 
 		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
