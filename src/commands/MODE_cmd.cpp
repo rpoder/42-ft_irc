@@ -3,48 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   MODE_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 20:12:34 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:21:04 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-std::vector<std::string>	splitArgs(std::string args)
-{
-	std::vector<std::string>	ret;
-	size_t						pos;
-
-	pos = 0;
-	while (args[pos] && args[pos] == ' ')
-		pos++;
-	while (pos != std::string::npos)
-	{
-		pos = args.find(' ', pos);
-		if (pos == std::string::npos)
-		{
-			ret.push_back(ft_trim(args, ' '));
-			break;
-		}
-		ret.push_back(ft_trim(args.substr(0, pos), ' '));
-		while (args[pos] && args[pos] == ' ')
-			pos++;
-		args = args.substr(pos);
-		pos = 0;
-	}
-	return (ret);
-}
-
-bool	isMode(char c)
-{
-	if (c == 'b' || c == 'k' || c == 'o')
-		return (true);
-	return (false);
-}
-
-bool	isModeSign(char c)
+static bool	isModeSign(char c)
 {
 	if (c == '+' || c == '-')
 		return (true);
@@ -65,8 +33,6 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 
 	(void) mode_sign;
 	arguments = splitArgs(args);
-	for (std::vector<std::string>::iterator it = arguments.begin(); it != arguments.end(); it++)
-		std::cout << *it << std::endl;
 	if (arguments.size() != 3 || arguments[0][0] != '#' || isModeSign(arguments[1][0]) == false || arguments[1].size() != 2)
 	{
 		prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "MODE", ""));
@@ -77,10 +43,6 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 	mode = arguments[1][1];
 	option = arguments[2];
 	channel = findChannel(channel_name);
-	std::cout << "channel_name = "<< channel_name << std::endl;
-	std::cout << "mode_sign = " << mode_sign << std::endl;
-	std::cout << "mode = "<< mode << std::endl;
-	std::cout << "option = " << option << std::endl;
 	if (!channel)
 	{
 		prepSend(client_fd, buildErrorMessage(ERR_NOSUCHCHANNEL, user, "MODE", channel_name));
@@ -125,15 +87,15 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 									std::string ms(1, mode_sign);
 									std::string m(1, mode);
 									std::string reply_details = ms + m + " " + option;
-									
+
 									banned_member = channel->banMember(user, option);
-									channel->prepSendToAll(RPL_PART(banned_member->getUser(), channel), &Server::prepSend);	
+									channel->prepSendToAll(RPL_PART(banned_member->getUser(), channel), &Server::prepSend);
 									prepSend(client_fd, RPL_CHANNELMODEIS(*member, *channel, reply_details));
 								}
 								catch(const std::exception &e)
 								{
 									prepSend(client_fd, e.what());
-								}		
+								}
 								break;
 							}
 
@@ -159,14 +121,14 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 									std::string ms(1, mode_sign);
 									std::string m(1, mode);
 									std::string reply_details = ms + m + " " + option;
-									
+
 									debanned_member = channel->debanMember(user, option);
 									prepSend(client_fd, RPL_CHANNELMODEIS(*member, *channel, reply_details));
 								}
 								catch(const std::exception &e)
 								{
 									prepSend(client_fd, e.what());
-								}		
+								}
 								break;
 							}
 							default:
@@ -184,7 +146,4 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 			}
 		}
 	}
-
-
-
 }

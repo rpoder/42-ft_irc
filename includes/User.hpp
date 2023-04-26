@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:49 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 14:44:26 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:20:21 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ class User
 		~User();
 
 		User	&operator=(const User &copy);
-
 		bool	operator==(const User &rhs);
 
 		void			setNickname(std::string &str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelMember.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:41:58 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 18:03:20 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 14:24:29 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,13 @@ ChannelMember	&ChannelMember::operator=(const ChannelMember &copy)
 bool	ChannelMember::operator==(const ChannelMember &rhs)
 {
 	if (_user == rhs._user)
+		return (true);
+	return (false);
+}
+
+bool	ChannelMember::operator!=(const ChannelMember &rhs)
+{
+	if (_user != rhs._user)
 		return (true);
 	return (false);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   USER_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 16:36:55 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:29:51 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	Server::USER_cmd(int client_fd, User *user, std::string args)
 	std::string						ip_address;
 	int								nb_args;
 	std::map<int, User>::iterator	it;
-
 
 	nb_args = countArgs(args);
 	if (nb_args != 4)
@@ -63,5 +62,8 @@ void	Server::USER_cmd(int client_fd, User *user, std::string args)
 	std::cout << "raw_username set :" << user->getRawUsername() << std::endl;
 	std::cout << "ip_address set :" << user->getIpAddress() << std::endl;
 
+	// //test
+	// std::cout << "username set :" << user->getUsername() << std::endl;
+	// std::cout << "raw_username set :" << user->getRawUsername() << std::endl;
 
 }

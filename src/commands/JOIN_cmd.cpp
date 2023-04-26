@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 19:46:50 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:21:01 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void            fillVectorsJoin(std::string s, std::vector<std::string> &v)
 {
 	size_t comma;
 
-	std::cout << "string = " << s << std::endl; 
 	for (size_t i = 0; i != s.npos; i++)
 	{
 		comma = s.substr(i).find(",");
@@ -76,7 +75,7 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 			{
 				Channel 		newChannel(this, name);
 				ChannelMember	newChannelMember(user, true, client_fd);
-				
+
 				newChannel.addMember(newChannelMember);
 				if (keys[i].length() > 0 && keys[i].compare("x") != 0)
 					newChannel.setKey(keys[i]);
@@ -94,7 +93,7 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 				{
 					it->second.addMember(newChannelMember);
 					sendJoinRPL(client_fd, newChannelMember, it->second);
-				}	
+				}
 			}
 			else // le channel existe, mais le user est deja membre
 			{
@@ -102,10 +101,10 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 
 				member = it->second.findMember(*user);
 
-				//parcourir tableau de bannis et return si trouve	
+				//parcourir tableau de bannis et return si trouve
 				std::vector<std::string>	banned_list;
 
-				banned_list = it->second.getBannedMembers();	
+				banned_list = it->second.getBannedMembers();
 				for (std::vector<std::string>::iterator it = banned_list.begin(); it != banned_list.end(); it++)
 				{
 					if (user->getIpAddress().compare(*it) == 0)
@@ -113,7 +112,7 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 						handleSend(client_fd, buildErrorMessage(ERR_BANNEDFROMCHAN, user, "JOIN", name));
 						return ;
 					}
-				}			
+				}
 				if (it->second.getKey().length() > 0 && it->second.getKey().compare(keys[i]) != 0)
 					handleSend(client_fd, buildErrorMessage(ERR_BADCHANNELKEY, user, "JOIN", name));
 				else

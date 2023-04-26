@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 13:04:49 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/25 17:53:10 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ class Server
 		void	start();
 		std::string getPassword();
 
+		User	*findUser(int fd);
+		User	*findUser(std::string nickname);
+		Channel	*findChannel(std::string &name);
+
 		class ServerInitException:
 			public std::exception
 		{
@@ -75,7 +79,6 @@ class Server
 				char	*_message;
 		};
 
-		void	MODE_cmd(int client_fd, User *user, std::string args);
 
 	private:
 		Server();
@@ -88,9 +91,6 @@ class Server
 		void	handleSend(int fd, std::string message);
 		void	prepSend(int fd, std::string message);
 
-		User	*findUser(int fd);
-		User	*findUser(std::string nickname);
-		Channel	*findChannel(std::string &name);
 
 		void	executeCommand(int client_fd, std::string input);
 		void	USER_cmd(int client_fd, User *user, std::string args);
@@ -99,9 +99,13 @@ class Server
 		void	JOIN_cmd(int client_fd, User *user, std::string args);
 		void	PING_cmd(int client_fd, User *user, std::string args);
 		void	PART_cmd(int client_fd, User *user, std::string args);
-		void    PRIVMSG_cmd(int client_fd, User *user, std::string args);
+		void	PRIVMSG_cmd(int client_fd, User *user, std::string args);
+		void	MODE_cmd(int client_fd, User *user, std::string args);
+		void	KICK_cmd(int client_fd, User *user, std::string args);
+		void	QUIT_cmd(int client_fd, User *user, std::string args);
 
 		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
+		bool    splitArgsPRIVMSG(std::string args, Channel **channel, User **receveur, std::string &message);
 
 		std::map<int, User>				_users;
 		std::map<std::string, Channel>	_channels;
