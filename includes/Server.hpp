@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:42:44 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 14:25:24 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ class Server
 
 		Server	&operator=(const Server &copy);
 		void	start();
+		void	waitEvents();
+
 		std::string getPassword();
 
 		User	*findUser(int fd);
@@ -107,7 +109,7 @@ class Server
 		void	QUIT_cmd(int client_fd, User *user, std::string args);
 
 		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
-		bool    splitArgsPRIVMSG(std::string args, Channel **channel, User **receveur, std::string &message);
+		bool    splitArgsPRIVMSG(std::string args, Channel **channel, User **receiver, std::string &message);
 
 		std::map<int, User>				_users;
 		std::map<std::string, Channel>	_channels;

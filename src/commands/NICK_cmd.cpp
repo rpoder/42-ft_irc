@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NICK_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 14:28:01 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:34:39 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 {
-	displayMessage("orange", "[NICK_cmd function called]");
-
 	std::string						previous_nickName;
 	std::string						message;
 	int								nb_args;

@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:07:01 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:30:11 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 14:31:49 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,7 @@ std::string	RPL_CHANNELMODEIS(ChannelMember &member, Channel &channel, std::stri
 		reply_details + SUFFIX;
 	return (message);
 }
-/*
-			:caubry!1@localhost 324 caubry #test +np
-		:rpoder!1@localhost 324 rpoder #coucou +o rpoder
-		:rpoder!1@localhost 324 rpoder #coucou +n */
+
 std::string RPL_KICK(User *user, Channel *channel, std::string nickname_kicked_out)
 {
 	std::string message;

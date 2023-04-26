@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:45:32 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 14:32:16 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ void	Server::executeCommand(int client_fd, std::string input)
 
 void	Server::handleNewConnection()
 {
-	displayMessage("orange", "[handleNewConnection called]");
 	t_sockaddr_storage	client_addr;
 	int					new_client_fd;
 	socklen_t			addr_size;
@@ -160,8 +159,6 @@ void	Server::handleNewConnection()
 
 void	Server::handleLostConnection(int fd)
 {
-	displayMessage("orange", "[handleLostConnection called]");
-
 	User			*user;
 
 	user = findUser(fd);
@@ -171,19 +168,21 @@ void	Server::handleLostConnection(int fd)
 
 void	Server::handleInput(int client_fd, char *input)
 {
-	char			*dup;
+	static std::string	input_str;
+	size_t				end_of_line;
 
-
-	dup = strdup(input);
-	std::string	input_str(dup);
-
-	std::cout << "input: " << input_str ;
-	executeCommand(client_fd, input_str);
+	input_str += static_cast<std::string>(input);
+	end_of_line = input_str.find("\n");
+	if (end_of_line != input_str.npos)
+	{
+		std::cout << "input: " << input_str << std::endl;
+		executeCommand(client_fd, input_str);
+		input_str.clear();
+	}
 }
 
 void	Server::handleRegistration(int client_fd)
 {
-	displayMessage("orange", "[handleRegistration called]");
 	User		*user;
 	std::string	message;
 
@@ -262,50 +261,48 @@ Channel	*Server::findChannel(std::string &name)
 
 void	Server::listen()
 {
-	t_epoll_event		events[EPOLL_EVENTS_MAX];
-	int					event_count;
-	char				input[BUFFER_MAX];
 	t_epoll_event		event_settings;
 
-	// listen
 	if (::listen(_server_fd, CONNECTIONS_MAX) != 0)
 		throw (Server::ServerInitException());
 
 	_epoll_fd = epoll_create(EPOLL_FD_MAX);
 	if (_epoll_fd == -1)
 		throw (Server::ServerInitException());
-
 	event_settings.data.fd = _server_fd;
 	event_settings.events = EPOLLIN;
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _server_fd, &event_settings);
 	std::cout << std::endl << "\033[1;37mServer started: listening on port " << _port << "\033[0m" << std::endl;
-	while (1)
+}
+
+void	Server::waitEvents()
+{
+	t_epoll_event		events[EPOLL_EVENTS_MAX];
+	int					event_count;
+	char				input[BUFFER_MAX];
+
+
+	event_count = epoll_wait(_epoll_fd, events, EPOLL_EVENTS_MAX, -1);
+	if (event_count == -1)
+		throw (Server::ServerInitException());
+	for (int i = 0; i < event_count; i++)
 	{
-		event_count = epoll_wait(_epoll_fd, events, EPOLL_EVENTS_MAX, -1);
-		if (event_count == -1)
-			throw (Server::ServerInitException());
-		for (int i = 0; i < event_count; i++)
+		if (events[i].data.fd == _server_fd)
+			handleNewConnection();
+		else if (events[i].events & EPOLLIN)
 		{
-			if (events[i].data.fd == _server_fd)
-				handleNewConnection();
-			else if (events[i].events & EPOLLIN)
-			{
-				memset(input, 0, BUFFER_MAX);
-				if (recv(events[i].data.fd, input, BUFFER_MAX, 0) == 0)
-					handleLostConnection(events[i].data.fd);
-				else
-					handleInput(events[i].data.fd, input);
-			}
-			else if (events[i].events & EPOLLOUT)
-				_message_buffer.sendTo(events[i].data.fd, &Server::handleSend);
-			handleRegistration(events[i].data.fd);
+			memset(input, 0, BUFFER_MAX);
+			if (recv(events[i].data.fd, input, BUFFER_MAX, 0) == 0)
+				handleLostConnection(events[i].data.fd);
+			else
+				handleInput(events[i].data.fd, input);
 		}
-		// std::cout << "boucle inf" << std::endl;
-		memset(events, 0, sizeof(events));
+		else if (events[i].events & EPOLLOUT)
+			_message_buffer.sendTo(events[i].data.fd, &Server::handleSend);
+		handleRegistration(events[i].data.fd);
 	}
 }
 
-// create a socket, clean the socket memory, link(bind) socket to a port
 void	Server::initSocket()
 {
 	int	setsock_opt;

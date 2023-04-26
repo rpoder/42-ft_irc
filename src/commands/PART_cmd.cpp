@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 14:49:35 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 14:27:17 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ std::vector<std::string>	splitChannels(std::string args)
 
 void	Server::PART_cmd(int client_fd, User *user, std::string args)
 {
-	displayMessage("orange", "[PART_cmd function called]");
 	Channel						*channel;
 	ChannelMember				*member;
 	std::vector<std::string>	to_quit;
