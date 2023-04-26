@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/04/25 19:55:39 by mpourrey         ###   ########.fr       */
-=======
-/*   Updated: 2023/04/25 17:18:09 by rpoder           ###   ########.fr       */
->>>>>>> master
+/*   Updated: 2023/04/26 11:33:32 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +49,10 @@ class Channel
 		std::vector<ChannelMember>	getMembers() const;
 		std::string					getKey() const;
 		void						setKey(std::string key);
-<<<<<<< HEAD
 		std::vector<std::string>	getBannedMembers() const;
 
 		// std::vector<User*>	_members;
 		std::vector<ChannelMember>	_members; //public ??
-=======
-
-		std::vector<ChannelMember>	_members;
-
->>>>>>> master
 		class ChannelException:
 			public std::exception
 		{
@@ -77,7 +67,6 @@ class Channel
 		};
 
 	private:
-<<<<<<< HEAD
 		std::string					_name;
 		std::string					_key;
 		bool						_mode_k;
@@ -87,14 +76,6 @@ class Channel
 		std::vector<std::string>	_bannedMembers;
 
 		// std::vector<User*>	_operators;
-=======
-		std::string	_name;
-		std::string	_key;
-		bool		_mode_k;
-		bool		_mode_b;
-		bool		_mode_o;
-		Server		*_server_instance;
->>>>>>> master
 };
 
 #include "Server.hpp"
