@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:22:04 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 16:38:43 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 20:23:29 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 bool is_running = true;
 
-void signalHandler( int signum ) {
-	std::cout << "Interrupt signal (" << signum << ") received.\n";
+void signalHandler( int signum )
+{
+	(void) signum;
 	is_running = false;
 }
 

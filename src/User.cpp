@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:35:51 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 14:32:31 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 20:13:04 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ bool	User::operator==(const User &rhs)
 
 //!-------------------------------ACCESSORS-------------------------------------
 
-void	User::setNickname(std::string &str)
+void	User::setNickname(std::string str)
 {
 	_nickname = str;
 }
