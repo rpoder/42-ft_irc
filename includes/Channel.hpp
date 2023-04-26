@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/04/25 21:07:28 by caubry           ###   ########.fr       */
-=======
-/*   Updated: 2023/04/26 11:33:32 by rpoder           ###   ########.fr       */
->>>>>>> master
+/*   Updated: 2023/04/26 11:45:26 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +49,8 @@ class Channel
 		std::vector<ChannelMember>	getMembers() const;
 		std::string					getKey() const;
 		void						setKey(std::string key);
-<<<<<<< HEAD
 		std::string					getOnlineMembers();
-=======
 		std::vector<std::string>	getBannedMembers() const;
->>>>>>> master
 
 		// std::vector<User*>	_members;
 		std::vector<ChannelMember>	_members; //public ??
