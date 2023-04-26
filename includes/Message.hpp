@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:59:53 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 16:46:52 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 16:20:58 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include	<algorithm>
 
 class Server;
+typedef epoll_event			t_epoll_event;
 
 class Message
 {
@@ -40,14 +41,17 @@ class Message
 		~Message();
 
 		void	addMessage(int fd, std::string message);
-		void	sendTo(int fd, void (Server::*sendMethod)(int, std::string));
+		void	sendTo(int fd,  void (Server::*sendMethod)(int, std::string));
 
 		Message	&operator=(const Message &copy);
 
 	private:
 		Message();
-		std::vector< std::pair<int, std::string> > _messages;
+		std::vector< std::pair<int, std::string> >	_messages;
 		Server										*_server_instance;
+
 };
+
+# include	"Server.hpp"
 
 #endif

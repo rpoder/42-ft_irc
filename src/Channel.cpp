@@ -95,6 +95,21 @@ std::string	Channel::getOnlineMembers()
 	s = out.str();
 	return (s);
 }
+
+size_t	Channel::getOperatorsCount()
+{
+	size_t	count;
+
+	count = 0;
+	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
+	{
+		if ((*it).isOperator() == true)
+			count++;
+	}
+	return (count);
+}
+
+
 std::vector<std::string>	Channel::getBannedMembers() const
 {
 	return (_bannedMembers);
@@ -107,6 +122,20 @@ std::vector<std::string>	Channel::getBannedMembers() const
 void	Channel::addMember(ChannelMember member)
 {
 	_members.push_back(member);
+}
+
+void	Channel::deleteMember(User *user)
+{
+	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
+	{
+		if (*(it->getUser()) == *user)
+		{
+			_members.erase(it);
+			break ;
+		}
+	}
+	if (getOperatorsCount() == 0)
+		_members.front().setIsOperator(true);
 }
 
 void	Channel::deleteMember(ChannelMember member)
@@ -151,7 +180,7 @@ void	Channel::prepSendToAll(std::string message, void (Server::*prepSendMethod)(
 {
 	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
 	{
-		if (sender == NULL || *it != *sender)
+		if (sender == NULL || (*it != *sender && it->isOnline() == true))
 			(_server_instance->*prepSendMethod)((*it).getFd(), message);
 	}
 }
@@ -197,6 +226,19 @@ void	Channel::defineKey(User *user, std::string &key)
 
 	if (_key.length() == 0)
 		_key = key;
+	else
+	{
+		err = buildErrorMessage(ERR_KEYSET, user, "MODE", _name);
+		throw(Channel::ChannelException(err));
+	}
+}
+
+void	Channel::deleteKey(User *user, std::string &key)
+{
+	std::string	err;
+
+	if (key == _key)
+		_key = "";
 	else
 	{
 		err = buildErrorMessage(ERR_KEYSET, user, "MODE", _name);

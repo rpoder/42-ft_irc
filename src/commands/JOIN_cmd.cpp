@@ -6,13 +6,13 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 14:24:20 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 16:42:32 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-void            fillVectorsJoin(std::string s, std::vector<std::string> &v)
+void	fillVectorsJoin(std::string s, std::vector<std::string> &v)
 {
 	size_t comma;
 
@@ -30,7 +30,7 @@ void            fillVectorsJoin(std::string s, std::vector<std::string> &v)
 	}
 }
 
-void            splitArgsJoin(std::string args, std::vector<std::string> &channels, std::vector<std::string> &keys)
+void	splitArgsJoin(std::string args, std::vector<std::string> &channels, std::vector<std::string> &keys)
 {
 	size_t i;
 	size_t j;

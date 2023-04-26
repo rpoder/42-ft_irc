@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 17:31:20 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/26 18:05:29 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 # define	CONNECTIONS_MAX		20
 # define	EPOLL_EVENTS_MAX	1
 # define	EPOLL_FD_MAX		21
-# define	BUFFER_MAX			2024
+# define	BUFFER_MAX			2048
 # define	SUFFIX				"\r\n"
 
 typedef addrinfo			t_addrinfo;
@@ -53,6 +53,8 @@ typedef epoll_event			t_epoll_event;
 
 class Server
 {
+	friend class	Message;
+
 	public:
 		Server(int port, std::string password);
 		Server(const Server &copy);
@@ -80,7 +82,6 @@ class Server
 			private:
 				char	*_message;
 		};
-
 
 	private:
 		Server();

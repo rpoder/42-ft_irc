@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 14:28:26 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 15:03:36 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,9 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 						{
 							case 'o':
 								channel->deleteOperator(user, option);
+								break;
+							case 'k':
+								channel->deleteKey(user, option);
 								break;
 							case 'b':
 							{

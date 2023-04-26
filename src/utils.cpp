@@ -188,7 +188,7 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 			message += "Cannot send to channel";
 
 		case ERR_KEYSET:
-			message += "Key is already set";
+			message += "Cannot set key";
 			break ;
 
 		case ERR_BADCHANNELKEY:

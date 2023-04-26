@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 15:00:05 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/24 15:40:22 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 16:20:47 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	Message::addMessage(int fd, std::string message)
 
 void	Message::sendTo(int fd, void (Server::*sendMethod)(int, std::string))
 {
-	std::vector< std::pair<int, std::string> >::iterator it;
+	std::vector< std::pair<int, std::string> >::iterator	it;
+	t_epoll_event											settings;
 
 	it = _messages.begin();
 	while (it != _messages.end())
@@ -74,4 +75,7 @@ void	Message::sendTo(int fd, void (Server::*sendMethod)(int, std::string))
 		else
 			it++;
 	}
+	settings.data.fd = fd;
+	settings.events = EPOLLIN;
+	epoll_ctl(_server_instance->_epoll_fd, EPOLL_CTL_MOD, fd, &settings);
 }

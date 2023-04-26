@@ -142,10 +142,8 @@ MARGOT
 	getBannedMembers : fonction membre qui applique plutot que getter
 	passer channel._member en prive
 	/quit doit envoyer un message dans tous les channels
-	previous nickname
 
 TODO
-	prepSendToAll ony to active members
-	MODE not enough params
-	previous_nickname jamais set a voir
+	ok prepSendToAll ony to active members
+	ok MODE not enough params
 
