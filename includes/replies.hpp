@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:56:25 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:20:16 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 15:07:20 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ std::string RPL_ENDOFNAMES(ChannelMember &member, Channel &channel);
 std::string RPL_JOIN(ChannelMember &member, Channel &channel);
 
 std::string	RPL_CHANNELMODEIS(ChannelMember &member, Channel &channel,std::string reply_details);
+
 std::string RPL_KICK(User *user, Channel *channel, std::string nickname_kicked_out);
 
 #endif

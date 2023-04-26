@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 14:32:16 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 16:23:39 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,6 @@ void	Server::handleRegistration(int client_fd)
 
 void	Server::handleSend(int fd, std::string message)
 {
-	t_epoll_event	settings;
 	size_t			bytes_sent;
 
 	bytes_sent = 0;
@@ -224,9 +223,7 @@ void	Server::handleSend(int fd, std::string message)
 		}
 	} while (bytes_sent != 0);
 	//TODO gerer cas d'erreur de send
-	settings.data.fd = fd;
-	settings.events = EPOLLIN;
-	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, fd, &settings);
+
 }
 
 User	*Server::findUser(int fd)
@@ -319,10 +316,8 @@ void	Server::initSocket()
 
 void	Server::start()
 {
-	// TODO try and catch ?
 	initSocket();
 	listen();
-
 }
 
 //!-----------------------------MEMBER CLASSES----------------------------------

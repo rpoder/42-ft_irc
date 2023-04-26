@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:52:21 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:25:24 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ class Channel
 		bool	operator==(const Channel &rhs);
 
 		void				addMember(ChannelMember member);
+		void				deleteMember(User *user);
 		void				defineOperator(User *user, std::string nickname_to_add);
 		void				deleteOperator(User *user, std::string nickname_to_delete);
 		void				defineKey(User *user, std::string &key);
+		void				deleteKey(User *user, std::string &key);
 		ChannelMember		*banMember(User *user, std::string nickname_to_ban);
 		ChannelMember		*debanMember(User *user, std::string nickname_to_deban);
 		ChannelMember		*kickMember(User *user, std::string nickname);
@@ -50,10 +52,10 @@ class Channel
 		std::string					getKey() const;
 		void						setKey(std::string key);
 		std::string					getOnlineMembers();
+		size_t						getOperatorsCount();
 		std::vector<std::string>	getBannedMembers() const;
 
 		// std::vector<User*>	_members;
-		std::vector<ChannelMember>	_members; //public ?? 
 		class ChannelException:
 			public std::exception
 		{
@@ -76,7 +78,7 @@ class Channel
 		Server						*_server_instance;
 		std::vector<std::string>	_bannedMembers;
 
-		// std::vector<User*>	_operators;
+		std::vector<ChannelMember>	_members;
 };
 
 #include "Server.hpp"
