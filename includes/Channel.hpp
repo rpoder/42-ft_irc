@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 18:11:58 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 22:26:28 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class Channel
 		void						setKey(std::string key);
 		std::string					getOnlineMembers();
 		size_t						getOperatorsCount();
-		bool						isBannedMember(std::string ip_address);
+		bool						isBannedMember(std::string nickname);
 
 
 		class ChannelException:
@@ -76,8 +76,7 @@ class Channel
 		bool						_mode_b;
 		bool						_mode_o;
 		Server						*_server_instance;
-		std::vector<std::string>	_bannedMembers;
-
+		std::vector<std::string>	_banned_members;
 		std::vector<ChannelMember>	_members;
 };
 

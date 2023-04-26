@@ -47,6 +47,7 @@ Channel	&Channel::operator=(const Channel &copy)
 	_mode_o = copy._mode_o;
 	_members = copy._members;
 	_server_instance = copy._server_instance;
+	_banned_members = copy._banned_members;
 	return(*this);
 }
 
@@ -111,15 +112,13 @@ size_t	Channel::getOperatorsCount()
 
 bool	Channel::isBannedMember(std::string ip_address)
 {
-	for (std::vector<std::string>::iterator it = _bannedMembers.begin(); it != _bannedMembers.end(); it++)
+	for (std::vector<std::string>::iterator it = _banned_members.begin(); it != _banned_members.end(); it++)
 	{
 		if (ip_address.compare(*it) == 0)
 			return (1);
 	}
 	return (0);
 }
-
-
 
 //!-------------------------------FUNCTIONS-------------------------------------
 
@@ -134,6 +133,7 @@ void	Channel::deleteMember(User *user)
 	{
 		if (*(it->getUser()) == *user)
 		{
+			this->prepSendToAll(RPL_PART((*it).getUser(), this), &Server::prepSend);
 			_members.erase(it);
 			break ;
 		}
@@ -148,6 +148,7 @@ void	Channel::deleteMember(ChannelMember member)
 	{
 		if (*it == member)
 		{
+			this->prepSendToAll(RPL_PART((*it).getUser(), this), &Server::prepSend);
 			it = _members.erase(it);
 			break ;
 		}
@@ -182,9 +183,10 @@ void	Channel::prepSendToAll(std::string message, void (Server::*prepSendMethod)(
 
 void	Channel::prepSendToAll(std::string message, void (Server::*prepSendMethod)(int, std::string), ChannelMember *sender)
 {
+	std::cout << "prepSendToAll" << std::endl;
 	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
 	{
-		if (sender == NULL || (*it != *sender && it->isOnline() == true))
+		if (it->isOnline() == true && (sender == NULL || *it != *sender))
 			(_server_instance->*prepSendMethod)((*it).getFd(), message);
 	}
 }
@@ -279,7 +281,6 @@ ChannelMember	*Channel::kickMember(User *user, std::string nickname)
 ChannelMember	*Channel::banMember(User *user, std::string nickname_to_ban)
 {
 	ChannelMember	*member;
-	std::string		ip_address;
 	std::string		err;
 
 	member = findMember(nickname_to_ban);
@@ -290,16 +291,15 @@ ChannelMember	*Channel::banMember(User *user, std::string nickname_to_ban)
 	}
 	else
 	{
-		ip_address = member->getUser()->getIpAddress();
-		for (std::vector<std::string>::iterator it = _bannedMembers.begin(); it != _bannedMembers.end(); it++)
+		for (std::vector<std::string>::iterator it = _banned_members.begin(); it != _banned_members.end(); it++)
 		{
-			if (ip_address.compare(*it) == 0)
+			if (nickname_to_ban.compare(*it) == 0)
 			{
 				err = buildErrorMessage(ERR_NOSUCHNICK, user, "MODE", nickname_to_ban);
 				throw(Channel::ChannelException(err));
 			}
 		}
-		_bannedMembers.push_back(ip_address);
+		_banned_members.push_back(nickname_to_ban);
 		member->setIsOnline(false);
 		return (member);
 	}
@@ -319,12 +319,11 @@ ChannelMember	*Channel::debanMember(User *user, std::string nickname_to_deban)
 	}
 	else
 	{
-		ip_address = member->getUser()->getIpAddress();
-		for (std::vector<std::string>::iterator it = _bannedMembers.begin(); it != _bannedMembers.end(); it++)
+		for (std::vector<std::string>::iterator it = _banned_members.begin(); it != _banned_members.end(); it++)
 		{
-			if (ip_address.compare(*it) == 0)
+			if (nickname_to_deban.compare(*it) == 0)
 			{
-				_bannedMembers.erase(it);
+				_banned_members.erase(it);
 				return (member);
 			}
 		}
