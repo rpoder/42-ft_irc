@@ -171,6 +171,10 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 		case ERR_NOTONCHANNEL:
 			message += "You are not on that channel";
 			break ;
+		
+		case ERR_BANNEDFROMCHAN:
+			message += "You are banned from channel";
+			break ;
 
 		case ERR_UNKNOWNMODE:
 			message += "No such mode";
