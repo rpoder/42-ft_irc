@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NICK_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:40:25 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 14:28:01 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 			return ;
 		}
 	}
+	previous_nickName = user->getNickname();
 	if (previous_nickName.length() > 0)
 	{
 		message = prefix(user) + "NICK :" + args + SUFFIX;
