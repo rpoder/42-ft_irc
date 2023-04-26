@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 15:25:24 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 16:56:17 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ class Channel
 		size_t						getOperatorsCount();
 		std::vector<std::string>	getBannedMembers() const;
 
-		// std::vector<User*>	_members;
 		class ChannelException:
 			public std::exception
 		{

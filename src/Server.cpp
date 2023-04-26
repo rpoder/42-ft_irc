@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 16:23:39 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 16:55:07 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ Server::Server(int port, std::string password) :
 	_password = password;
 
 	if (_port < PORT_MIN || _port > PORT_MAX)
-		throw (Server::ServerInitException((char *)"Port out of range"));
+		throw (Server::ServerException((char *)"Port out of range"));
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_UNSPEC; // don't care IPv4 or IPv6
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 	status = getaddrinfo(NULL, str.c_str(), &hints, &_serv_info);
 	if (status != 0)
-		throw (Server::ServerInitException());
+		throw (Server::ServerException());
 }
 
 Server::Server(const Server &copy) :
@@ -209,7 +209,7 @@ void	Server::handleRegistration(int client_fd)
 
 void	Server::handleSend(int fd, std::string message)
 {
-	size_t			bytes_sent;
+	size_t bytes_sent;
 
 	bytes_sent = 0;
 	do
@@ -218,12 +218,10 @@ void	Server::handleSend(int fd, std::string message)
 		bytes_sent = send(fd, message.c_str(), message.length(), 0);
 		if (bytes_sent == static_cast<size_t>(-1))
 		{
-			perror("erreur send :");
+			displayMessage("red", "Err:	error while sending message");
 			break;
 		}
 	} while (bytes_sent != 0);
-	//TODO gerer cas d'erreur de send
-
 }
 
 User	*Server::findUser(int fd)
@@ -261,11 +259,11 @@ void	Server::listen()
 	t_epoll_event		event_settings;
 
 	if (::listen(_server_fd, CONNECTIONS_MAX) != 0)
-		throw (Server::ServerInitException());
+		throw (Server::ServerException());
 
 	_epoll_fd = epoll_create(EPOLL_FD_MAX);
 	if (_epoll_fd == -1)
-		throw (Server::ServerInitException());
+		throw (Server::ServerException());
 	event_settings.data.fd = _server_fd;
 	event_settings.events = EPOLLIN;
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _server_fd, &event_settings);
@@ -281,7 +279,7 @@ void	Server::waitEvents()
 
 	event_count = epoll_wait(_epoll_fd, events, EPOLL_EVENTS_MAX, -1);
 	if (event_count == -1)
-		throw (Server::ServerInitException());
+		throw (Server::ServerException());
 	for (int i = 0; i < event_count; i++)
 	{
 		if (events[i].data.fd == _server_fd)
@@ -306,12 +304,12 @@ void	Server::initSocket()
 
 	_server_fd = socket(_serv_info->ai_family, _serv_info->ai_socktype, _serv_info->ai_protocol);
 	if (_server_fd == -1)
-		throw (Server::ServerInitException());
+		throw (Server::ServerException());
 	setsock_opt = 1;
 	if (setsockopt(_server_fd, SOL_SOCKET, SO_REUSEADDR, &setsock_opt, sizeof(setsock_opt)) == -1)
-		throw (Server::ServerInitException());
+		throw (Server::ServerException());
 	if (bind(_server_fd, _serv_info->ai_addr, _serv_info->ai_addrlen) != 0)
-		throw (Server::ServerInitException());
+		throw (Server::ServerException());
 }
 
 void	Server::start()
@@ -322,18 +320,18 @@ void	Server::start()
 
 //!-----------------------------MEMBER CLASSES----------------------------------
 
-Server::ServerInitException::ServerInitException():
+Server::ServerException::ServerException():
 	_message(strerror(errno))
 {}
 
-Server::ServerInitException::ServerInitException(char *message):
+Server::ServerException::ServerException(char *message):
 	_message(message)
 {}
 
-Server::ServerInitException::~ServerInitException() throw()
+Server::ServerException::~ServerException() throw()
 {}
 
-const char	*Server::ServerInitException::what() const throw()
+const char	*Server::ServerException::what() const throw()
 {
 	return(_message);
 }

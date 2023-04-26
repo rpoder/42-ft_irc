@@ -110,7 +110,7 @@ int		checkPortNumber(std::string port)
 		if (!std::isdigit(*it))
 		{
 			displayMessage("red","First arg must be a port number.");
-			throw (Server::ServerInitException());
+			throw (Server::ServerException());
 		}
 	}
 

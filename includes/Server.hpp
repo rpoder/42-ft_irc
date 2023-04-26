@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 18:05:29 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 18:08:53 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # include	"Channel.hpp"
 # include	"replies.hpp"
 # include	"Message.hpp"
+# include	"BotGame.hpp"
 
 # define	PORT_MIN			1024
 # define	PORT_MAX			65535
@@ -70,14 +71,14 @@ class Server
 		User	*findUser(std::string nickname);
 		Channel	*findChannel(std::string &name);
 
-		class ServerInitException:
+		class ServerException:
 			public std::exception
 		{
 			public:
-				ServerInitException();
-				ServerInitException(char *message);
+				ServerException();
+				ServerException(char *message);
 				virtual const char	*what() const throw();
-				virtual				~ServerInitException() throw();
+				virtual				~ServerException() throw();
 
 			private:
 				char	*_message;
@@ -112,6 +113,7 @@ class Server
 		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
 
 		std::map<int, User>				_users;
+		std::map<int, BotGame>			_games;
 		std::map<std::string, Channel>	_channels;
 
 		int								_port;
