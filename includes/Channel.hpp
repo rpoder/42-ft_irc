@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 15:25:24 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 16:58:40 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ class Channel
 		void						setKey(std::string key);
 		std::string					getOnlineMembers();
 		size_t						getOperatorsCount();
-		std::vector<std::string>	getBannedMembers() const;
+		bool						isBannedMember(std::string ip_address);
 
-		// std::vector<User*>	_members;
+
 		class ChannelException:
 			public std::exception
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 16:42:32 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 16:59:17 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,19 +98,12 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 				ChannelMember	*member;
 
 				member = it->second.findMember(*user);
-
-				//parcourir tableau de bannis et return si trouve
-				std::vector<std::string>	banned_list;
-
-				banned_list = it->second.getBannedMembers();
-				for (std::vector<std::string>::iterator it = banned_list.begin(); it != banned_list.end(); it++)
+				if (it->second.isBannedMember(user->getIpAddress()))
 				{
-					if (user->getIpAddress().compare(*it) == 0)
-					{
-						handleSend(client_fd, buildErrorMessage(ERR_BANNEDFROMCHAN, user, "JOIN", name));
-						return ;
-					}
+					handleSend(client_fd, buildErrorMessage(ERR_BANNEDFROMCHAN, user, "JOIN", name));
+					return ;
 				}
+		
 				if (it->second.getKey().length() > 0 && it->second.getKey().compare(keys[i]) != 0)
 					handleSend(client_fd, buildErrorMessage(ERR_BADCHANNELKEY, user, "JOIN", name));
 				else

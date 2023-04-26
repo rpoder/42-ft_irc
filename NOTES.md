@@ -138,10 +138,9 @@ NOTICE  - Chloe
 	:mpou!1@localhost NOTICE #chan :test
 
 MARGOT
-	you may not reregister : en cas d'ip semblable ou de USER semblable
-	getBannedMembers : fonction membre qui applique plutot que getter
 	passer channel._member en prive
 	/quit doit envoyer un message dans tous les channels
+	RPL de pass, user, nick
 
 TODO
 	ok prepSendToAll ony to active members
