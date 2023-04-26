@@ -128,6 +128,11 @@ std::string	prefix(User *user)
 	return (str);
 }
 
+std::string	botPrefix()
+{
+	return (":bot!bot@localhost ");
+}
+
 std::string buildErrorMessage(int code, User *user, std::string cmd, std::string args)
 {
 	std::string			message;
@@ -300,7 +305,18 @@ std::string	splitArgsPRIVMSG(std::string args, std::string &message)
 	if (args[i] == ' ')
 		i++;
 	if (i == args.length() || (args[i] && args[i] != ':'))
-		return (NULL);
+		return ("");
 	message = args.substr(i);
 	return destinataire;
 }
+
+bool	isDigit(std::string str)
+{
+	for (size_t i = 0; i < str.length(); i++)
+	{
+		if (!isdigit(str[i]))
+			return (false);
+	}
+	return (true);
+}
+

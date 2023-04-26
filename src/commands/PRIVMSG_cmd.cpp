@@ -12,6 +12,35 @@
 
 #include "Server.hpp"
 
+void	Server::playBot(User *user, int fd, std::string message)
+{
+	std::vector<std::string>	arguments;
+	BotGame						*game;
+	std::string					ret;
+
+	game = findGame(fd);
+	arguments = splitArgs(message);
+	if (arguments.size() != 1)
+		return ;
+
+	// std::cout << message << std::endl;
+	message = message.substr(1);
+	if (message == "play" && game == NULL)
+	{
+		BotGame	new_game;
+		_games[fd] = new_game;
+		prepSend(fd, RPL_PRIVMSG_BOT_TO_USER(*user, "A toi de jouer ! Envoie un nombre entre 0 et 100."));
+	}
+	else if (game != NULL && isDigit(message) == true)
+	{
+		if (game->play(atoi(message.c_str()), ret) == true )
+			_games.erase(fd);
+		prepSend(fd, RPL_PRIVMSG_BOT_TO_USER(*user, ret));
+	}
+	else
+		prepSend(fd, RPL_PRIVMSG_BOT_TO_USER(*user, "On joue pas comme ca petit pou."));
+}
+
 void	Server::PRIVMSG_cmd(int client_fd, User *user, std::string args)
 {
 	std::string		destinataire;
@@ -39,10 +68,8 @@ void	Server::PRIVMSG_cmd(int client_fd, User *user, std::string args)
 			else
 				chan->prepSendToAll(RPL_PRIVMSG_CHANNEL(user, *chan, message), &Server::prepSend, sender);
 		}
-		// else if (destinataire == "bot")
-		// {
-
-		// }
+		else if (destinataire == "bot")
+			playBot(user, client_fd, message);
 		else if (receiver == NULL)
 			prepSend(client_fd, buildErrorMessage(ERR_NOSUCHNICK, user, "PRIVMSG", destinataire));
 		else

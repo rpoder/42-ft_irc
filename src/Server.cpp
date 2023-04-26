@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 16:55:07 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 19:09:05 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,18 @@ User	*Server::findUser(int fd)
 	it = _users.find(fd);
 	if (it == _users.end())
 		return (NULL);
+	return (&(it->second));
+}
+
+BotGame	*Server::findGame(int fd)
+{
+	std::map<int, BotGame>::iterator	it;
+
+	it = _games.find(fd);
+	if (it == _games.end())
+	{
+		return (NULL);
+	}
 	return (&(it->second));
 }
 

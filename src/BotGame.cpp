@@ -44,6 +44,11 @@ BotGame	&BotGame::operator=(const BotGame &copy)
 
 //!-------------------------------ACCESSORS-------------------------------------
 
+bool	BotGame::isNewGame()
+{
+	return (_tries == 7 ? true : false);
+}
+
 //!-------------------------------FUNCTIONS-------------------------------------
 
 bool	BotGame::play(size_t num, std::string &ret)
@@ -51,23 +56,25 @@ bool	BotGame::play(size_t num, std::string &ret)
 	std::string str;
 	std::stringstream ss;
 
-	if (num > _num_to_find)
-		ret = "It's lower.";
-	else if (num < _num_to_find)
-		ret = "It's upper.";
+	if (num < _num_to_find)
+		ret = "C'est plus grand.";
+	else if (num > _num_to_find)
+		ret = "C'est plus petit.";
 	else
 	{
-		ret = "You won !";
+		ret = "Tu as gagne petit pou !";
 		return (true);
 	}
 	_tries--;
 	if (_tries <= 0)
 	{
-		ret = "You lost. Bouhhhhhhh";
+		ss << _num_to_find;
+		str = ss.str();
+		ret = "Tu as perdu. Bouhhhhhhh. Le nombre  à trouver était " + str + ".";
 		return (true);
 	}
 	ss << _tries;
 	str = ss.str();
-	ret += "\n" + str + "tries left.";
+	ret += " " + str + " essais restants.";
 	return (false);
 }

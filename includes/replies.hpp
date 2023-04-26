@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:56:25 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 18:05:26 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 19:27:27 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ std::string	RPL_CHANNELMODEIS(ChannelMember &member, Channel &channel,std::strin
 std::string RPL_KICK(User *user, Channel *channel, std::string nickname_kicked_out);
 
 std::string RPL_PRIVMSG_USER(User *user, User &receiver, std::string toSent);
+
+std::string RPL_PRIVMSG_BOT_TO_USER(User &receiver, std::string toSent);
 
 std::string RPL_PRIVMSG_CHANNEL(User *user, Channel &channel, std::string toSent);
 

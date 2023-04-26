@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 18:08:53 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 19:40:13 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ class Server
 		User	*findUser(int fd);
 		User	*findUser(std::string nickname);
 		Channel	*findChannel(std::string &name);
+		BotGame	*findGame(int fd);
 
 		class ServerException:
 			public std::exception
@@ -111,6 +112,8 @@ class Server
 		void	QUIT_cmd(int client_fd, User *user, std::string args);
 
 		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
+		void	playBot(User *user, int fd, std::string message);
+
 
 		std::map<int, User>				_users;
 		std::map<int, BotGame>			_games;

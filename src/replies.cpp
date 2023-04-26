@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:07:01 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 17:12:20 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/26 19:27:11 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,14 @@ std::string RPL_PRIVMSG_USER(User *user, User &receiver, std::string toSent)
 	std::string message;
 
 	message = prefix(user) + "PRIVMSG " + receiver.getNickname() + " " + toSent + SUFFIX;
+	return (message);
+}
+
+std::string RPL_PRIVMSG_BOT_TO_USER(User &receiver, std::string toSent)
+{
+	std::string message;
+
+	message = botPrefix() + "PRIVMSG " + receiver.getNickname() + " " + toSent + SUFFIX;
 	return (message);
 }
 

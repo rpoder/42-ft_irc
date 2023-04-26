@@ -42,6 +42,7 @@ class BotGame
 		BotGame	&operator=(const BotGame &copy);
 
 		bool	play(size_t num, std::string &ret);
+		bool	isNewGame();
 
 	private:
 		size_t	_num_to_find;
