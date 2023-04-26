@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NICK_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 16:56:30 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 18:26:21 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 		}
 		else
 			args = args.substr(0, args.find(" "));
+	}
+	if (args.compare("bot") == 0)
+	{
+		prepSend(client_fd, buildErrorMessage(ERR_NICKNAMEINUSE, user, "NICK", ""));
+		return ;
 	}
 	for (it = _users.begin(); it != _users.end(); it++)
 	{
