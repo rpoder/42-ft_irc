@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:42:44 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 12:17:40 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ class Server
 
 		Server	&operator=(const Server &copy);
 		void	start();
+		void	waitEvents();
+
 		std::string getPassword();
 
 		User	*findUser(int fd);
