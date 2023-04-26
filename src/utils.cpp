@@ -111,7 +111,7 @@ int		checkPortNumber(std::string port)
 		if (!std::isdigit(*it))
 		{
 			displayMessage("red","First arg must be a port number.");
-			throw (Server::ServerInitException());
+			throw (Server::ServerException());
 		}
 	}
 
@@ -286,4 +286,21 @@ std::vector<std::string>	splitArgs(std::string args)
 		pos = 0;
 	}
 	return (ret);
+}
+
+std::string	splitArgsPRIVMSG(std::string args, std::string &message)
+{
+	size_t i;
+	std::string destinataire;
+
+	i = 0;
+	while (args[i] && args[i] != ' ')
+		i++;
+	destinataire = args.substr(0, i);
+	if (args[i] == ' ')
+		i++;
+	if (i == args.length() || (args[i] && args[i] != ':'))
+		return (NULL);
+	message = args.substr(i);
+	return destinataire;
 }

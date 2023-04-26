@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:07:01 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 14:31:49 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 17:12:20 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,3 +84,36 @@ std::string RPL_KICK(User *user, Channel *channel, std::string nickname_kicked_o
 	message = prefix(user) + "KICK " + channel->getName() + " " + nickname_kicked_out + SUFFIX;
 	return (message);
 }
+
+std::string RPL_PRIVMSG_CHANNEL(User *user, Channel &channel, std::string toSent)
+{
+	std::string message;
+
+	message = prefix(user) + "PRIVMSG " + channel.getName() + " " + toSent + SUFFIX;
+	return (message);
+}
+
+std::string RPL_PRIVMSG_USER(User *user, User &receiver, std::string toSent)
+{
+	std::string message;
+
+	message = prefix(user) + "PRIVMSG " + receiver.getNickname() + " " + toSent + SUFFIX;
+	return (message);
+}
+
+std::string RPL_NOTICE_CHANNEL(User *user, Channel &channel, std::string toSent)
+{
+	std::string message;
+
+	message = prefix(user) + "NOTICE " + channel.getName() + " " + toSent + SUFFIX;
+	return (message);
+}
+
+std::string RPL_NOTICE_USER(User *user, User &receiver, std::string toSent)
+{
+	std::string message;
+
+	message = prefix(user) + "NOTICE " + receiver.getNickname() + " " + toSent + SUFFIX;
+	return (message);
+}
+

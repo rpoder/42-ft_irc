@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 16:59:17 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:11:55 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,12 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 		std::string name(channels[i]);
 		if (name[0] != '#')
 		{
-			handleSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "JOIN", ""));
+			prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "JOIN", ""));
 			break;
 		}
 		else
 		{
 			it = _channels.find(name);
-			// Si le channel n'existe pas, le channel doit etre cree, le membre doit etre cree
 			if (it == _channels.end())
 			{
 				Channel 		newChannel(this, name);
@@ -81,31 +80,45 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 				sendJoinRPL(client_fd, newChannelMember, newChannel);
 
 			}
-			else if (it != _channels.end() && it->second.findMember(*user) == NULL) // Si le channel existe mais que le user n'a jamais join le channel
+			else if (it != _channels.end() && it->second.findMember(*user) == NULL)
 			{
 				ChannelMember	newChannelMember(user, false, client_fd);
 
 				if (it->second.getKey().length() > 0 && it->second.getKey().compare(keys[i]) != 0)
-					handleSend(client_fd, buildErrorMessage(ERR_BADCHANNELKEY, user, "JOIN", name));
+					prepSend(client_fd, buildErrorMessage(ERR_BADCHANNELKEY, user, "JOIN", name));
 				else
 				{
 					it->second.addMember(newChannelMember);
 					sendJoinRPL(client_fd, newChannelMember, it->second);
 				}
 			}
-			else // le channel existe, mais le user est deja membre
+			else
 			{
 				ChannelMember	*member;
 
 				member = it->second.findMember(*user);
+<<<<<<< HEAD
 				if (it->second.isBannedMember(user->getIpAddress()))
 				{
 					handleSend(client_fd, buildErrorMessage(ERR_BANNEDFROMCHAN, user, "JOIN", name));
 					return ;
+=======
+
+				std::vector<std::string>	banned_list;
+
+				banned_list = it->second.getBannedMembers();
+				for (std::vector<std::string>::iterator it = banned_list.begin(); it != banned_list.end(); it++)
+				{
+					if (user->getIpAddress().compare(*it) == 0)
+					{
+						prepSend(client_fd, buildErrorMessage(ERR_BANNEDFROMCHAN, user, "JOIN", name));
+						return ;
+					}
+>>>>>>> master
 				}
-		
+
 				if (it->second.getKey().length() > 0 && it->second.getKey().compare(keys[i]) != 0)
-					handleSend(client_fd, buildErrorMessage(ERR_BADCHANNELKEY, user, "JOIN", name));
+					prepSend(client_fd, buildErrorMessage(ERR_BADCHANNELKEY, user, "JOIN", name));
 				else
 				{
 					member->setIsOnline(true);
@@ -118,7 +131,7 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 
 void	Server::sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel)
 {
-	handleSend(client_fd, RPL_NAMREPLY(member, channel));
-	handleSend(client_fd, RPL_ENDOFNAMES(member, channel));
+	prepSend(client_fd, RPL_NAMREPLY(member, channel));
+	prepSend(client_fd, RPL_ENDOFNAMES(member, channel));
 	channel.prepSendToAll(RPL_JOIN(member, channel), &Server::prepSend);
 }

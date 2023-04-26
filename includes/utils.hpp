@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:47:32 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 16:48:29 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 18:08:50 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ void						printUser(int fd, User &user);
 void						printMember(ChannelMember member);
 
 
-// void						executeCommand(std::string cmd, int client_fd);
-
-
 std::string					trimInput(std::string str);
 
 void						displayMessage(std::string color, std::string str);
@@ -46,5 +43,7 @@ std::string					trimArgsNb(std::string args, int nb);
 std::string					ft_trim(std::string str, char c);
 
 std::vector<std::string>	splitArgs(std::string args);
+
+std::string	                splitArgsPRIVMSG(std::string args, std::string &message);
 
 #endif

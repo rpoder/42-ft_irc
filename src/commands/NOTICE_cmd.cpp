@@ -10,37 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "Server.hpp"
-
-std::string RPL_NOTICE_CHANNEL(User *user, Channel &channel, std::string toSent)
-{
-	std::string message;
-
-	message = prefix(user) + "NOTICE " + channel.getName() + " " + toSent + SUFFIX;
-	return (message);
-}
-
-std::string RPL_NOTICE_USER(User *user, User &receiver, std::string toSent)
-{
-	std::string message;
-
-	message = prefix(user) + "NOTICE " + receiver.getNickname() + " " + toSent + SUFFIX;
-	return (message);
-}
 
 void	Server::NOTICE_cmd(int client_fd, User *user, std::string args)
 {
 	(void)		 	client_fd;
+	
 	int 			receiver_fd;
+	std::string		destinataire;
 	std::string		message;
-	Channel			*chan = NULL;
+	Channel			*chan;
 	ChannelMember	*sender;
-	User			*receiver = NULL;
+	User			*receiver;
 
 	receiver_fd = 0;
-	if (splitArgsPRIVMSG(args, &chan, &receiver, message))
+	destinataire = splitArgsPRIVMSG(args, message);
+	chan = findChannel(destinataire);
+	receiver = findUser(destinataire);
+	if (!destinataire.empty())
 	{
 		if (chan != NULL)
 		{

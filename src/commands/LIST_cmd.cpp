@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 19:09:15 by caubry            #+#    #+#             */
-/*   Updated: 2023/04/26 14:24:31 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 16:53:13 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ void    Server::LIST_cmd(int client_fd, User *user, std::string args)
             Channel *chan;
             chan = findChannel(*it);
             if (chan != NULL)
-                handleSend(client_fd, RPL_LIST(user, *chan));
+                prepSend(client_fd, RPL_LIST(user, *chan));
         }
-        handleSend(client_fd, RPL_LISTEND(user));
+        prepSend(client_fd, RPL_LISTEND(user));
     }
     else
     {
         for (std::map<std::string, Channel>::iterator it = _channels.begin(); it != _channels.end(); it++)
-            handleSend(client_fd, RPL_LIST(user, it->second));
-        handleSend(client_fd, RPL_LISTEND(user));
+            prepSend(client_fd, RPL_LIST(user, it->second));
+        prepSend(client_fd, RPL_LISTEND(user));
     }
 }

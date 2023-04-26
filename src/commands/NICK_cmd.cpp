@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 14:34:39 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 16:56:30 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 	{
 		if (nb_args < 1)
 		{
-			std::string	nick = "*"; //ou overload setNickname(char *)
+			std::string	nick = "*";
 
 			user->setNickname(nick);
 			prepSend(client_fd, buildErrorMessage(ERR_NONICKNAMEGIVEN, user, "NICK", ""));
