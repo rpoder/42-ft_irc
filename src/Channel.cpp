@@ -133,7 +133,7 @@ void	Channel::deleteMember(User *user)
 	{
 		if (*(it->getUser()) == *user)
 		{
-			this->prepSendToAll(RPL_PART((*it).getUser(), this), &Server::prepSend);
+			this->prepSendToAll(RPL_PART((*it).getUser(), this), &Server::prepSend, &(*it));
 			_members.erase(it);
 			break ;
 		}
@@ -183,7 +183,6 @@ void	Channel::prepSendToAll(std::string message, void (Server::*prepSendMethod)(
 
 void	Channel::prepSendToAll(std::string message, void (Server::*prepSendMethod)(int, std::string), ChannelMember *sender)
 {
-	std::cout << "prepSendToAll" << std::endl;
 	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
 	{
 		if (it->isOnline() == true && (sender == NULL || *it != *sender))

@@ -17,6 +17,9 @@ void	Server::playBot(User *user, int fd, std::string message)
 	std::vector<std::string>	arguments;
 	BotGame						*game;
 	std::string					ret;
+	std::string					old_nickname;
+	int							game_ret;
+
 
 	game = findGame(fd);
 	arguments = splitArgs(message);
@@ -31,8 +34,17 @@ void	Server::playBot(User *user, int fd, std::string message)
 	}
 	else if (game != NULL && isDigit(message) == true)
 	{
-		if (game->play(user, atoi(message.c_str()), ret) == true )
+		game_ret = game->play(atoi(message.c_str()), ret);
+		if (game_ret == 2)
 			_games.erase(fd);
+		else if (game_ret == 1)
+		{
+			old_nickname = user->getNickname();
+			message = prefix(user) + "NICK :" + old_nickname + "_loser" + SUFFIX;
+			user->setNickname(old_nickname + "_loser");
+			prepSend(fd, message);
+			_games.erase(fd);
+		}
 		prepSend(fd, RPL_PRIVMSG_BOT_TO_USER(*user, ret));
 	}
 	else

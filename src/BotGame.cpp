@@ -47,11 +47,10 @@ BotGame	&BotGame::operator=(const BotGame &copy)
 
 //!-------------------------------FUNCTIONS-------------------------------------
 
-bool	BotGame::play(User *user, size_t num, std::string &ret)
+int	BotGame::play(size_t num, std::string &ret)
 {
 	std::string			str;
 	std::stringstream	ss;
-	std::string			old_nickname;
 
 	if (num < 0 || num > 100)
 		ret = "Reste concentré, écrit un nombre entre 0 et 100.";
@@ -62,7 +61,7 @@ bool	BotGame::play(User *user, size_t num, std::string &ret)
 	else
 	{
 		ret = "Tu as gagné petit pou !";
-		return (true);
+		return (2);
 	}
 	_tries--;
 	if (_tries <= 0)
@@ -70,9 +69,7 @@ bool	BotGame::play(User *user, size_t num, std::string &ret)
 		ss << _num_to_find;
 		str = ss.str();
 		ret = "Tu as perdu. Bouhhhhhhh. Le nombre à trouver était " + str + ".";
-		old_nickname = user->getNickname();
-		user->setNickname(old_nickname + "_loser");
-		return (true);
+		return (1);
 	}
 	ss << _tries;
 	str = ss.str();
@@ -80,5 +77,5 @@ bool	BotGame::play(User *user, size_t num, std::string &ret)
 		ret += " " + str + " essai restant.";
 	else
 		ret += " " + str + " essais restants.";
-	return (false);
+	return (0);
 }
