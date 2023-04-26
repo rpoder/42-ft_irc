@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   LIST_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 19:09:15 by caubry            #+#    #+#             */
-/*   Updated: 2023/04/25 21:10:08 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/26 14:24:31 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,8 @@ void    Server::LIST_cmd(int client_fd, User *user, std::string args)
     (void) client_fd;
     (void) user;
     (void) args;
-    
-    displayMessage("orange", "[LIST_cmd function called]");
 
     std::vector<std::string> channels;
-    
     if (args.length() > 0)
         split_args_list(args, channels);
     if (channels.size() > 0)

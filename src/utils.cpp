@@ -115,10 +115,6 @@ int		checkPortNumber(std::string port)
 	}
 
 	port_number = std::atoi(port.c_str());
-	// A voir sio on verifie le port ici ou a l'instanciation du Server
-	// if (port_number < PORT_MIN || port_number > PORT_MAX)
-	// 	throw (Server::ServerInitException());
-
 	return (port_number);
 }
 
@@ -171,7 +167,7 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 		case ERR_NOTONCHANNEL:
 			message += "You are not on that channel";
 			break ;
-		
+
 		case ERR_BANNEDFROMCHAN:
 			message += "You are banned from channel";
 			break ;

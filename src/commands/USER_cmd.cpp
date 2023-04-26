@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:29:51 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 14:31:01 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	Server::USER_cmd(int client_fd, User *user, std::string args)
 {
-	displayMessage("orange", "[USER_cmd function called]");
-
 	size_t							space_pos;
 	std::string						user_name;
 	std::string						ip_address;
@@ -55,15 +53,4 @@ void	Server::USER_cmd(int client_fd, User *user, std::string args)
 	}
 	else
 		user->setIpAddress(ip_address);
-
-
-	//test
-	std::cout << "username set :" << user->getUsername() << std::endl;
-	std::cout << "raw_username set :" << user->getRawUsername() << std::endl;
-	std::cout << "ip_address set :" << user->getIpAddress() << std::endl;
-
-	// //test
-	// std::cout << "username set :" << user->getUsername() << std::endl;
-	// std::cout << "raw_username set :" << user->getRawUsername() << std::endl;
-
 }

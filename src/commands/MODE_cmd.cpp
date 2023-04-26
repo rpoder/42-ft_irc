@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:21:04 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 14:28:26 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ static bool	isModeSign(char c)
 
 void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 {
-	displayMessage("orange", "[MODE_cmd function called]");
-
 	std::vector<std::string>	arguments;
 	std::string					channel_name;
 	char						mode_sign;
@@ -31,7 +29,6 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 	Channel						*channel;
 	ChannelMember				*member;
 
-	(void) mode_sign;
 	arguments = splitArgs(args);
 	if (arguments.size() != 3 || arguments[0][0] != '#' || isModeSign(arguments[1][0]) == false || arguments[1].size() != 2)
 	{

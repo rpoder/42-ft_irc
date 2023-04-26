@@ -1,22 +1,24 @@
 NICK - Margot
-<!-- ok -->
+<!-- PAS OK IRSSI/NC -->
 	431 ERR_NONICKNAMEGIVEN
 		:rpoder!1@localhost 431 rpoder :No nickname given
-<!-- ok -->
+<!-- irssi ok -->
+<!-- nc ok -->
 	ERR_NICKNAMEINUSE (433)
 		:rpoder!1@localhost 433 rpoder rpoder :Nickname is already in use
 
 
 USER - Margot
-<!-- ok -->
+<!-- nc ok -->
+<!-- irssi idk -->
 	ERR_NEEDMOREPARAMS (461)
 		:rpoder!1@localhost 461 rpoder USER :Not enough parameters
-<!-- ok -->
+<!-- no verified -->
 	ERR_ALREADYREGISTRED (462)
 		:rpoder!1@localhost 462 rpoder :You may not reregister
 
 PASS - Margot
-<!-- ok -->
+<!-- nc not working, doesnt add * in response -->
 	ERR_NEEDMOREPARAMS (461)
 		: 461 *  :Not enough parameters
 
@@ -26,10 +28,9 @@ JOIN - Chloé
 		:caubry!1@localhost 366 caubry #test :End of /NAMES list
 		:caubry!1@localhost JOIN :#test
 
+<!-- nc ok -->
 	ERR_NEEDMOREPARAMS (461)
 		:caubry!1@localhost 461 caubry JOIN :Not enough parameters
-
-	RPL_TOPIC (332)
 
 	ERR_BADCHANNELKEY (475)
 		:caubry!1@localhost 475 caubry #test :Cannot join channel (+k)
@@ -135,3 +136,10 @@ NOTICE  - Chloe
 
 	:mpou!1@localhost NOTICE caubry :coucou
 	:mpou!1@localhost NOTICE #chan :test
+
+
+TODO
+	prepSendToAll ony to active members
+	MODE not enough params
+	previous_nickname jamais set a voir
+

@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:38:37 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 17:11:39 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 14:24:26 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	Server::KICK_cmd(int client_fd, User *user, std::string args)
 {
-	displayMessage("orange", "[PART_cmd function called]");
-
 	std::string					channel_name;
 	std::string					nickname_to_kick;
 	std::string					reason;
