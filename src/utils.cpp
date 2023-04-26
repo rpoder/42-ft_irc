@@ -191,6 +191,10 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 			message += "Key is already set";
 			break ;
 
+		case ERR_BADCHANNELKEY:
+			message += "Bad channel key";
+			break ;
+
 		default:
 			break ;
 	}
