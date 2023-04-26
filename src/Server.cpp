@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:45:32 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 12:05:49 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,14 +171,17 @@ void	Server::handleLostConnection(int fd)
 
 void	Server::handleInput(int client_fd, char *input)
 {
-	char			*dup;
+	static std::string	input_str;
+	size_t				end_of_line;
 
-
-	dup = strdup(input);
-	std::string	input_str(dup);
-
-	std::cout << "input: " << input_str ;
-	executeCommand(client_fd, input_str);
+	input_str += static_cast<std::string>(input);
+	end_of_line = input_str.find("\n");
+	if (end_of_line != input_str.npos)
+	{
+		std::cout << "input: " << input_str << std::endl;
+		executeCommand(client_fd, input_str);
+		input_str.clear();
+	}
 }
 
 void	Server::handleRegistration(int client_fd)
