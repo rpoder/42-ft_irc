@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 17:34:58 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 18:08:53 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ class Server
 		void	QUIT_cmd(int client_fd, User *user, std::string args);
 
 		void	sendJoinRPL(int client_fd, ChannelMember &member, Channel &channel);
-		bool    splitArgsPRIVMSG(std::string args, Channel **channel, User **receiver, std::string &message);
 
 		std::map<int, User>				_users;
 		std::map<int, BotGame>			_games;

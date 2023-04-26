@@ -10,72 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "Server.hpp"
-
-bool	Server::splitArgsPRIVMSG(std::string args, Channel **channel, User **receiver, std::string &message)
-{
-	size_t i;
-	std::string destinataire;
-
-	i = 0;
-	while (args[i] && args[i] != ' ')
-		i++;
-	destinataire = args.substr(0, i);
-	if (destinataire[0] == '#')
-		*channel = findChannel(destinataire);
-	else
-		*receiver = findUser(destinataire);
-	if (args[i] == ' ')
-		i++;
-	if (i == args.length() || (args[i] && args[i] != ':'))
-		return false;
-	message = args.substr(i);
-	return true;
-}
-
-std::string RPL_PRIVMSG_CHANNEL(User *user, Channel &channel, std::string toSent)
-{
-	std::string message;
-
-	message = prefix(user) + "PRIVMSG " + channel.getName() + " " + toSent + SUFFIX;
-	return (message);
-}
-
-std::string RPL_PRIVMSG_USER(User *user, User &receiver, std::string toSent)
-{
-	std::string message;
-
-	message = prefix(user) + "PRIVMSG " + receiver.getNickname() + " " + toSent + SUFFIX;
-	return (message);
-}
 
 void	Server::PRIVMSG_cmd(int client_fd, User *user, std::string args)
 {
+	std::string		destinataire;
 	std::string		message;
-	Channel			*chan = NULL;
+	Channel			*chan;
 	ChannelMember	*sender;
-	User			*receiver = NULL;
+	User			*receiver;
 	int				receiver_fd;
 
 	receiver_fd = 0;
-	if (!splitArgsPRIVMSG(args, &chan, &receiver, message))
+	destinataire = splitArgsPRIVMSG(args, message);
+	chan = findChannel(destinataire);
+	receiver = findUser(destinataire);
+	if (destinataire.empty())
 		prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "PRIVMSG", ":Not enough parameters"));
 	else
 	{
-		if (args[0] == '#' && chan == NULL)
-			prepSend(client_fd, buildErrorMessage(ERR_CANNOTSENDTOCHAN, user, "PRIVMSG", args.substr(0, args.find(' '))));
-		else if (args[0] == '#')
+		if (destinataire[0] == '#' && chan == NULL)
+			prepSend(client_fd, buildErrorMessage(ERR_CANNOTSENDTOCHAN, user, "PRIVMSG", destinataire));
+		else if (destinataire[0] == '#')
 		{
 			sender = chan->findMember(*user);
 			if (sender == NULL || (sender != NULL && sender->isOnline() == false))
-				prepSend(client_fd, buildErrorMessage(ERR_CANNOTSENDTOCHAN, user, "PRIVMSG", args.substr(0, args.find(' '))));
+				prepSend(client_fd, buildErrorMessage(ERR_CANNOTSENDTOCHAN, user, "PRIVMSG", destinataire));
 			else
 				chan->prepSendToAll(RPL_PRIVMSG_CHANNEL(user, *chan, message), &Server::prepSend, sender);
 		}
+		// else if (destinataire == "bot")
+		// {
+
+		// }
 		else if (receiver == NULL)
-			prepSend(client_fd, buildErrorMessage(ERR_NOSUCHNICK, user, "PRIVMSG", args.substr(0, args.find(' '))));
+			prepSend(client_fd, buildErrorMessage(ERR_NOSUCHNICK, user, "PRIVMSG", destinataire));
 		else
 		{
 			for (std::map<int,User>::iterator it = _users.begin(); it != _users.end(); it++)
