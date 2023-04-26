@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 12:05:49 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/26 12:20:46 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,9 +265,8 @@ Channel	*Server::findChannel(std::string &name)
 
 void	Server::listen()
 {
-	t_epoll_event		events[EPOLL_EVENTS_MAX];
-	int					event_count;
-	char				input[BUFFER_MAX];
+	// t_epoll_event		events[EPOLL_EVENTS_MAX];
+	// char				input[BUFFER_MAX];
 	t_epoll_event		event_settings;
 
 	// listen
@@ -277,34 +276,61 @@ void	Server::listen()
 	_epoll_fd = epoll_create(EPOLL_FD_MAX);
 	if (_epoll_fd == -1)
 		throw (Server::ServerInitException());
-
 	event_settings.data.fd = _server_fd;
 	event_settings.events = EPOLLIN;
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _server_fd, &event_settings);
 	std::cout << std::endl << "\033[1;37mServer started: listening on port " << _port << "\033[0m" << std::endl;
-	while (1)
+	// while (1)
+	// {
+	// 	event_count = epoll_wait(_epoll_fd, events, EPOLL_EVENTS_MAX, -1);
+	// 	if (event_count == -1)
+	// 		throw (Server::ServerInitException());
+	// 	for (int i = 0; i < event_count; i++)
+	// 	{
+	// 		if (events[i].data.fd == _server_fd)
+	// 			handleNewConnection();
+	// 		else if (events[i].events & EPOLLIN)
+	// 		{
+	// 			memset(input, 0, BUFFER_MAX);
+	// 			if (recv(events[i].data.fd, input, BUFFER_MAX, 0) == 0)
+	// 				handleLostConnection(events[i].data.fd);
+	// 			else
+	// 				handleInput(events[i].data.fd, input);
+	// 		}
+	// 		else if (events[i].events & EPOLLOUT)
+	// 			_message_buffer.sendTo(events[i].data.fd, &Server::handleSend);
+	// 		handleRegistration(events[i].data.fd);
+	// 	}
+	// 	// std::cout << "boucle inf" << std::endl;
+	// 	memset(events, 0, sizeof(events));
+	// }
+}
+
+void	Server::waitEvents()
+{
+	t_epoll_event		events[EPOLL_EVENTS_MAX];
+	int					event_count;
+	char				input[BUFFER_MAX];
+
+
+	event_count = epoll_wait(_epoll_fd, events, EPOLL_EVENTS_MAX, -1);
+	if (event_count == -1)
+		throw (Server::ServerInitException());
+	for (int i = 0; i < event_count; i++)
 	{
-		event_count = epoll_wait(_epoll_fd, events, EPOLL_EVENTS_MAX, -1);
-		if (event_count == -1)
-			throw (Server::ServerInitException());
-		for (int i = 0; i < event_count; i++)
+		if (events[i].data.fd == _server_fd)
+			handleNewConnection();
+		else if (events[i].events & EPOLLIN)
 		{
-			if (events[i].data.fd == _server_fd)
-				handleNewConnection();
-			else if (events[i].events & EPOLLIN)
-			{
-				memset(input, 0, BUFFER_MAX);
-				if (recv(events[i].data.fd, input, BUFFER_MAX, 0) == 0)
-					handleLostConnection(events[i].data.fd);
-				else
-					handleInput(events[i].data.fd, input);
-			}
-			else if (events[i].events & EPOLLOUT)
-				_message_buffer.sendTo(events[i].data.fd, &Server::handleSend);
-			handleRegistration(events[i].data.fd);
+			memset(input, 0, BUFFER_MAX);
+			if (recv(events[i].data.fd, input, BUFFER_MAX, 0) == 0)
+				handleLostConnection(events[i].data.fd);
+			else
+				handleInput(events[i].data.fd, input);
 		}
-		// std::cout << "boucle inf" << std::endl;
-		memset(events, 0, sizeof(events));
+		else if (events[i].events & EPOLLOUT)
+			_message_buffer.sendTo(events[i].data.fd, &Server::handleSend);
+		handleRegistration(events[i].data.fd);
 	}
 }
 
