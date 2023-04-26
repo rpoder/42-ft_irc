@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:22:04 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 20:23:29 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 22:44:57 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void signalHandler( int signum )
 
 int main (int argc, char **argv)
 {
+	std::cout << "coucou" << std::endl;
 	int port;
 
 	if (argc != 3)
