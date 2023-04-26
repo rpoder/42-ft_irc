@@ -6,7 +6,11 @@
 /*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/04/25 19:06:35 by caubry           ###   ########.fr       */
+=======
+/*   Updated: 2023/04/25 18:19:16 by rpoder           ###   ########.fr       */
+>>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +100,8 @@ void	Server::executeCommand(int client_fd, std::string input)
 	size_t					space_pos;
 	std::string				line("");
 	std::stringstream		ss(input);
-	std::string				commandes[11] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART", "PRIVMSG", "MODE", "KICK", "NOTICE", "LIST"};
-	void	(Server::*ptr_f[11])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd, &Server::PRIVMSG_cmd, &Server::MODE_cmd, &Server::KICK_cmd, &Server::NOTICE_cmd, &Server::LIST_cmd};
+	std::string				commandes[12] = {"NICK", "USER", "PASS", "JOIN", "PING", "PART", "PRIVMSG", "MODE", "KICK", "NOTICE", "LIST", "QUIT"};
+	void	(Server::*ptr_f[12])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd, &Server::PRIVMSG_cmd, &Server::MODE_cmd, &Server::KICK_cmd, &Server::NOTICE_cmd, &Server::LIST_cmd, &Server::QUIT_cmd};
 	User					*user;
 	std::string				cmd;
 	std::string 			args;
@@ -161,20 +165,12 @@ void	Server::handleNewConnection()
 void	Server::handleLostConnection(int fd)
 {
 	displayMessage("orange", "[handleLostConnection called]");
+
 	User			*user;
-	ChannelMember	*member;
 
 	user = findUser(fd);
-	for (std::map<std::string, Channel>::iterator it = _channels.begin(); it != _channels.end(); it++)
-	{
-		member = it->second.findMember(*user);
-		if (member)
-			member->setIsOnline(false);
-	}
-	_users.erase(fd);
-	displayMessage("red", "Connection closed");
-	epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, NULL);
-	close(fd);
+	if (user)
+		QUIT_cmd(fd, user, "");
 }
 
 void	Server::handleInput(int client_fd, char *input)

@@ -6,7 +6,11 @@
 /*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/04/25 21:07:28 by caubry           ###   ########.fr       */
+=======
+/*   Updated: 2023/04/26 11:33:32 by rpoder           ###   ########.fr       */
+>>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +39,8 @@ class Channel
 		void				defineOperator(User *user, std::string nickname_to_add);
 		void				deleteOperator(User *user, std::string nickname_to_delete);
 		void				defineKey(User *user, std::string &key);
+		ChannelMember		*banMember(User *user, std::string nickname_to_ban);
+		ChannelMember		*debanMember(User *user, std::string nickname_to_deban);
 		ChannelMember		*kickMember(User *user, std::string nickname);
 
 		void				deleteMember(ChannelMember member);
@@ -47,10 +53,14 @@ class Channel
 		std::vector<ChannelMember>	getMembers() const;
 		std::string					getKey() const;
 		void						setKey(std::string key);
+<<<<<<< HEAD
 		std::string					getOnlineMembers();
+=======
+		std::vector<std::string>	getBannedMembers() const;
+>>>>>>> master
 
-		std::vector<ChannelMember>	_members;
-
+		// std::vector<User*>	_members;
+		std::vector<ChannelMember>	_members; //public ??
 		class ChannelException:
 			public std::exception
 		{
@@ -65,12 +75,15 @@ class Channel
 		};
 
 	private:
-		std::string	_name;
-		std::string	_key;
-		bool		_mode_k;
-		bool		_mode_b;
-		bool		_mode_o;
-		Server		*_server_instance;
+		std::string					_name;
+		std::string					_key;
+		bool						_mode_k;
+		bool						_mode_b;
+		bool						_mode_o;
+		Server						*_server_instance;
+		std::vector<std::string>	_bannedMembers;
+
+		// std::vector<User*>	_operators;
 };
 
 #include "Server.hpp"

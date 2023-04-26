@@ -51,22 +51,18 @@ MODE w/ options - Ronan
 
 	ERR_NOSUCHNICK (401) ok
 
+	ERR_BANNEDFROMCHAN (474)
+
 	ERR_CHANOPRIVSNEEDED (482) ok
 		:caubry!1@localhost 482 caubry #test :You're not channel operator
 
 	RPL_CHANNELMODEIS (324)
 		:caubry!1@localhost 324 caubry #test +np
-
-	ERR_KEYSET (467)
-		:caubry!1@localhost 467 caubry #test :Channel key already set
-
-	RPL_??? (324)
 		:rpoder!1@localhost 324 rpoder #coucou +o rpoder
 		:rpoder!1@localhost 324 rpoder #coucou +n
 
-	RPL_BANLIST (367)
-
-	RPL_ENDOFBANLIST (368)
+	ERR_KEYSET (467)
+		:caubry!1@localhost 467 caubry #test :Channel key already set
 
 	ERR_UNKNOWNMODE (472) ok
 		:caubry!1@localhost 472 caubry z :is unknown mode char to me
@@ -105,7 +101,7 @@ PART - Ronan ok
 	ERR_NOTONCHANNEL (442)
 		:mpou!1@localhost 442 mpou #test :You're not on that channel
 
-QUIT
+QUIT - Ronan
 	none
 
 PING ok
@@ -134,7 +130,7 @@ PRIVMSG - Chloe
 		:mpourrey!1@localhost PRIVMSG rpoder : coucou toi
 		(sur lui meme et le concerne)
 
-NOTICE
+NOTICE  - Chloe
 	none
 
 	:mpou!1@localhost NOTICE caubry :coucou

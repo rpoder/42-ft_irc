@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 11:08:04 by caubry            #+#    #+#             */
-/*   Updated: 2023/04/17 15:55:47 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 19:47:20 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define ERR_CHANOPRIVSNEEDED	482
 # define ERR_KEYSET				467
 # define ERR_UNKNOWNMODE		472
+# define ERR_BANNEDFROMCHAN		474
 # define ERR_NEEDMOREPARAMS		461
 # define ERR_NOSUCHCHANNEL		403
 # define ERR_NOTONCHANNEL		442

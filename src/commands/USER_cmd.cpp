@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 16:45:10 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 11:29:51 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	Server::USER_cmd(int client_fd, User *user, std::string args)
 
 	size_t							space_pos;
 	std::string						user_name;
+	std::string						ip_address;
 	int								nb_args;
 	std::map<int, User>::iterator	it;
 
@@ -34,7 +35,9 @@ void	Server::USER_cmd(int client_fd, User *user, std::string args)
 	}
 	space_pos = args.find(" ");
 	user_name = args.substr(0, space_pos);
-/* 	for (it = _users.begin(); it != _users.end(); it++)
+	space_pos = args.find_last_of(" ");
+	ip_address = args.substr(space_pos + 1, args.length() - (space_pos + 1));
+/*  	for (it = _users.begin(); it != _users.end(); it++)
 	{
 		if (it->second.getUsername().compare(user_name) == 0)
 		{
@@ -44,7 +47,20 @@ void	Server::USER_cmd(int client_fd, User *user, std::string args)
 	} */
 	user->setRawUsername(args);
 	user->setUsername(user_name);
+	//test
+	if (user->getNickname().compare("_"))
+	{
+		std::string s("1.1.1.1");
+		user->setIpAddress(s);
+	}
+	else
+		user->setIpAddress(ip_address);
 
+
+	//test
+	std::cout << "username set :" << user->getUsername() << std::endl;
+	std::cout << "raw_username set :" << user->getRawUsername() << std::endl;
+	std::cout << "ip_address set :" << user->getIpAddress() << std::endl;
 
 	// //test
 	// std::cout << "username set :" << user->getUsername() << std::endl;

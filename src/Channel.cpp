@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:43:06 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 21:08:09 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/26 11:43:06 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,12 @@ std::string	Channel::getOnlineMembers()
 	s = out.str();
 	return (s);
 }
+std::vector<std::string>	Channel::getBannedMembers() const
+{
+	return (_bannedMembers);
+}
+
+
 
 //!-------------------------------FUNCTIONS-------------------------------------
 
@@ -222,6 +228,67 @@ ChannelMember	*Channel::kickMember(User *user, std::string nickname)
 		return (member);
 	}
 	return (NULL);
+}
+
+ChannelMember    *Channel::banMember(User *user, std::string nickname_to_ban)
+{
+    displayMessage("orange", "[banMember function called]");
+
+    ChannelMember    *member;
+    std::string        ip_address;
+    std::string        err;
+
+    member = findMember(nickname_to_ban);
+    if (!member)
+    {
+        err = buildErrorMessage(ERR_NOSUCHNICK, user, "MODE", nickname_to_ban);
+        throw(Channel::ChannelException(err));
+    }
+    else
+    {
+        ip_address = member->getUser()->getIpAddress();
+        for (std::vector<std::string>::iterator it = _bannedMembers.begin(); it != _bannedMembers.end(); it++)
+        {
+            if (ip_address.compare(*it) == 0)
+            {
+                err = buildErrorMessage(ERR_NOSUCHNICK, user, "MODE", nickname_to_ban);
+                throw(Channel::ChannelException(err));
+            }
+        }
+        _bannedMembers.push_back(ip_address);
+        member->setIsOnline(false);
+        return (member);
+    }
+}
+
+ChannelMember    *Channel::debanMember(User *user, std::string nickname_to_deban)
+{
+    displayMessage("orange", "[debanMember function called]");
+
+    ChannelMember    *member;
+    std::string        ip_address;
+    std::string        err;
+
+    member = findMember(nickname_to_deban);
+    if (!member)
+    {
+        err = buildErrorMessage(ERR_NOSUCHNICK, user, "MODE", nickname_to_deban);
+        throw(Channel::ChannelException(err));
+    }
+    else
+    {
+        ip_address = member->getUser()->getIpAddress();
+        for (std::vector<std::string>::iterator it = _bannedMembers.begin(); it != _bannedMembers.end(); it++)
+        {
+            if (ip_address.compare(*it) == 0)
+            {
+                _bannedMembers.erase(it);
+                return (member);
+            }
+        }
+        err = buildErrorMessage(ERR_NOSUCHNICK, user, "MODE", nickname_to_deban);
+        throw(Channel::ChannelException(err));
+    }
 }
 
 //!-------------------------------EXCEPTIONS------------------------------------

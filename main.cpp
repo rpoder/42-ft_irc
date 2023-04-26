@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:22:04 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 14:31:26 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/25 18:26:58 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,8 @@
 bool stop = false;
 
 void signalHandler( int signum ) {
-//    std::cout << "Interrupt signal (" << signum << ") received.\n";
-
-   // cleanup and close up stuff here
-   // terminate program
-
-   exit(signum);
+	std::cout << "Interrupt signal (" << signum << ") received.\n";
+	exit(signum);
 }
 
 int main (int argc, char **argv)

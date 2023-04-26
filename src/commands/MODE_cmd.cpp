@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/25 16:52:21 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 11:21:04 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,24 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 								break;
 
 							case 'b':
-								/* code */
+							{
+								try
+								{
+									ChannelMember	*banned_member;
+									std::string ms(1, mode_sign);
+									std::string m(1, mode);
+									std::string reply_details = ms + m + " " + option;
+
+									banned_member = channel->banMember(user, option);
+									channel->prepSendToAll(RPL_PART(banned_member->getUser(), channel), &Server::prepSend);
+									prepSend(client_fd, RPL_CHANNELMODEIS(*member, *channel, reply_details));
+								}
+								catch(const std::exception &e)
+								{
+									prepSend(client_fd, e.what());
+								}
 								break;
+							}
 
 							default:
 							{
@@ -97,7 +113,24 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 							case 'o':
 								channel->deleteOperator(user, option);
 								break;
+							case 'b':
+							{
+								try
+								{
+									ChannelMember	*debanned_member;
+									std::string ms(1, mode_sign);
+									std::string m(1, mode);
+									std::string reply_details = ms + m + " " + option;
 
+									debanned_member = channel->debanMember(user, option);
+									prepSend(client_fd, RPL_CHANNELMODEIS(*member, *channel, reply_details));
+								}
+								catch(const std::exception &e)
+								{
+									prepSend(client_fd, e.what());
+								}
+								break;
+							}
 							default:
 							{
 								prepSend(client_fd, buildErrorMessage(ERR_UNKNOWNMODE, user, "MODE", user->getNickname()));
