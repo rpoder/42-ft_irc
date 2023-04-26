@@ -286,3 +286,20 @@ std::vector<std::string>	splitArgs(std::string args)
 	}
 	return (ret);
 }
+
+std::string	splitArgsPRIVMSG(std::string args, std::string &message)
+{
+	size_t i;
+	std::string destinataire;
+
+	i = 0;
+	while (args[i] && args[i] != ' ')
+		i++;
+	destinataire = args.substr(0, i);
+	if (args[i] == ' ')
+		i++;
+	if (i == args.length() || (args[i] && args[i] != ':'))
+		return (NULL);
+	message = args.substr(i);
+	return destinataire;
+}
