@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 17:42:45 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 11:45:26 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 11:52:21 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class Channel
 		std::vector<std::string>	getBannedMembers() const;
 
 		// std::vector<User*>	_members;
-		std::vector<ChannelMember>	_members; //public ??
+		std::vector<ChannelMember>	_members; //public ?? 
 		class ChannelException:
 			public std::exception
 		{
