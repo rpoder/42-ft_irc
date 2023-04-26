@@ -13,8 +13,8 @@
 #ifndef BotGame_HPP
 # define BotGame_HPP
 
-# include "User.hpp"
-# include <utility>
+# include	"User.hpp"
+# include	<utility>
 # include	<iostream>
 # include	<sys/types.h>
 # include	<stdio.h>
@@ -41,8 +41,7 @@ class BotGame
 
 		BotGame	&operator=(const BotGame &copy);
 
-		bool	play(size_t num, std::string &ret);
-		bool	isNewGame();
+		bool	play(User *user, size_t num, std::string &ret);
 
 	private:
 		size_t	_num_to_find;

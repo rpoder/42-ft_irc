@@ -6,7 +6,7 @@
 /*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 22:33:09 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/26 22:39:34 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,23 +145,16 @@ void	Server::handleNewConnection()
 	addr_size = sizeof(client_addr);
 	new_client_fd = accept(_server_fd, (struct sockaddr *)&client_addr, &addr_size);
 	if (new_client_fd < 0)
-	{
-		perror("accept");
 		throw(std::exception());
-	}
-	std::cout << "New client on fd " << new_client_fd << std::endl;
 	event_settings.data.fd = new_client_fd;
-	// event_settings.events = EPOLLIN | EPOLLOUT;
 	event_settings.events = EPOLLIN;
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, new_client_fd, &event_settings);
-
-	// create new empty user on map<fd, User>
 	_users[new_client_fd] = new_user;
 }
 
 void	Server::handleLostConnection(int fd)
 {
-	User			*user;
+	User	*user;
 
 	user = findUser(fd);
 	if (user)
@@ -177,7 +170,7 @@ void	Server::handleInput(int client_fd, char *input)
 	end_of_line = input_str.find("\n");
 	if (end_of_line != input_str.npos)
 	{
-		std::cout << "input: " << input_str << std::endl;
+		displayMessage("magenta", input_str);
 		executeCommand(client_fd, input_str);
 		input_str.clear();
 	}
@@ -270,6 +263,9 @@ Channel	*Server::findChannel(std::string &name)
 
 void	Server::listen()
 {
+	std::stringstream	ss;
+	std::string			port;
+
 	t_epoll_event		event_settings;
 
 	if (::listen(_server_fd, CONNECTIONS_MAX) != 0)
@@ -280,8 +276,10 @@ void	Server::listen()
 		throw (Server::ServerException());
 	event_settings.data.fd = _server_fd;
 	event_settings.events = EPOLLIN;
+	ss << _port;
+	port = ss.str();
 	epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _server_fd, &event_settings);
-	std::cout << std::endl << "\033[1;37mServer started: listening on port " << _port << "\033[0m" << std::endl;
+	displayMessage("blue", "Server started: listening on port " + port);
 }
 
 void	Server::waitEvents()

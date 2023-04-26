@@ -6,7 +6,7 @@
 /*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:35:51 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 22:33:41 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/26 22:39:43 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ bool	User::operator==(const User &rhs)
 
 //!-------------------------------ACCESSORS-------------------------------------
 
-void	User::setNickname(std::string &str)
+void	User::setNickname(std::string str)
 {
 	_nickname = str;
 }

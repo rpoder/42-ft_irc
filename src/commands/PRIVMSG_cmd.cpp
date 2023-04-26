@@ -22,8 +22,6 @@ void	Server::playBot(User *user, int fd, std::string message)
 	arguments = splitArgs(message);
 	if (arguments.size() != 1)
 		return ;
-
-	// std::cout << message << std::endl;
 	message = message.substr(1);
 	if (message == "play" && game == NULL)
 	{
@@ -33,7 +31,7 @@ void	Server::playBot(User *user, int fd, std::string message)
 	}
 	else if (game != NULL && isDigit(message) == true)
 	{
-		if (game->play(atoi(message.c_str()), ret) == true )
+		if (game->play(user, atoi(message.c_str()), ret) == true )
 			_games.erase(fd);
 		prepSend(fd, RPL_PRIVMSG_BOT_TO_USER(*user, ret));
 	}

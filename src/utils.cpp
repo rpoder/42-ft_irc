@@ -204,7 +204,6 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 			break ;
 	}
 	message += SUFFIX;
-	std::cout << message << std::endl;
 	return (message);
 }
 

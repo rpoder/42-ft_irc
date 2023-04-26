@@ -6,7 +6,7 @@
 /*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:49 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 20:18:58 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/26 22:38:09 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ class User
 		User	&operator=(const User &copy);
 		bool	operator==(const User &rhs);
 
-		void			setNickname(std::string &str);
+		void			setNickname(std::string str);
 		std::string		getNickname() const;
 		void			setUsername(std::string &str);
 		std::string		getUsername() const;
