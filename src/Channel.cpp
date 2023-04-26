@@ -109,10 +109,14 @@ size_t	Channel::getOperatorsCount()
 	return (count);
 }
 
-
-std::vector<std::string>	Channel::getBannedMembers() const
+bool	Channel::isBannedMember(std::string ip_address)
 {
-	return (_bannedMembers);
+	for (std::vector<std::string>::iterator it = _bannedMembers.begin(); it != _bannedMembers.end(); it++)
+	{
+		if (ip_address.compare(*it) == 0)
+			return (1);
+	}
+	return (0);
 }
 
 

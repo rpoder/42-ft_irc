@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 16:56:08 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 18:11:55 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,12 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 				ChannelMember	*member;
 
 				member = it->second.findMember(*user);
+<<<<<<< HEAD
+				if (it->second.isBannedMember(user->getIpAddress()))
+				{
+					handleSend(client_fd, buildErrorMessage(ERR_BANNEDFROMCHAN, user, "JOIN", name));
+					return ;
+=======
 
 				std::vector<std::string>	banned_list;
 
@@ -108,7 +114,9 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 						prepSend(client_fd, buildErrorMessage(ERR_BANNEDFROMCHAN, user, "JOIN", name));
 						return ;
 					}
+>>>>>>> master
 				}
+
 				if (it->second.getKey().length() > 0 && it->second.getKey().compare(keys[i]) != 0)
 					prepSend(client_fd, buildErrorMessage(ERR_BADCHANNELKEY, user, "JOIN", name));
 				else

@@ -27,6 +27,7 @@ void	printUser(int fd, User &user)
 	std::cout << "Is_registered: " << (user.getIsRegistered() == true ? "true" : "false") << std::endl;
 	std::cout << "Nickname: " << user.getNickname() << std::endl;
 	std::cout << "Username: " << user.getUsername() << std::endl;
+	std::cout << "IP: " << user.getIpAddress() << std::endl;
 	std::cout << "---------------------------------------\033[0m\n";
 }
 
