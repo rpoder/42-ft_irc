@@ -207,7 +207,7 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 	return (message);
 }
 
-size_t	countArgs(std::string args) // use st::count (return un std::string::difference_type)
+size_t	countArgs(std::string args)
 {
 	size_t	count;
 	size_t	i;
