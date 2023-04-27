@@ -167,3 +167,8 @@ MARGOT
 
 
 
+:!j@localhost 461  USER :Not enough parameters
+USER k k k k
+NICK h
+PASS fdp
+nc: write failed (0/2): Broken pipe

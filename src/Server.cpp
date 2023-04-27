@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/27 11:16:32 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/27 12:16:50 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	Server::executeCommand(int client_fd, std::string input)
 	void	(Server::*ptr_f[12])(int client_fd, User *user, std::string args) = {&Server::NICK_cmd, &Server::USER_cmd, &Server::PASS_cmd, &Server::JOIN_cmd, &Server::PING_cmd, &Server::PART_cmd, &Server::PRIVMSG_cmd, &Server::MODE_cmd, &Server::KICK_cmd, &Server::NOTICE_cmd, &Server::LIST_cmd, &Server::QUIT_cmd};
 	User					*user;
 	std::string				cmd;
-	std::string 			args;
+	std::string 			args("");
 
 	while (std::getline(ss, line))
 	{
