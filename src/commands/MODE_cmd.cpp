@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MODE_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 21:49:03 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:17:28 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,21 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 
 	arguments = splitArgs(args);
 	sign_pos = args.find('+');
-	if (sign_pos == args.npos)
+	if (sign_pos == std::string::npos)
 	{
 		sign_pos = args.find('-');
-		if (sign_pos == args.npos)
+		if (sign_pos == std::string::npos)
+		{
+			prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "MODE", ""));
 			return;
+		}
 	}
 	handled_modes = "kob";
 	if (handled_modes.find(args[sign_pos + 1]) == handled_modes.npos)
-		return;	
+	{
+		prepSend(client_fd, buildErrorMessage(ERR_UNKNOWNMODE, user, "MODE", ""));
+		return;
+	}
 	if (arguments.size() != 3 || arguments[0][0] != '#' || isModeSign(arguments[1][0]) == false || arguments[1].size() != 2)
 	{
 		prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "MODE", ""));

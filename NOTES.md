@@ -1,42 +1,67 @@
 NICK - Margot
-<!-- PAS OK IRSSI/NC -->
+<!-- ok irssi -->
+<!-- ok nc -->
 	431 ERR_NONICKNAMEGIVEN
 		:rpoder!1@localhost 431 rpoder :No nickname given
-<!-- irssi ok -->
-<!-- nc ok -->
+<!-- Doesnt work with -->
+<!-- /nick rpoder -->
+<!-- /nick rpokfjsdhfkjhsder -->
 	ERR_NICKNAMEINUSE (433)
 		:rpoder!1@localhost 433 rpoder rpoder :Nickname is already in use
 
-
 USER - Margot
-<!-- nc ok -->
-<!-- irssi idk -->
+<!-- Doesnt work with -->
+<!-- valgrind conditional jumps on NC for the first USER call-->
+==360049== Conditional jump or move depends on uninitialised value(s)
+==360049==    at 0x4154D8: countArgs(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==    by 0x41E3A2: Server::USER_cmd(int, User*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==    by 0x405A9C: Server::executeCommand(int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==    by 0x40617B: Server::handleInput(int, char*) (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==    by 0x407538: Server::waitEvents() (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==    by 0x4041A2: main (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==
+==360049== Conditional jump or move depends on uninitialised value(s)
+==360049==    at 0x4154F1: countArgs(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==    by 0x41E3A2: Server::USER_cmd(int, User*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==    by 0x405A9C: Server::executeCommand(int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==    by 0x40617B: Server::handleInput(int, char*) (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==    by 0x407538: Server::waitEvents() (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==    by 0x4041A2: main (in /mnt/nfs/homes/rpoder/Desktop/ft_irc-3/ircserv)
+==360049==
+<!-- USER      g  tr e-->
 	ERR_NEEDMOREPARAMS (461)
 		:rpoder!1@localhost 461 rpoder USER :Not enough parameters
-<!-- no verified -->
 	ERR_ALREADYREGISTRED (462)
 		:rpoder!1@localhost 462 rpoder :You may not reregister
 
 PASS - Margot
-<!-- nc not working, doesnt add * in response -->
+<!-- NC ok -->
+<!-- irssi ok -->
 	ERR_NEEDMOREPARAMS (461)
 		: 461 *  :Not enough parameters
 
 JOIN - Chloé
+
+<!-- Dans nc, qudn je JOIN #chan + JOIN #chan, je peux rejoin le chan, est-ce aque join ne va pas creer deux ChannelMember ? -->
+<!-- Dans nc, qudn je JOIN #chan + JOIN #chan key, je peux rejoindre le chan-->
 	(JOIN #test) -- > message normal quand aucune erreur
 		:caubry!1@localhost 353 caubry = #test :@caubry
 		:caubry!1@localhost 366 caubry #test :End of /NAMES list
 		:caubry!1@localhost JOIN :#test
 
 <!-- nc ok -->
+<!-- irssi ok -->
 	ERR_NEEDMOREPARAMS (461)
 		:caubry!1@localhost 461 caubry JOIN :Not enough parameters
 
+<!-- nc ok -->
+<!-- irssi ok -->
 	ERR_BADCHANNELKEY (475)
 		:caubry!1@localhost 475 caubry #test :Cannot join channel (+k)
 
 
 MODE w/ options - Ronan
+<!-- Pas de message d'erreur si MODE gdfg e ou MODE f r e -->
 	+b ban - Margot
 	+k set a key to a channel
 	+o become channel operator
