@@ -18,6 +18,7 @@ void	Server::playBot(User *user, int fd, std::string message)
 	BotGame						*game;
 	std::string					ret;
 	std::string					old_nickname;
+	std::string					new_nickname;
 	int							game_ret;
 
 
@@ -40,9 +41,13 @@ void	Server::playBot(User *user, int fd, std::string message)
 		else if (game_ret == 1)
 		{
 			old_nickname = user->getNickname();
-			message = prefix(user) + "NICK :" + old_nickname + "_loser" + SUFFIX;
-			user->setNickname(old_nickname + "_loser");
-			prepSend(fd, message);
+			new_nickname = old_nickname + "_loser";
+			if (findUser(new_nickname) == NULL)
+			{
+				message = prefix(user) + "NICK :" + new_nickname + SUFFIX;
+				user->setNickname(old_nickname + "_loser");
+				prepSend(fd, message);
+			}
 			_games.erase(fd);
 		}
 		prepSend(fd, RPL_PRIVMSG_BOT_TO_USER(*user, ret));

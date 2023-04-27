@@ -61,7 +61,6 @@ JOIN - Chloé
 
 
 MODE w/ options - Ronan
-<!-- Pas de message d'erreur si MODE gdfg e ou MODE f r e -->
 	+b ban - Margot
 	+k set a key to a channel
 	+o become channel operator
