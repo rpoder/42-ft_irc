@@ -157,9 +157,9 @@ std::string buildErrorMessage(int code, User *user, std::string cmd, std::string
 			message += "No nickname given";
 			break ;
 
-		case ERR_NICKNAMEINUSE:
-			message += "Nickname is already in use";
-			break ;
+		// case ERR_NICKNAMEINUSE:
+		// 	message += "Nickname is already in use";
+		// 	break ;
 
 		case ERR_ALREADYREGISTRED:
 			message += "You may not reregister";
