@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NICK_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 16:56:30 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 21:02:00 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 	std::string						message;
 	int								nb_args;
 	std::map<int, User>::iterator	it;
+	std::string						tmp;
 
 	nb_args = countArgs(args);
 	if (nb_args != 1)
@@ -35,13 +36,13 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 		else
 			args = args.substr(0, args.find(" "));
 	}
-	for (it = _users.begin(); it != _users.end(); it++)
+	if (findUser(args))
 	{
-		if (it->second.getNickname().compare(args) == 0)
-		{
-			prepSend(client_fd, buildErrorMessage(ERR_NICKNAMEINUSE, user, "NICK", ""));
-			return ;
-		}
+		tmp = args;
+		while (findUser(tmp))
+			tmp = "_" + tmp;
+		user->setNickname(tmp);
+		return ;
 	}
 	previous_nickName = user->getNickname();
 	if (previous_nickName.length() > 0)
@@ -51,6 +52,8 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 		prepSend(client_fd, message);
 	}
 	else
+	{
 		user->setNickname(args);
+	}
 }
 

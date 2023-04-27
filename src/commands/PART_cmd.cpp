@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PART_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 14:27:17 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 21:59:23 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void	Server::PART_cmd(int client_fd, User *user, std::string args)
 			member = channel->findMember(*user);
 			if (member != NULL && member->isOnline() == true)
 			{
-				member->setIsOnline(false);
 				channel->prepSendToAll(RPL_PART(user, channel), &Server::prepSend);
+				member->setIsOnline(false);
 			}
 			else
 				prepSend(client_fd, buildErrorMessage(ERR_NOTONCHANNEL, user, "PART", *it));

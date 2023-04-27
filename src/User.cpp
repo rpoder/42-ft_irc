@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:35:51 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 20:13:04 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 22:39:43 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ User	&User::operator=(const User &copy)
 	_nickname = copy._nickname;
 	_username = copy._username;
 	_password = copy._password;
-	// _raw_username = copy._raw_username;
+	_raw_username = copy._raw_username;
 	_is_registered = copy._is_registered;
 	return (*this);
 }
@@ -100,14 +100,4 @@ bool	User::getIsRegistered() const
 void	User::setIsRegistered(bool is_registered)
 {
 	_is_registered = is_registered;
-}
-
-void	User::setIpAddress(std::string &str)
-{
-	_ip_address = str;
-}
-
-std::string	User::getIpAddress() const
-{
-	return (_ip_address);
 }

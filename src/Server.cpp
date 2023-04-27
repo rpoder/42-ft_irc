@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 20:45:54 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 22:39:34 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ Server	&Server::operator=(const Server &copy)
 	_channels = copy._channels;
 	_message_to_send = copy._message_to_send;
 	_receiver_fd = copy._receiver_fd;
+	_games = copy._games;
+	_message_buffer = copy._message_buffer;
 	return(*this);
 }
 

@@ -139,10 +139,6 @@ NOTICE  - Chloe
 
 MARGOT
 	passer channel._member en prive
-	/quit doit envoyer un message dans tous les channels
-	RPL de pass, user, nick
 
-TODO
-	ok prepSendToAll ony to active members
-	ok MODE not enough params
+
 

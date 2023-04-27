@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 15:00:05 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 16:20:47 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/26 22:31:44 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ Message::~Message()
 Message	&Message::operator=(const Message &copy)
 {
 	_messages = copy._messages;
+	_server_instance = copy._server_instance;
 	return(*this);
 }
 
