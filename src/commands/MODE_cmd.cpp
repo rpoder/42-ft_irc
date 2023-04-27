@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MODE_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/27 11:17:28 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/27 11:34:54 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,10 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 									std::string m(1, mode);
 									std::string reply_details = ms + m + " " + option;
 
+									banned_member = channel->findMember(option);
+									if (banned_member)
+										channel->prepSendToAll(RPL_PART(banned_member->getUser(), channel), &Server::prepSend);
 									banned_member = channel->banMember(user, option);
-									channel->prepSendToAll(RPL_PART(banned_member->getUser(), channel), &Server::prepSend);
 									prepSend(client_fd, RPL_CHANNELMODEIS(*member, *channel, reply_details));
 								}
 								catch(const std::exception &e)
