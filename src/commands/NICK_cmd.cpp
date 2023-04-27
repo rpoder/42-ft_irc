@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NICK_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/27 11:03:26 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/27 11:50:19 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 			args = args.substr(0, args.find(" "));
 	}
 	previous_nickName = user->getNickname();
-	if (findUser(args) && previous_nickName.length() == 0)
+	if ((findUser(args) || args.compare("bot") == 0) && previous_nickName.length() == 0)
 	{
 		tmp = args;
-		while (findUser(tmp))
+		while (findUser(tmp) || tmp.compare("bot") == 0)
 			tmp = "_" + tmp;
 		user->setNickname(tmp);
 		return ;
 	}
-	else if (findUser(args))
+	else if (findUser(args) || args.compare("bot") == 0)
 	{
 		handleSend(client_fd, buildErrorMessage(ERR_NICKNAMEINUSE, user, "NICK", args));
 		return;

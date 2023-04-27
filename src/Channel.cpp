@@ -90,7 +90,10 @@ std::string	Channel::getOnlineMembers()
 	for (std::vector<ChannelMember>::iterator it = _members.begin(); it != _members.end(); it++)
 	{
 		if ((*it).isOnline() == true)
+		{
+			printMember(*it);
 			i++;
+		}
 	}
 	out << i;
 	s = out.str();
