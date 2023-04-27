@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   MODE_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/27 11:34:54 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/27 11:37:02 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+
+static bool	isMode(char c)
+{
+	if (c == 'k' || c == 'b' || c == 'o')
+		return (true);
+	return (false);
+}
 
 static bool	isModeSign(char c)
 {
@@ -29,7 +36,6 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 	Channel						*channel;
 	ChannelMember				*member;
 	size_t						sign_pos;
-	std::string					handled_modes;
 
 	arguments = splitArgs(args);
 	sign_pos = args.find('+');
@@ -42,12 +48,8 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 			return;
 		}
 	}
-	handled_modes = "kob";
-	if (handled_modes.find(args[sign_pos + 1]) == handled_modes.npos)
-	{
-		prepSend(client_fd, buildErrorMessage(ERR_UNKNOWNMODE, user, "MODE", ""));
-		return;
-	}
+	if (arguments.size() == 2 && arguments[1][1] && !isMode(arguments[1][1]))
+		return ;
 	if (arguments.size() != 3 || arguments[0][0] != '#' || isModeSign(arguments[1][0]) == false || arguments[1].size() != 2)
 	{
 		prepSend(client_fd, buildErrorMessage(ERR_NEEDMOREPARAMS, user, "MODE", ""));
