@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:12:00 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 22:06:57 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/27 12:57:50 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ class Server
 		std::map<int, User>				_users;
 		std::map<int, BotGame>			_games;
 		std::map<std::string, Channel>	_channels;
+		std::map<int, std::string>		_input_buf;
 
 		int								_port;
 		t_addrinfo						*_serv_info;

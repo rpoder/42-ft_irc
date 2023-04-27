@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 13:33:12 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/27 11:57:05 by caubry           ###   ########.fr       */
+/*   Updated: 2023/04/27 12:48:29 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	Server::JOIN_cmd(int client_fd, User *user, std::string args)
 				member = it->second.findMember(*user);
 				if (it->second.isBannedMember(user->getNickname()))
 				{
-					handleSend(client_fd, buildErrorMessage(ERR_BANNEDFROMCHAN, user, "JOIN", name));
+					prepSend(client_fd, buildErrorMessage(ERR_BANNEDFROMCHAN, user, "JOIN", name));
 					return ;
 				}
 

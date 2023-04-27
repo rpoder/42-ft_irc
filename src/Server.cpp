@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/27 12:16:50 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:21:47 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ Server	&Server::operator=(const Server &copy)
 	_message_to_send = copy._message_to_send;
 	_receiver_fd = copy._receiver_fd;
 	_games = copy._games;
+	_input_buf = copy._input_buf;
 	_message_buffer = copy._message_buffer;
 	return(*this);
 }
@@ -163,16 +164,17 @@ void	Server::handleLostConnection(int fd)
 
 void	Server::handleInput(int client_fd, char *input)
 {
-	static std::string	input_str;
 	size_t				end_of_line;
+	std::string			&user_input = _input_buf[client_fd];
 
-	input_str += static_cast<std::string>(input);
-	end_of_line = input_str.find("\n");
-	if (end_of_line != input_str.npos)
+	if (input && input[0])
+		user_input += input;
+	end_of_line = user_input.find("\n");
+	if (end_of_line != std::string::npos)
 	{
-		displayMessage("magenta", input_str);
-		executeCommand(client_fd, input_str);
-		input_str.clear();
+		displayMessage("magenta", user_input);
+		executeCommand(client_fd, user_input);
+		user_input.clear();
 	}
 }
 

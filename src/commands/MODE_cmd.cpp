@@ -6,7 +6,7 @@
 /*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/27 11:37:02 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/04/27 12:45:29 by rpoder           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 			return;
 		}
 	}
-	if (arguments.size() == 2 && arguments[1][1] && !isMode(arguments[1][1]))
+	if ((arguments.size() == 1 && arguments[0][0] == '#') || (arguments.size() == 2 && arguments[1][1] && !isMode(arguments[1][1])))
 		return ;
 	if (arguments.size() != 3 || arguments[0][0] != '#' || isModeSign(arguments[1][0]) == false || arguments[1].size() != 2)
 	{
