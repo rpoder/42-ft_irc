@@ -6,7 +6,7 @@
 /*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/27 17:48:34 by caubry           ###   ########.fr       */
+/*   Updated: 2023/05/03 10:20:25 by caubry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,16 +165,16 @@ void	Server::handleLostConnection(int fd)
 void	Server::handleInput(int client_fd, char *input)
 {
 	size_t				end_of_line;
-	std::string			user_input;
+	std::string			*user_input;
 	
-	user_input = _input_buf[client_fd];
-	user_input += input;
-	end_of_line = user_input.find("\n");
+	user_input = &_input_buf[client_fd];
+	*user_input += input;
+	end_of_line = (*user_input).find("\n");
 	if (end_of_line != std::string::npos)
 	{
-		displayMessage("magenta", user_input);
-		executeCommand(client_fd, user_input);
-		user_input.clear();
+		displayMessage("magenta", *user_input);
+		executeCommand(client_fd, *user_input);
+		*user_input = "";
 	}
 }
 
