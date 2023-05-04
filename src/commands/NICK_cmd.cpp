@@ -37,6 +37,7 @@ void	Server::NICK_cmd(int client_fd, User *user, std::string args)
 			args = args.substr(0, args.find(" "));
 	}
 	previous_nickName = user->getNickname();
+	args = args.substr(0, args.find(" "));
 	if ((findUser(args) || args.compare("bot") == 0) && previous_nickName.length() == 0)
 	{
 		tmp = args;
