@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:56:25 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 19:27:27 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/05/07 21:16:45 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ class Channel;
 
 std::string	RPL_NAMREPLY(ChannelMember &member, Channel &channel);
 
-std::string	RPL_PART(User *user, Channel *channel);
+std::string RPL_PART(User *user, Channel *channel, std::string reason);
+std::string RPL_PART(User *user, Channel *channel);
 
 std::string RPL_ENDOFNAMES(ChannelMember &member, Channel &channel);
 

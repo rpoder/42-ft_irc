@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpoder <rpoder@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:07:01 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 19:27:11 by rpoder           ###   ########.fr       */
+/*   Updated: 2023/05/07 21:44:10 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ std::string	RPL_NAMREPLY(ChannelMember &member, Channel &channel)
 	return (message);
 }
 
+std::string RPL_PART(User *user, Channel *channel, std::string reason)
+{
+	return (prefix(user) + "PART " + channel->getName() + " :" + reason + SUFFIX);	
+}
+
 std::string RPL_PART(User *user, Channel *channel)
 {
 	return (prefix(user) + "PART :" + channel->getName() + SUFFIX);
@@ -44,7 +49,6 @@ std::string RPL_KICK(User *user, Channel *channel, User *user_to_kick)
 {
 	return (prefix(user) + "KICK " + channel->getName() + " " + user_to_kick->getNickname() + SUFFIX);
 }
-
 
 std::string RPL_ENDOFNAMES(ChannelMember &member, Channel &channel)
 {
