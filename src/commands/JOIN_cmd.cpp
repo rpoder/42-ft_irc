@@ -30,6 +30,24 @@ void	fillVectorsJoin(std::string s, std::vector<std::string> &v)
 	}
 }
 
+void	fillVectorsKeys(std::string s, std::vector<std::string> &chan, std::vector<std::string> &keys)
+{
+	if (s.length() == 0)
+	{
+		for (size_t i = 0; i < chan.size(); i++)
+			keys.push_back("");
+	}
+	else
+	{
+		fillVectorsJoin(s, keys);
+		if (keys.size() < chan.size())
+		{
+			for (size_t i = keys.size(); i < chan.size(); i++)
+				keys.push_back("");
+		}
+	}
+}
+
 void	splitArgsJoin(std::string args, std::vector<std::string> &channels, std::vector<std::string> &keys)
 {
 	size_t i;
@@ -47,7 +65,7 @@ void	splitArgsJoin(std::string args, std::vector<std::string> &channels, std::ve
 		s_keys = args.substr(i, j - i);
 	}
 	fillVectorsJoin(s_channels, channels);
-	fillVectorsJoin(s_keys, keys);
+	fillVectorsKeys(s_keys, channels, keys);
 }
 
 void	Server::JOIN_cmd(int client_fd, User *user, std::string args)

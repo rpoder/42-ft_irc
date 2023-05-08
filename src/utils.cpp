@@ -224,6 +224,11 @@ size_t	countArgs(std::string args)
 			count++;
 			while (args[i] && args[i] == ' ')
 				i++;
+			if (!args[i])
+			{
+				count--;
+				break;
+			}
 		}
 		i++;
 	}
