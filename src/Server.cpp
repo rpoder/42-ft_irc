@@ -6,7 +6,7 @@
 /*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/05/07 20:37:26 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/05/08 16:20:07 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ Server::~Server()
 	if (_epoll_fd >= 0)
 		close(_epoll_fd);
 	for (std::map<int, User>::iterator it = _users.begin(); it != _users.end(); it++)
-		close(it->first);		
+		close(it->first);
 	freeaddrinfo(_serv_info);
 }
 
@@ -90,11 +90,10 @@ std::string Server::getPassword()
 void	Server::prepSend(int fd, std::string message)
 {
 	t_epoll_event	settings;
-	size_t			bytes_sent;
 
+	memset(&settings, 0, sizeof(settings));
 	settings.data.fd = fd;
 	settings.events = EPOLLOUT;
-	bytes_sent = 0;
 	epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, fd, &settings);
 	_message_buffer.addMessage(fd, message);
 }
@@ -113,6 +112,8 @@ void	Server::executeCommand(int client_fd, std::string input)
 	while (std::getline(ss, line))
 	{
 		user = findUser(client_fd);
+		if (!user)
+			return ;
 		space_pos = line.find(" ");
 		if (space_pos == std::string::npos)
 		{
@@ -133,6 +134,8 @@ void	Server::executeCommand(int client_fd, std::string input)
 		{
 			if (commandes[i] == cmd && user)
 			{
+				if (i > 2 && user->getIsRegistered() == false)
+					return ;
 				(this->*(ptr_f[i]))(client_fd, user, args);
 				break ;
 			}
@@ -148,6 +151,7 @@ void	Server::handleNewConnection()
 	t_epoll_event		event_settings;
 	User				new_user;
 
+	memset(&event_settings, 0, sizeof(event_settings));
 	addr_size = sizeof(client_addr);
 	new_client_fd = accept(_server_fd, (struct sockaddr *)&client_addr, &addr_size);
 	if (new_client_fd < 0)
@@ -276,9 +280,9 @@ void	Server::listen()
 
 	t_epoll_event		event_settings;
 
+	memset(&event_settings, 0, sizeof(event_settings));
 	if (::listen(_server_fd, CONNECTIONS_MAX) != 0)
 		throw (Server::ServerException());
-
 	_epoll_fd = epoll_create(EPOLL_FD_MAX);
 	if (_epoll_fd == -1)
 		throw (Server::ServerException());

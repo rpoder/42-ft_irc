@@ -41,10 +41,10 @@ class BotGame
 
 		BotGame	&operator=(const BotGame &copy);
 
-		int	play(size_t num, std::string &ret);
+		int	play(int num, std::string &ret);
 
 	private:
-		size_t	_num_to_find;
+		int	_num_to_find;
 		size_t	_tries;
 };
 

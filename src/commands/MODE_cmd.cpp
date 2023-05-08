@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MODE_cmd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 11:12:16 by rpoder            #+#    #+#             */
-/*   Updated: 2023/05/03 10:33:59 by caubry           ###   ########.fr       */
+/*   Updated: 2023/05/08 15:54:01 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,12 +139,11 @@ void	Server::MODE_cmd(int client_fd, User *user, std::string args)
 							{
 								try
 								{
-									ChannelMember	*debanned_member;
 									std::string ms(1, mode_sign);
 									std::string m(1, mode);
 									std::string reply_details = ms + m + " " + option;
 
-									debanned_member = channel->debanMember(user, option);
+									channel->debanMember(user, option);
 									prepSend(client_fd, RPL_CHANNELMODEIS(*member, *channel, reply_details));
 								}
 								catch(const std::exception &e)

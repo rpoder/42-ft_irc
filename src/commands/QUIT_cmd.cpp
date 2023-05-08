@@ -6,7 +6,7 @@
 /*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:52:17 by rpoder            #+#    #+#             */
-/*   Updated: 2023/05/07 20:32:16 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:58:04 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	Server::QUIT_cmd(int fd, User *user, std::string args)
 		it->second.deleteMember(user);
 	_games.erase(fd);
 	_users.erase(fd);
-	// _input_buf.erase(fd);
 	_input_buf[fd] = "";
 	displayMessage("red", "Connection closed");
 	close(fd);

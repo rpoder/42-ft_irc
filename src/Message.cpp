@@ -6,7 +6,7 @@
 /*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 15:00:05 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 22:31:44 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:57:25 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	Message::sendTo(int fd, void (Server::*sendMethod)(int, std::string))
 	std::vector< std::pair<int, std::string> >::iterator	it;
 	t_epoll_event											settings;
 
+	memset(&settings, 0, sizeof(settings));
 	it = _messages.begin();
 	while (it != _messages.end())
 	{

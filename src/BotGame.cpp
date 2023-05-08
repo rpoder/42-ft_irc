@@ -47,7 +47,7 @@ BotGame	&BotGame::operator=(const BotGame &copy)
 
 //!-------------------------------FUNCTIONS-------------------------------------
 
-int	BotGame::play(size_t num, std::string &ret)
+int	BotGame::play(int num, std::string &ret)
 {
 	std::string			str;
 	std::stringstream	ss;
