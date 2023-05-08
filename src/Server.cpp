@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caubry <caubry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 12:56:34 by rpoder            #+#    #+#             */
-/*   Updated: 2023/05/03 10:20:25 by caubry           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:37:26 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ Server::Server(int port, std::string password) :
 	ss >> str;
 	_port = port;
 	_server_fd = 0;
+	_epoll_fd = 0;
 	_password = password;
 
 	if (_port < PORT_MIN || _port > PORT_MAX)
@@ -51,6 +52,10 @@ Server::~Server()
 {
 	if (_server_fd >= 0)
 		close(_server_fd);
+	if (_epoll_fd >= 0)
+		close(_epoll_fd);
+	for (std::map<int, User>::iterator it = _users.begin(); it != _users.end(); it++)
+		close(it->first);		
 	freeaddrinfo(_serv_info);
 }
 

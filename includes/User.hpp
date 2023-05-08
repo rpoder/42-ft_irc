@@ -6,7 +6,7 @@
 /*   By: mpourrey <mpourrey@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:49 by rpoder            #+#    #+#             */
-/*   Updated: 2023/04/26 22:38:09 by mpourrey         ###   ########.fr       */
+/*   Updated: 2023/05/07 20:08:41 by mpourrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ class User
 		std::string _username;
 		std::string _raw_username;
 		std::string	_password;
+		
 };
 
 #endif
